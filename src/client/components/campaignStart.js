@@ -2,16 +2,19 @@
 
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import axios from 'axios';
-import {Row, Col, Form, FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import {Row, Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
 import styled from 'styled-components';
 import DatePicker from 'react-bootstrap-date-picker';
+import axios from 'axios';
+import qs    from 'qs';
+
 
 class CampaignStart extends Component {
 
     constructor(props) {
         super(props);
         this.onDateChange = this.onDateChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
         this.state= {
             date: new Date().toISOString()
         }
@@ -20,6 +23,25 @@ class CampaignStart extends Component {
     onDateChange = (value) => {
         this.setState({date: value});
         console.log(value);
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(this.name.value);
+        console.log(this.description.value);
+        console.log(this.limit.value);
+        console.log(Date.parse(this.state.date));
+        console.log(this.state.date);
+        const data = {
+            name: this.name.value,
+            description: this.description.value,
+            deadline: Date.parse(this.state.date),
+            limit: this.limit.value
+        }
+        axios.post("/v1/campaign", qs.stringify(data))
+            .then( (res)=> {
+                console.log(res);
+            });
     }
     
 
@@ -63,6 +85,13 @@ class CampaignStart extends Component {
                                     />
                             </Col>
                             <Col sm={1} componentClass={ControlLabel}>eth/block</Col>
+                        </FormGroup>
+                        <FormGroup controlId="submit">
+                            <Col smOffset={2} sm={10}>
+                                <Button onClick={this.handleSubmit} type="submit">
+                                    Start Campaign
+                                </Button>
+                            </Col>
                         </FormGroup>
                     </Form>
                 </Col>

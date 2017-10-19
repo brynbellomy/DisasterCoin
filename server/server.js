@@ -5,6 +5,7 @@ const port     = process.env.PORT || 8080
 
 const cookieParser = require('cookie-parser')
 const bodyParser   = require('body-parser')
+const loghandler   = require('./loghandler')
 
 app.use(cookieParser())
 
@@ -21,10 +22,12 @@ app.use((err, req, res, next) => {
     res.status(500).send(err)
 })
 
-// launch ======================================================================
-app.listen(port, '0.0.0.0', function onStart(err) {
+app.listen(port, '0.0.0.0', err => {
     if (err) {
         console.log(err)
+        return
     }
     console.info('==> 🌎 Listening on port %s. Open up http://0.0.0.0:%s/ in your browser.', port, port)
 })
+
+loghandler()

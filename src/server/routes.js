@@ -102,6 +102,40 @@ module.exports = (app) => {
             } else res.status(404).send({ error: "Not implemented" });
         }
     });
+    //Handle POST to create a new campaign
+    app.post('/v1/campaign', function(req,res){
+        let data = req.body;
+        if( !data ||
+            !data.name ||
+            !data.description ||
+            !data.deadline ||
+            !data.limit) {
+                res.status(400).send({error: "something went wrong"});
+            } else {
+                let newCampaign = {
+                    id: Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 10),
+                    name: data.name,
+                    description: data.description,
+                    deadline: data.deadline,
+                    limit: data.limit,
+                };
+                app.campaigns.push(newCampaign);
+                res.status(201).send({
+                    id: newCampaign.id
+                });
+            }
+    });
+    //Handle GET to fetch a campaign
+    app.get('/v1/campaign/:id',function(req,res){
+            let campaign = _.findWhere(app.campaign, {id: req.params.id.toLowerCase()});
+            console.log(app.campaigns);
+            if (!campaign) {
+                res.status(404).send({ error: 'unknown campaign id'});
+            } else {
+                res.status(200).send(campaign);
+            }
+    })
+
 
     // Handle GET to fetch game information
     app.get('/v1/game/:id', function(req, res) {
