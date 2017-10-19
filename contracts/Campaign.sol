@@ -33,7 +33,9 @@ contract Campaign is Owned {
     return currentBalance;
   }
 
-  function donate() payable returns (bool) {
+  function donate(bytes tagToDonate) payable returns (bool) {
+    // require that tag exists if passed in
+
     donations[msg.sender] += msg.value;
     return true;
   }

@@ -7,6 +7,8 @@ contract Vendors is Owned
 {
     using Bytes32SetLib for Bytes32SetLib.Bytes32Set;
 
+    Bytes32SetLib.Bytes32Set tags;
+
     struct Vendor {
         Bytes32SetLib.Bytes32Set tags;
         bytes32 ipfsHash;
@@ -21,6 +23,7 @@ contract Vendors is Owned
 
     event LogVendorAdded(address vendorAddr, bytes32 ipfsHash);
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
+    event LogTagAdded(bytes32 tag);
 
     function addVendor(address vendorAddr, bytes32 ipfsHash)
         onlyOwner
@@ -38,10 +41,19 @@ contract Vendors is Owned
     {
         require(vendors[vendorAddr].exists);
         require(vendors[vendorAddr].tags.contains(tag) == false);
+        require(tags.contains(tag));
 
         vendors[vendorAddr].tags.add(tag);
 
         LogVendorTagAdded(vendorAddr, tag);
+    }
+
+    function addTag(bytes32 tag) onlyOwner returns (bool) {
+      bool success = tags.add(tag);
+      if (success) {
+        LogTagAdded(tag);
+      }
+      return success;
     }
 
     function isVendorTagged(address vendorAddr, bytes32 tag)
