@@ -10,6 +10,8 @@ module.exports = function(deployer) {
   deployer.link(AddressSetLib, CampaignHub);
   deployer.link(Bytes32SetLib, Vendors);
 
-  deployer.deploy(Vendors);
-  deployer.deploy(CampaignHub, Vendors.address);
+  deployer.deploy(Vendors).then(() => {
+    deployer.deploy(CampaignHub, Vendors.deployed());
+
+  });
 };
