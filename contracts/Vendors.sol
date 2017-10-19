@@ -17,10 +17,6 @@ contract Vendors is Owned
 
     mapping(address => Vendor) vendors;
 
-    function Vendors(address _owner) {
-        owner = _owner;
-    }
-
     event LogVendorAdded(address vendorAddr, bytes32 ipfsHash);
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
     event LogTagAdded(bytes32 tag);
