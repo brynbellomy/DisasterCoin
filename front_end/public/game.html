@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/css/base.css">
+    <title>Graham's Solitaire Application</title>
+</head>
+<body class="container-fluid" onload="onLoad();">
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="col-xs-8">
+            <h2>Graham's Solitaire</h2>
+        </div>
+        <div class="col-xs-4 right-nav">
+            <a id="profileLink" href="/profile.html?username=tumbler">Profile</a>
+            <a id="logoutLink" href="/login.html">Log Out</a>
+        </div>
+    </nav>
+    <div class="row card-base">
+        <div class="card-row">
+            <img id="a:c" src="/images/ace_of_clubs.png" draggable="false"/>
+            <img id="2:d" src="/images/2_of_diamonds.png" draggable="false"/>
+            <img id="3:s" src="/images/3_of_spades.png" draggable="false"/>
+            <img id="4:h" src="/images/4_of_hearts.png" draggable="false"/>
+        </div>
+        <div class="card-row">
+            <img id="5:c" src="/images/5_of_clubs.png" draggable="false"/>
+            <img id="6:d" src="/images/6_of_diamonds.png" draggable="false"/>
+            <img id="7:s" src="/images/7_of_spades.png" draggable="false"/>
+            <img id="8:h" src="/images/8_of_hearts.png" draggable="false"/>
+        </div>
+        <div class="card-row">
+            <img id="9:c" src="/images/9_of_clubs.png" draggable="false"/>
+            <img id="10:d" src="/images/10_of_diamonds.png" draggable="false"/>
+            <img id="j:s" src="/images/jack_of_spades.png" draggable="false"/>
+            <img id="q:h" src="/images/queen_of_hearts.png" draggable="false"/>
+        </div>
+        <div class="card-row">
+            <img id="k:c" src="/images/king_of_clubs.png" draggable="false"/>
+            <img id="a:d" src="/images/ace_of_diamonds.png" draggable="false"/>
+            <img id="2:s" src="/images/2_of_spades.png" draggable="false"/>
+            <img id="3:h" src="/images/3_of_hearts.png" draggable="false"/>
+        </div>
+        <div class="card-float">
+            <img id="a:h" src="/images/ace_of_hearts.png" draggable="true" ondragstart="onDrag(event);"/>
+        </div>
+    </div>
+</body>
+<script src="/js/game.js"></script>
+</html>
