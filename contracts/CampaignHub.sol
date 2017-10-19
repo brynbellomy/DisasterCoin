@@ -2,6 +2,7 @@ pragma solidity ^0.4.17;
 
 import './AddressSetLib.sol';
 import './Owned.sol';
+import './Campaign.sol';
 
 contract CampaignHub is Owned
 {

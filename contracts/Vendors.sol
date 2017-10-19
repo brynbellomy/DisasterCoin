@@ -3,7 +3,7 @@ pragma solidity ^0.4.17;
 import './StringSetLib.sol';
 import './Owned.sol';
 
-contract Vendors
+contract Vendors is Owned
 {
     using StringSetLib for StringSetLib.StringSet;
 
@@ -50,5 +50,3 @@ contract Vendors
         return vendors[vendorAddr].tags.contains(tag);
     }
 }
-
-
