@@ -1,14 +1,14 @@
 pragma solidity ^0.4.17;
 
-import './StringSetLib.sol';
+import './Bytes32SetLib.sol';
 import './Owned.sol';
 
 contract Vendors is Owned
 {
-    using StringSetLib for StringSetLib.StringSet;
+    using Bytes32SetLib for Bytes32SetLib.Bytes32Set;
 
     struct Vendor {
-        StringSetLib.StringSet tags;
+        Bytes32SetLib.Bytes32Set tags;
         bytes32 ipfsHash;
         bool exists;
     }
@@ -20,7 +20,7 @@ contract Vendors is Owned
     }
 
     event LogVendorAdded(address vendorAddr, bytes32 ipfsHash);
-    event LogVendorTagAdded(address vendorAddr, string tag);
+    event LogVendorTagAdded(address vendorAddr, bytes32 tag);
 
     function addVendor(address vendorAddr, bytes32 ipfsHash)
         onlyOwner
@@ -33,7 +33,7 @@ contract Vendors is Owned
         LogVendorAdded(vendorAddr, ipfsHash);
     }
 
-    function addVendorTag(address vendorAddr, string tag)
+    function addVendorTag(address vendorAddr, bytes32 tag)
         onlyOwner
     {
         require(vendors[vendorAddr].exists);
@@ -44,7 +44,7 @@ contract Vendors is Owned
         LogVendorTagAdded(vendorAddr, tag);
     }
 
-    function isVendorTagged(address vendorAddr, string tag)
+    function isVendorTagged(address vendorAddr, bytes32 tag)
         constant
     {
         return vendors[vendorAddr].tags.contains(tag);

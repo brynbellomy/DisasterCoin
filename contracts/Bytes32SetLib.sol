@@ -3,32 +3,32 @@ pragma solidity ^0.4.13;
 /// @title Library implementing an array type which allows O(1) lookups on values.
 /// @author Piper Merriam <pipermerriam@gmail.com>, Eric Olszewski <eolszewski@gmail.com>
 /// Adapted from https://github.com/ethpm/ethereum-indexed-enumerable-set-lib/blob/master/contracts/IndexedEnumerableSetLib.sol
-library StringSetLib {
+library Bytes32SetLib {
 
-    struct StringSet {
-        string[] values;
-        mapping(string => bool) exists;
-        mapping(string => uint) indices;
+    struct Bytes32Set {
+        bytes32[] values;
+        mapping(bytes32 => bool) exists;
+        mapping(bytes32 => uint) indices;
     }
 
-    modifier inBounds(StringSet storage self, uint index) {
+    modifier inBounds(Bytes32Set storage self, uint index) {
         require(index < self.values.length);
         _;
     }
 
-    modifier notEmpty(StringSet storage self) {
+    modifier notEmpty(Bytes32Set storage self) {
         require(self.values.length != 0);
         _;
     }
 
-    function get(StringSet storage self, uint index) public constant
+    function get(Bytes32Set storage self, uint index) public constant
         inBounds(self, index)
-        returns (string)
+        returns (bytes32)
     {
         return self.values[index];
     }
 
-    function set(StringSet storage self, uint index, string value) public
+    function set(Bytes32Set storage self, uint index, bytes32 value) public
         inBounds(self, index)
         returns (bool)
     {
@@ -40,7 +40,7 @@ library StringSetLib {
         return true;
     }
 
-    function add(StringSet storage self, string value) public
+    function add(Bytes32Set storage self, bytes32 value) public
         returns (bool)
     {
         if (self.exists[value])
@@ -51,7 +51,7 @@ library StringSetLib {
         return true;
     }
 
-    function remove(StringSet storage self, string value) public
+    function remove(Bytes32Set storage self, bytes32 value) public
         returns (bool)
     {
         if (!self.exists[value])
@@ -61,14 +61,14 @@ library StringSetLib {
         return true;
     }
 
-    function pop(StringSet storage self, uint index) public
+    function pop(Bytes32Set storage self, uint index) public
         inBounds(self, index)
-        returns (string)
+        returns (bytes32)
     {
-        string value = get(self, index);
+        bytes32 value = get(self, index);
 
         if (index != self.values.length - 1) {
-            string lastValue = last(self);
+            bytes32 lastValue = last(self);
             self.exists[lastValue] = false;
             set(self, index, lastValue);
             self.indices[lastValue] = index;
@@ -81,21 +81,21 @@ library StringSetLib {
         return value;
     }
 
-    function first(StringSet storage self) public constant
+    function first(Bytes32Set storage self) public constant
         notEmpty(self)
-        returns (string)
+        returns (bytes32)
     {
         return get(self, 0);
     }
 
-    function last(StringSet storage self) public constant
+    function last(Bytes32Set storage self) public constant
         notEmpty(self)
-        returns (string)
+        returns (bytes32)
     {
         return get(self, self.values.length - 1);
     }
 
-    function indexOf(StringSet storage self, string value) public constant
+    function indexOf(Bytes32Set storage self, bytes32 value) public constant
         returns (uint)
     {
         if (!self.exists[value])
@@ -103,13 +103,13 @@ library StringSetLib {
         return self.indices[value];
     }
 
-    function contains(StringSet storage self, string value) public constant
+    function contains(Bytes32Set storage self, bytes32 value) public constant
         returns (bool)
     {
         return self.exists[value];
     }
 
-    function size(StringSet storage self) public constant
+    function size(Bytes32Set storage self) public constant
         returns (uint)
     {
         return self.values.length;
