@@ -14,12 +14,24 @@ contract CampaignHub
         owner = _owner;
     }
 
-    event LogAddCampaign(address campaign, bytes32 ipfsHash);
+    event LogAddCampaign(address campaign, address walletAddress, bytes32 ipfsHash);
 
-    function addCampaign(bytes32 ipfsHash) {
+    function addCampaign(bytes32 ipfsHash, address walletAddress)
+        onlyOwner
+    {
         Campaign campaign = new Campaign(ipfsHash);
         campaigns.add(campaign);
 
-        LogAddCampaign(address(campaign), ipfsHash);
+        if (walletAddress == 0x0) {
+            // @@TODO: deploy wallet
+            // walletAddress = ...;
+        }
+
+        LogAddCampaign(address(campaign), walletAddress, ipfsHash);
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
     }
 }
