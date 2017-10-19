@@ -33,7 +33,6 @@ contract('Campaign', (accounts) => {
     });
 
     it("Should be able donate funds to campaign with a tag", async () => {
-      assert.equal(await vendorContract.owner.call(), vendorOwner, "something weird with owner");
       await vendorContract.addTag("lumber", { from: vendorOwner });
       await campaignContract.addTag("lumber", { from: owner });
       const donation = await campaignContract.donate("lumber", { from: owner, value: 1});
