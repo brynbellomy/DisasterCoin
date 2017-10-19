@@ -2,9 +2,11 @@ pragma solidity 0.4.15;
 
 import "./Owned.sol";
 import "./Vendors.sol";
+import './Bytes32SetLib.sol';
 
 contract Campaign is Owned
 {
+  using Bytes32SetLib for Bytes32SetLib.Bytes32Set;
   Vendors vendors;
 
   mapping(address => bool) donatorRegistry;
@@ -19,11 +21,13 @@ contract Campaign is Owned
   uint public weiWithdrawnSoFar;
   uint public deadline;
 
+  Bytes32SetLib.Bytes32Set tags;
 
   event LogDonation(address sender, uint amount);
   event LogWithdrawl(address sender, uint amount);
   event LogPaused(address sender);
   event LogFundsTransfered(address sender, uint amount);
+  event LogCampaignTagAdded(bytes32 tag);
 
   function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
     // TODO support list of owners
@@ -52,6 +56,15 @@ contract Campaign is Owned
   function getBalance() constant returns (uint) {
     return currentBalance;
   }
+
+  function addTag(bytes32 tag) onlyOwner returns (bool) {
+      bool success = tags.add(tag);
+      if (success) {
+          LogCampaignTagAdded(tag);
+      }
+      return success;
+  }
+
 
   function donate(bytes32 tag) payable returns (bool) {
     // require that tag exists if passed in
