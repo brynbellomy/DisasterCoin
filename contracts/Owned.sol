@@ -11,12 +11,12 @@ contract Owned {
     }
 
     modifier onlyOwner {
-        require(msg.sender != owner);
+        require(msg.sender == owner);
         _;
     }
 
     function changeOwner(address newOwner) onlyOwner returns (bool success) {
-        require(newOwner == 0);
+        require(newOwner != 0);
         LogNewOwner(msg.sender, owner, newOwner);
         owner = newOwner;
         return true;

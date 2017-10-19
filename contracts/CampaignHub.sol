@@ -12,8 +12,7 @@ contract CampaignHub is Owned
 
     address vendors;
 
-    function CampaignHub(address _owner, address _vendors) {
-        owner = _owner;
+    function CampaignHub(address _vendors) {
         vendors = _vendors;
     }
 
