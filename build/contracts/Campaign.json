@@ -1,0 +1,224 @@
+{
+  "contract_name": "Campaign",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "getBalance",
+      "outputs": [
+        {
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [],
+      "name": "returnFunds",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "vendor",
+          "type": "address"
+        },
+        {
+          "name": "tag",
+          "type": "bytes32"
+        },
+        {
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "disburseFunds",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": true,
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "changeOwner",
+      "outputs": [
+        {
+          "name": "success",
+          "type": "bool"
+        }
+      ],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "newIpfsHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "setNewIpfs",
+      "outputs": [],
+      "payable": false,
+      "type": "function"
+    },
+    {
+      "constant": false,
+      "inputs": [
+        {
+          "name": "tag",
+          "type": "bytes32"
+        }
+      ],
+      "name": "donate",
+      "outputs": [
+        {
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "payable": true,
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "name": "_ipfsHash",
+          "type": "bytes32"
+        },
+        {
+          "name": "_goalAmount",
+          "type": "uint256"
+        },
+        {
+          "name": "_vendors",
+          "type": "address"
+        },
+        {
+          "name": "_weiLimitPerBlock",
+          "type": "uint256"
+        },
+        {
+          "name": "_deadline",
+          "type": "uint256"
+        }
+      ],
+      "payable": false,
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogDonation",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogWithdrawl",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "sender",
+          "type": "address"
+        }
+      ],
+      "name": "LogPaused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "LogFundsTransfered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "name": "sender",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "oldOwner",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "LogNewOwner",
+      "type": "event"
+    }
+  ],
+  "unlinked_binary": "0x6060604052341561000f57600080fd5b60405160a08061060a83398101604052808051919060200180519190602001805191906020018051919060200180519150505b5b60008054600160a060020a03191633600160a060020a03161790555b6005859055600484905560018054600160a060020a031916600160a060020a0385161790556008829055438101600a8190556009555b50505050505b610560806100aa6000396000f300606060405236156100675763ffffffff60e060020a60003504166312065fe0811461006c5780631eb5ea2e146100915780632aca5e4a146100a65780638da5cb5b146100cd578063a6f9dae1146100fc578063aa6eae1a1461012f578063c37067fa14610147575b600080fd5b341561007757600080fd5b61007f610166565b60405190815260200160405180910390f35b341561009c57600080fd5b6100a461016d565b005b34156100b157600080fd5b6100a4600160a060020a03600435166024356044356101c0565b005b34156100d857600080fd5b6100e061037b565b604051600160a060020a03909116815260200160405180910390f35b341561010757600080fd5b61011b600160a060020a036004351661038a565b604051901515815260200160405180910390f35b341561013a57600080fd5b6100a460043561044e565b005b61011b600435610474565b604051901515815260200160405180910390f35b6003545b90565b6004546003541161017d57600080fd5b600160a060020a033316600081815260066020526040908190205480156108fc029151600060405180830381858888f1935050505015156101bd57600080fd5b5b565b60005433600160a060020a03908116911614156101dc57600080fd5b600a544390116101eb57600080fd5b80600854600954430302811115151561020357600080fd5b600154600160a060020a031663171029ad8460006040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b151561025457600080fd5b6102c65a03f1151561026557600080fd5b50505060405180519050151561027a57600080fd5b600154600160a060020a03166359651b57858560006040516020015260405160e060020a63ffffffff8516028152600160a060020a0390921660048301526024820152604401602060405180830381600087803b15156102d957600080fd5b6102c65a03f115156102ea57600080fd5b5050506040518051905015156102ff57600080fd5b6000838152600760205260409020548290101561031b57600080fd5b6003805483900390556000838152600760205260409081902080548490039055600160a060020a0385169083156108fc0290849051600060405180830381858888f19350505050151561036d57600080fd5b436009555b5b505b5b505050565b600054600160a060020a031681565b6000805433600160a060020a03908116911614156103a757600080fd5b600160a060020a038216156103bb57600080fd5b6000547f95a4124b32fadd40e6e63088992a62e3505e61d1683b783d03e575d7c1dfb967903390600160a060020a031684604051600160a060020a03938416815291831660208301529091166040808301919091526060909101905180910390a1506000805473ffffffffffffffffffffffffffffffffffffffff1916600160a060020a03831617905560015b5b919050565b60005433600160a060020a039081169116141561046a57600080fd5b60058190555b5b50565b60008115806104eb5750600154600160a060020a031663171029ad8360006040516020015260405160e060020a63ffffffff84160281526004810191909152602401602060405180830381600087803b15156104cf57600080fd5b6102c65a03f115156104e057600080fd5b505050604051805190505b15156104f657600080fd5b506000818152600760209081526040808320805434908101909155600160a060020a033316845260069092529091208054909101905560015b9190505600a165627a7a723058205b0c43f3f58b5034d6e92b65ec137eb28d43e15b37c7362fdc4c092db7af07b80029",
+  "networks": {},
+  "schema_version": "0.0.5",
+  "updated_at": 1508405802439
+}

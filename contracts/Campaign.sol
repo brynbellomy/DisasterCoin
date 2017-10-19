@@ -13,6 +13,9 @@ contract Campaign is Owned {
   bytes32 ipfsHash;
   mapping(address => uint) donations;
   mapping(bytes32 => uint) fundsByTag;
+  uint weiLimitPerBlock;
+  uint lastWithdrawalBlock;
+  uint deadline;
 
 
   event LogDonation(address sender, uint amount);
@@ -20,14 +23,25 @@ contract Campaign is Owned {
   event LogPaused(address sender);
   event LogFundsTransfered(address sender, uint amount);
 
-  function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors) {
+  function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
     // TODO support list of owners
     ipfsHash = _ipfsHash;
     goalAmount = _goalAmount;
     vendors = Vendors(_vendors);
+    weiLimitPerBlock = _weiLimitPerBlock;
+    deadline = _deadline + block.number;
+    lastWithdrawalBlock = deadline;
   }
 
-  /*modifier rateLimit();*/
+  modifier rateLimit(uint amount) {
+    require(amount <= (block.number - lastWithdrawalBlock) * (weiLimitPerBlock));
+    _;
+  }
+
+  modifier reachedFundingPeriod() {
+    require(deadline > block.number);
+    _;
+  }
 
   function returnFunds() {
     require(currentBalance > goalAmount);
@@ -49,6 +63,8 @@ contract Campaign is Owned {
 
   function disburseFunds(address vendor, bytes32 tag, uint amount)
     onlyOwner
+    reachedFundingPeriod
+    rateLimit(amount)
   {
     require(vendors.tagExists(tag));
     require(vendors.isVendorTagged(vendor, tag));
@@ -58,6 +74,7 @@ contract Campaign is Owned {
     fundsByTag[tag] -= amount;
 
     vendor.transfer(amount);
+    lastWithdrawalBlock = block.number;
   }
 
   function setNewIpfs(bytes32 newIpfsHash)
