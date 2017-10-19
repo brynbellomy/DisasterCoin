@@ -14,7 +14,7 @@ contract Campaign is Owned {
   mapping(address => uint) donations;
   mapping(bytes32 => uint) fundsByTag;
   uint weiLimitPerBlock;
-  uint lastWithdrawalBlock;
+  uint weiWithdrawnSoFar;
   uint deadline;
 
 
@@ -30,11 +30,10 @@ contract Campaign is Owned {
     vendors = Vendors(_vendors);
     weiLimitPerBlock = _weiLimitPerBlock;
     deadline = _deadline + block.number;
-    lastWithdrawalBlock = deadline;
   }
 
   modifier rateLimit(uint amount) {
-    require(amount <= (block.number - lastWithdrawalBlock) * (weiLimitPerBlock));
+    require(weiWithdrawnSoFar + amount <= (block.number - deadline) * weiLimitPerBlock);
     _;
   }
 
@@ -74,7 +73,7 @@ contract Campaign is Owned {
     fundsByTag[tag] -= amount;
 
     vendor.transfer(amount);
-    lastWithdrawalBlock = block.number;
+    weiWithdrawnSoFar += amount;
   }
 
   function setNewIpfs(bytes32 newIpfsHash)
