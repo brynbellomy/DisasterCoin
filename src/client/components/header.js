@@ -37,7 +37,7 @@ class Header extends Component {
 
 
   render() {
-    
+    /*
     const NavLinks = () => {
       if(sessionStorage.getItem('isLoggedIn')=='true') {
         let mGrav = GravHash(sessionStorage.getItem('primary_email'),50);
@@ -48,17 +48,14 @@ class Header extends Component {
       } else {
         return (  <Nav pullRight><NavItem eventKey={1}><Link to='/login'>Log In</Link></NavItem><NavItem eventKey={2}><Link to='./register'>Register</Link></NavItem></Nav>);
       }
-    }
+    }*/
 
       return (<Navbar staticTop={true} bsStyle="default" >
       <Navbar.Header>
         <Navbar.Brand>
-         Graham's Solitaire
+         Disaster Coin
         </Navbar.Brand>
       </Navbar.Header>
-      <Nav pullRight>
-          <NavLinks />
-     </Nav>
     </Navbar>);
 
   }
