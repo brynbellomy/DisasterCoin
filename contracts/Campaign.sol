@@ -68,7 +68,7 @@ contract Campaign is Owned
 
   function donate(bytes32 tag) payable returns (bool) {
     // require that tag exists if passed in
-    require(tag == 0 || vendors.tagExists(tag));
+    require(tag == 0 || vendors.tagExists(tag) && tags.contains(tag));
 
     fundsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;

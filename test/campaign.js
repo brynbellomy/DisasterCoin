@@ -34,7 +34,8 @@ contract('Campaign', (accounts) => {
 
     it("Should be able donate funds to campaign with a tag", async () => {
       assert.equal(await vendorContract.owner.call(), vendorOwner, "something weird with owner");
-      const temp = await vendorContract.addTag("lumber", { from: vendorOwner, gas: 1000000 });
+      await vendorContract.addTag("lumber", { from: vendorOwner });
+      await campaignContract.addTag("lumber", { from: owner });
       const donation = await campaignContract.donate("lumber", { from: owner, value: 1});
 
       assert.equal(donation.logs[0].event, "LogDonation");
