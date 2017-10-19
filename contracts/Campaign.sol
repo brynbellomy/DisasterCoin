@@ -1,14 +1,16 @@
 pragma solidity 0.4.15;
 
 import "./Owned.sol";
+import "./Vendors.sol";
 
 contract Campaign is Owned {
-
+  Vendors vendors;
   mapping(address => bool) donatorRegistry;
   uint currentBalance;
   uint goalAmount;
   bytes32 ipfsHash;
   mapping(address => uint) donations;
+  mapping(bytes32 => uint) donationsByTag;
 
 
   event LogDonation(address sender, uint amount);
@@ -16,10 +18,11 @@ contract Campaign is Owned {
   event LogPaused(address sender);
   event LogFundsTransfered(address sender, uint amount);
 
-  function Campaign(bytes32 _ipfsHash, uint _goalAmount) {
+  function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors) {
     // TODO support list of owners
     ipfsHash = _ipfsHash;
     goalAmount = _goalAmount;
+    vendors = Vendors(_vendors);
   }
 
   /*modifier rateLimit();*/
@@ -33,9 +36,11 @@ contract Campaign is Owned {
     return currentBalance;
   }
 
-  function donate(bytes tagToDonate) payable returns (bool) {
+  function donate(bytes32 tag) payable returns (bool) {
     // require that tag exists if passed in
+    require(tag == 0 || vendors.tagExists(tag));
 
+    donationsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;
     return true;
   }
