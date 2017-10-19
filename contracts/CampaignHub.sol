@@ -10,13 +10,16 @@ contract CampaignHub is Owned
 
     AddressSetLib.AddressSet campaigns;
 
-    function CampaignHub(address _owner) {
+    address vendors;
+
+    function CampaignHub(address _owner, address _vendors) {
         owner = _owner;
+        vendors = _vendors;
     }
 
     event LogAddCampaign(address campaign, bytes32 ipfsHash);
 
-    function addCampaign(bytes32 ipfsHash, uint goalAmount, address vendors, uint weiLimitPerBlock, uint deadline)
+    function addCampaign(bytes32 ipfsHash, uint goalAmount, uint weiLimitPerBlock, uint deadline)
         onlyOwner
     {
         Campaign campaign = new Campaign(ipfsHash, goalAmount, vendors, weiLimitPerBlock, deadline);
