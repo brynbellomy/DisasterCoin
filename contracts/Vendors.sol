@@ -45,7 +45,7 @@ contract Vendors is Owned
     }
 
     function isVendorTagged(address vendorAddr, bytes32 tag)
-        constant
+        constant returns(bool)
     {
         return vendors[vendorAddr].tags.contains(tag);
     }
