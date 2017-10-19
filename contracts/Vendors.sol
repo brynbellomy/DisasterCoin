@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity 0.4.15;
 
 import './Bytes32SetLib.sol';
 import './Owned.sol';
