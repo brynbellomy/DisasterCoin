@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import axios from 'axios';
-import {Row, Col, Grid} from 'react-bootstrap';
+import {Button,Row, Col, Table, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import styled from 'styled-components';
 
 
@@ -11,13 +11,121 @@ class CampaignPage extends Component {
 
     constructor(props) {
         super(props);
+       this.state = {
+           id: this.props.id,
+           name: '',
+           description: '',
+           deadline: '',
+           limit: '',
+           totalAmount: 10,
+       }
+    }
+
+    componentDidMount() {
+        axios.get(`/v1/campaign/${this.state.id}`)
+            .then( res => {
+                console.log(res);
+                this.setState({
+                    name: res.data.name,
+                    description: res.data.description,
+                    deadline: res.data.deadline,
+                    limit: res.data.limit
+                });
+                //TODO-eth
+                //get account balance from address for totalAmount
+            }).catch( ()=> {});
     }
     
 
     render() {
-        return(<h1>this is the campaign page</h1>);
-    }
+        //TODO validate address and amount
+        const withdrawButton = 
+                (<Form horizontal>
+                    <ControlLabel>Withdraw Funds</ControlLabel>
+                    <FormGroup controlId="withdraw">
+                        <Col componentClass={ControlLabel} sm={2}>Address</Col>
+                        <Col xs={4}>
+                        <FormControl
+                            type="text"
+                            placeholder="0xF4D8e706CfB25c0DECBbDd4D2E2Cc10C66376a3F"
+                            inputRef={input => this.withdrawAddress = input}
+                        />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup controlId="amount">
+                        <Col componentClass={ControlLabel} sm={2}>Amount</Col>
+                        <Col xs={4}>
+                        <FormControl
+                            type="text"
+                            placeholder="ether"
+                            inputRef={input => this.withdrawAmount= input}
+                        />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup controlId="submit">
+                        <Col smOffset={2} sm={10}>
+                            <Button onClick={this.handleWithdrawSubmit}>Withdraw!</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>);
+        const contributeButton = 
+                (<Form horizontal>
+                    <ControlLabel>Contribute Funds</ControlLabel>
+                    <FormGroup controlId="amount">
+                        <Col componentClass={ControlLabel} sm={2}>Amount</Col>
+                        <Col xs={4}>
+                        <FormControl
+                            type="text"
+                            placeholder="ether"
+                            inputRef={input => this.contributeAmount= input}
+                        />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup controlId="submit">
+                        <Col smOffset={2} sm={10}>
+                            <Button onClick={this.handleContributeSubmit}>Contribute!</Button>
+                        </Col>
+                    </FormGroup>
+                </Form>);
 
+        return(<div>
+            <Row>
+            <Col xs={2}><h3>{this.state.name}</h3></Col>
+            <Col xs={10}/></Row>
+            <Row>
+                <Col xs={3} >
+                    <p><b> Description: </b></p>
+                    <p><b> Deadline: </b></p>
+                    <p><b> Total Amount Fundraised: </b></p>
+                    <p><b> Withdraw Limit: </b></p>
+                </Col>
+                <Col xs={4}>
+                    <p>{this.state.description}</p>
+                    <p>{this.state.deadline}</p>
+                    <p>{this.state.totalAmount}</p>
+                    <p>{this.state.limit}</p>
+                </Col>
+            </Row>
+            <Row>
+                <Col xs={6}>
+                <Table striped>
+                    <thead>
+                        <tr>
+                            <th>txHash</th>
+                            <th>from</th>
+                            <th> amount </th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                    </Table>
+                    </Col>
+                <Col xs={6}>
+                    {withdrawButton}
+                </Col>
+                </Row>
+
+            </div>);
+    }
 }
 
 

@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CampaignProfile from './components/campaignProfile';
 import Header from "./components/Header";
 import CampaignStart from "./components/campaignStart";
+import CampaignPage from "./components/campaignPage";
 // Bring app CSS into the picture
 require('./app.css');
 /*************************************************************************/
@@ -63,6 +64,8 @@ class MyApp extends Component {
                 <div><Header /><CampaignProfile /></div>} />
                 <Route path="/campaignStart" render={()=>
                 <div><Header /><CampaignStart /></div>}/>
+                <Route path="/campaignPage/:id" render={(props)=>
+                <div><Header /><CampaignPage id={props.match.params.id} /></div>}/>
             </div>
             </BrowserRouter>
         );

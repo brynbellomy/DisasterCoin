@@ -127,7 +127,7 @@ module.exports = (app) => {
     });
     //Handle GET to fetch a campaign
     app.get('/v1/campaign/:id',function(req,res){
-            let campaign = _.findWhere(app.campaign, {id: req.params.id.toLowerCase()});
+            let campaign = _.findWhere(app.campaigns, {id: req.params.id.toLowerCase()});
             console.log(app.campaigns);
             if (!campaign) {
                 res.status(404).send({ error: 'unknown campaign id'});

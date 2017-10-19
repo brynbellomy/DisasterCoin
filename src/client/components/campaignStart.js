@@ -41,6 +41,7 @@ class CampaignStart extends Component {
         axios.post("/v1/campaign", qs.stringify(data))
             .then( (res)=> {
                 console.log(res);
+                this.props.history.push(`/campaignPage/${res.data.id}`);
             });
     }
     
