@@ -11,8 +11,12 @@ class CampaignProfile extends Component {
 
     constructor(props) {
         super(props);
+        this.state= {
+            address: this.props.address
+        }
     }
-
+    //componentDidMount
+    //takes in information about the user
 
     render() {
         const startCampaignButton =
@@ -27,19 +31,13 @@ class CampaignProfile extends Component {
                             <Col xs={1}> </Col>
                             <Col xs={11}>
                                 <Col xs={6} className="text-right">
-                                    <p><b>Username:</b></p>
-                                    <p><b>First Name:</b></p>
-                                    <p><b>Last Name:</b></p>
-                                    <p><b>City:</b></p>
-                                    <p><b>Email Address:</b></p>
+                                    <p><b>Address</b></p>
+                                    <p><b>Name</b></p>
                                    
                                 </Col>
                                 <Col xs={6}>
-                                    <p>hey</p>
-                                    <p>phil</p>
-                                    <p>is</p>
-                                    <p>super</p>
-                                    <p>cool</p>
+                                    <p>{this.state.address}</p>
+                                    <p>{sessionStorage.getItem('name')}</p>
                                 </Col>
                             </Col>
                         </Row>
