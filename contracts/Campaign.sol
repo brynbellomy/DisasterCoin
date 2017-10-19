@@ -10,7 +10,7 @@ contract Campaign is Owned {
   uint goalAmount;
   bytes32 ipfsHash;
   mapping(address => uint) donations;
-  mapping(bytes32 => uint) donationsByTag;
+  mapping(bytes32 => uint) fundsByTag;
 
 
   event LogDonation(address sender, uint amount);
@@ -40,16 +40,23 @@ contract Campaign is Owned {
     // require that tag exists if passed in
     require(tag == 0 || vendors.tagExists(tag));
 
-    donationsByTag[tag] += msg.value;
+    fundsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;
     return true;
   }
 
-  function transferFunds(address supplier, uint amount)
-           onlyOwner {
-             currentBalance - amount;
-             supplier.transfer(amount);
-           }
+  function disburseFunds(address vendor, bytes32 tag, uint amount)
+    onlyOwner
+  {
+    require(vendors.tagExists(tag));
+    require(vendors.isVendorTagged(vendor, tag));
+    require(fundsByTag[tag] >= amount);
+
+    currentBalance -= amount;
+    fundsByTag[tag] -= amount;
+
+    vendor.transfer(amount);
+  }
 
   function setNewIpfs(bytes32 newIpfsHash)
     onlyOwner {
