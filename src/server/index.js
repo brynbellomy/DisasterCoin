@@ -75,6 +75,9 @@ app.users = [
 // There are no games yet!
 app.games = [];
 
+//There are no campaigns yet!
+app.campaigns =[];
+
 /**********************************************************************************************************/
 
 // Give them the SPA base page
