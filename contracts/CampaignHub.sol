@@ -1,12 +1,11 @@
 pragma solidity ^0.4.17;
 
 import './AddressSetLib.sol';
+import './Owned.sol';
 
-contract CampaignHub
+contract CampaignHub is Owned
 {
     using AddressSetLib for AddressSetLib.AddressSet;
-
-    address owner;
 
     AddressSetLib.AddressSet campaigns;
 
@@ -28,10 +27,5 @@ contract CampaignHub
         }
 
         LogAddCampaign(address(campaign), walletAddress, ipfsHash);
-    }
-
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
     }
 }

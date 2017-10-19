@@ -1,12 +1,11 @@
 pragma solidity ^0.4.17;
 
 import './StringSetLib.sol';
+import './Owned.sol';
 
 contract Vendors
 {
     using StringSetLib for StringSetLib.StringSet;
-
-    address owner;
 
     struct Vendor {
         StringSetLib.StringSet tags;
@@ -45,9 +44,10 @@ contract Vendors
         LogVendorTagAdded(vendorAddr, tag);
     }
 
-    modifier onlyOwner {
-        require(msg.sender == owner);
-        _;
+    function isVendorTagged(address vendorAddr, string tag)
+        constant
+    {
+        return vendors[vendorAddr].tags.contains(tag);
     }
 }
 
