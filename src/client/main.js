@@ -5,19 +5,12 @@
 import React, { Component }     from 'react';
 import { render }               from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import Header                  from './components/header';
-import Landing                  from './components/landing';
-import Login                    from './components/login';
-import Logout                   from './components/logout';
-import Register                 from './components/register';
-import Profile                  from './components/profile';
-import Start                    from './components/start';
-import Results                  from './components/results';
-import Game                     from './components/game';
+import CampaignProfile from './components/campaignProfile';
+import Header from "./components/Header";
 // Bring app CSS into the picture
 require('./app.css');
 /*************************************************************************/
-
+/*
 class MyApp extends Component {
     constructor(props) {
         super(props);
@@ -55,6 +48,26 @@ class MyApp extends Component {
            </div>
            </BrowserRouter></div>);
     }
+}
+
+*/
+
+class MyApp extends Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        return (
+            <BrowserRouter>
+            <div>
+                <Route path="/campaignProfile" render={()=>
+                <div><Header /><CampaignProfile /></div>} />
+                </div>
+            </BrowserRouter>
+        );
+    }
+
 }
 
 /* Think about storing some client-side state here */
