@@ -49,11 +49,25 @@ contract Vendors is Owned
     }
 
     function addTag(bytes32 tag) onlyOwner returns (bool) {
-      bool success = tags.add(tag);
-      if (success) {
-        LogTagAdded(tag);
-      }
-      return success;
+        bool success = tags.add(tag);
+        if (success) {
+            LogTagAdded(tag);
+        }
+        return success;
+    }
+
+    function tagExists(bytes32 tag)
+        constant
+        returns (bool)
+    {
+        return tags.contains(tag);
+    }
+
+    function vendorExists(address vendor)
+        constant
+        returns (bool)
+    {
+        return vendors[vendor].exists;
     }
 
     function isVendorTagged(address vendorAddr, bytes32 tag)
