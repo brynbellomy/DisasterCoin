@@ -87464,6 +87464,13 @@ var CampaignLanding = function (_Component) {
     }
 
     _createClass(CampaignLanding, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            _axios2.default.get('/v1/campaigns').then(function (res) {
+                console.log(res);
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
             return _react2.default.createElement(

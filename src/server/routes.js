@@ -137,16 +137,9 @@ module.exports = (app) => {
     })
 
 
-    // Handle GET to fetch game information
-    app.get('/v1/game/:id', function(req, res) {
-        let game = _.findWhere(app.games, { id: req.params.id.toLowerCase() });
-        console.log(app.games);
-        if (!game) {
-            res.status(404).send({ error: 'unknown game id' });
-        } else {
-            res.status(200).send(game);
-        }
-    });
+   app.get('/v1/campaigns', function(req,res){
+      res.status(200).send(app.campaigns); 
+   });
 
     // Provide end-point to request shuffled deck of cards and initial state - for testing
     app.get('/v1/cards/shuffle', (req, res) => {
