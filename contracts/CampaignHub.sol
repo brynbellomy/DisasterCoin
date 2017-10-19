@@ -1,4 +1,4 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.15;
 
 import './AddressSetLib.sol';
 import './Owned.sol';
@@ -14,19 +14,14 @@ contract CampaignHub is Owned
         owner = _owner;
     }
 
-    event LogAddCampaign(address campaign, address walletAddress, bytes32 ipfsHash);
+    event LogAddCampaign(address campaign, bytes32 ipfsHash);
 
-    function addCampaign(bytes32 ipfsHash, address walletAddress)
+    function addCampaign(bytes32 ipfsHash, uint goalAmount)
         onlyOwner
     {
-        Campaign campaign = new Campaign(ipfsHash);
+        Campaign campaign = new Campaign(ipfsHash, goalAmount);
         campaigns.add(campaign);
 
-        if (walletAddress == 0x0) {
-            // @@TODO: deploy wallet
-            // walletAddress = ...;
-        }
-
-        LogAddCampaign(address(campaign), walletAddress, ipfsHash);
+        LogAddCampaign(address(campaign), ipfsHash);
     }
 }
