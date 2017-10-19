@@ -7,6 +7,7 @@ import { render }               from 'react-dom';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CampaignProfile from './components/campaignProfile';
 import Header from "./components/Header";
+import CampaignStart from "./components/campaignStart";
 // Bring app CSS into the picture
 require('./app.css');
 /*************************************************************************/
@@ -15,13 +16,10 @@ class MyApp extends Component {
     constructor(props) {
         super(props);
     } 
-
     componentWillMount() {
         sessionStorage.clear();
         sessionStorage.setItem('isLoggedIn','false');
     }
-
-
     render() {
         return(
         <div>
@@ -63,7 +61,9 @@ class MyApp extends Component {
             <div>
                 <Route path="/campaignProfile" render={()=>
                 <div><Header /><CampaignProfile /></div>} />
-                </div>
+                <Route path="/campaignStart" render={()=>
+                <div><Header /><CampaignStart /></div>}/>
+            </div>
             </BrowserRouter>
         );
     }
