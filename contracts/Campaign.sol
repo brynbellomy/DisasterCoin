@@ -3,19 +3,21 @@ pragma solidity 0.4.15;
 import "./Owned.sol";
 import "./Vendors.sol";
 
-contract Campaign is Owned {
-  //mapping(bytes32 => address => uint) public tagDonatorBalance; // tagName => userAddress => donationsToThatTag
-
+contract Campaign is Owned
+{
   Vendors vendors;
+
   mapping(address => bool) donatorRegistry;
-  uint currentBalance;
-  uint goalAmount;
-  bytes32 ipfsHash;
+  uint public currentBalance;
+  uint public goalAmount;
+  bytes32 public ipfsHash;
+
   mapping(address => uint) donations;
   mapping(bytes32 => uint) fundsByTag;
-  uint weiLimitPerBlock;
-  uint weiWithdrawnSoFar;
-  uint deadline;
+
+  uint public weiLimitPerBlock;
+  uint public weiWithdrawnSoFar;
+  uint public deadline;
 
 
   event LogDonation(address sender, uint amount);
