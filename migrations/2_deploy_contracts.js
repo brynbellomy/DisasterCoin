@@ -11,7 +11,6 @@ module.exports = function(deployer) {
   deployer.link(Bytes32SetLib, Vendors);
 
   deployer.deploy(Vendors).then(() => {
-    deployer.deploy(CampaignHub, Vendors.deployed());
-
+    return deployer.deploy(CampaignHub, Vendors.address);
   });
 };
