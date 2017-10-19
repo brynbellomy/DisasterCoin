@@ -1,0 +1,49 @@
+.navbar-static-top {
+    margin-left: -14px;
+    margin-right: -24px;
+}
+
+.right-nav {
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 20px;
+}
+
+.right-nav a {
+    display: block;
+}
+
+table#gameTable tbody tr:hover {
+    background: #6495ed;
+    cursor: pointer;
+}
+
+.card-base {
+    position: relative;
+}
+
+.card-row img {
+    width: 25%;
+    padding: 0;
+    margin: 0 -2px 0 -2px;
+}
+
+.card-float img {
+    width: 25%;
+    position: absolute;
+    top: 37.5%;
+    left: 37.5%;
+}
+
+#errorMsg {
+    text-align: center;
+}
+
+.header {
+    float: right;
+}
+
+.header img {
+    border-radius: 5px;
+    margin: 10px;
+}
