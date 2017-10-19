@@ -4,6 +4,8 @@ import "./Owned.sol";
 import "./Vendors.sol";
 
 contract Campaign is Owned {
+  //mapping(bytes32 => address => uint) public tagDonatorBalance; // tagName => userAddress => donationsToThatTag
+
   Vendors vendors;
   mapping(address => bool) donatorRegistry;
   uint currentBalance;
