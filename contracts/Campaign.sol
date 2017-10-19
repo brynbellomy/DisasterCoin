@@ -57,6 +57,7 @@ contract Campaign is Owned {
 
     fundsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;
+    LogDonation(msg.sender, msg.value);
     return true;
   }
 
