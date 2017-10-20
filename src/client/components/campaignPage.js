@@ -28,7 +28,7 @@ class CampaignPage extends Component {
     // refHandler (input, key) {
     //     this.setState({[key]: input}) 
     // }
-    componentDidMount() {
+    componentWillMount() {
         axios.get(`/v1/campaign/${this.state.id}`)
             .then( res => {
                 console.log(res);
