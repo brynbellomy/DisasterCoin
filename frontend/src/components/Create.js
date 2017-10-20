@@ -3,10 +3,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {Row, Col, Button, Form} from 'reactstrap'
-// import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import Header from './Header'
-// import axios from 'axios';
-import qs    from 'qs';
 
 
 class CampaignStart extends Component {
@@ -15,7 +12,7 @@ class CampaignStart extends Component {
         super(props);
         this.onDateChange = this.onDateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.state= {
+        this.state = {
             date: new Date().toISOString()
         }
     }
@@ -25,27 +22,36 @@ class CampaignStart extends Component {
         console.log(value);
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(sessionStorage.getItem('address'));
-        const data = {
-            name: this.name.value,
-            description: this.description.value,
-            deadline: Date.parse(this.state.date),
-            limit: this.limit.value,
-            owner: sessionStorage.getItem('address')
-        }
-        // axios.post("/v1/campaign", qs.stringify(data))
-        //     .then( (res)=> {
-        //         console.log(res);
-        //         this.props.history.push(`/campaignPage/${res.data.id}`);
-        //     });
+        // console.log(sessionStorage.getItem('address'));
+        // const data = {
+        //     name: this.name.value,
+        //     description: this.description.value,
+        //     deadline: Date.parse(this.state.date),
+        //     limit: this.limit.value,
+        //     owner: sessionStorage.getItem('address')
+        // }
+
+        const goalAmount = parseInt(this._inputGoalAmount.value, 10)
+        const weiLimitPerBlock = parseInt(this._inputWeiLimitPerBlock.value, 10)
+        const deadline = parseInt(this._inputDeadline.value, 10)
+        const owner = sessionStorage.getItem('address')
+
+        const campaignHub = await contracts.CampaignHub.deployed()
+        campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})
     }
 
 
     render() {
         return(
             <div>
+                <div>Goal amount: <input ref={x => this._inputGoalAmount = x} /></div>
+                <div>Wei limit per block: <input ref={x => this._inputWeiLimitPerBlock = x} /></div>
+                <div>Deadline: <input ref={x => this._inputDeadline = x} /></div>
+                <div>Owner: <input ref={x => this._inputOwner = x} /></div>
+                <button onClick={this.handleSubmit}>Create</button>
+
                 {/* <Header user={{}} />
                 <Form horizontal>
                     <FormGroup controlId="name">
@@ -69,7 +75,7 @@ class CampaignStart extends Component {
                     <FormGroup controlId="deadline">
                     <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
                         <Col sm={10}>
-                            
+
                          </Col>
                     </FormGroup>
                     <FormGroup controlId="withdraw_limit">
