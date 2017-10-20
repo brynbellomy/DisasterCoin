@@ -13,6 +13,7 @@ contract Campaign is Owned
 
   mapping(address => bool) donatorRegistry;
   uint public currentBalance;
+  uint public cumulativeBalance;
   uint public goalAmount;
   bytes32 public ipfsHash;
 
@@ -28,6 +29,7 @@ contract Campaign is Owned
 
   Bytes32SetLib.Bytes32Set tags;
   AddressSetLib.AddressSet flaggers;
+  uint flagVotes;
   bool public campaignFlagged;
 
   event LogDonation(address sender, uint amount);
@@ -79,6 +81,8 @@ contract Campaign is Owned
     haveNotFlagged
     returns (bool)
     {
+      require(!flaggers.contains(msg.sender));
+      flagVotes += donations[msg.sender];
       flaggers.add(msg.sender);
       return true;
   }
@@ -118,6 +122,8 @@ contract Campaign is Owned
 
     fundsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;
+    currentBalance += msg.value;
+    cumulativeBalance += msg.value;
     donators.add(msg.sender);
     LogDonation(msg.sender, msg.value);
     return true;
@@ -149,7 +155,7 @@ contract Campaign is Owned
   reachedFundingPeriod
   returns (bool)
   {
-    require((flaggers.size()/donators.size()) * 100 > 50);
+    require(flagVotes/cumulativeBalance * 100 > 50);
     require(!campaignFlagged);
     campaignFlagged = true;
   }
