@@ -38,7 +38,23 @@ contract('Campaign', (accounts) => {
       const donation = await campaignContract.donate("lumber", { from: owner, value: 1});
 
       assert.equal(donation.logs[0].event, "LogDonation");
-
     });
 
+    it("should only be able to withdraw a certain amount each day", async () => {
+    });
+
+    it("should be able to flag campaign and recieve funds", async () => {
+    });
+
+    it("should not be able to manipulate flagging with one account", async () => {
+    });
+
+    it("should not be able to vote twice", async () => {
+    });
+
+    it("should only be able to send to vendor", async () => {
+    });
+
+    it("should not be able to send to non vendors", async () => {
+    });
 });
