@@ -1,31 +1,32 @@
 'use strict';
 
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import {Row,Col, Table, Button, Container} from 'reactstrap';
-import { loggedInUser } from '../actions/userActions'
+import { fetchCreatedCampaigns, fetchDonatedCampaigns } from '../actions/userCampaignActions'
 import Header from './Header'
 
 
 class CampaignProfile extends Component {
 
     constructor(props) {
-        super(props);
-        
-        this.state= {
-            user: []
+        super(props);   
+
+        this.state = {
+            createdCampaigns: [],
+            donatedCampaigns: []
         }
     }
-
-    componentDidMount () {
-      this.props.loggedInUser()
-    }
+    // need to pass user info to fetchCreatedCampaigns & fetchDonatedCampaigns
+    // componentDidMount () {
+    //   this.props.fetchCreatedCampaigns()
+    // }
 
     render() {
       console.log('hello')
         const startCampaignButton =
-        (<Button onClick={this.props.navigateToCreate} color="primary">Start New Campaign</Button>);
+        (<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>);
 
         return(
             <Container>
@@ -41,7 +42,7 @@ class CampaignProfile extends Component {
 
                     </Col>
                     <Col xs={10}>
-                        <p>{this.state.address}</p>
+                        <p>{sessionStorage.getItem('address')}</p>
                         <p>{sessionStorage.getItem('name')}</p>
                     </Col>
 
@@ -89,18 +90,19 @@ class CampaignProfile extends Component {
 
 }
 
-
 const mapStatetoProps = (state) => {
   return {
-    user: state.user.user
+    createdCampaigns: state.createdCampaigns.createdCampaigns,
+    donatedCampaigns: state.donatedCampaigns.donatedCampaigns
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loggedInUser: () => dispatch(loggedInUser()),
+    fetchCreatedCampaigns: (user) => dispatch(fetchCreatedCampaigns(user)),
+    fetchDonatedCampaigns: (user) => dispatch(fetchDonatedCampaigns(user)),
     navigateToCreate: () => dispatch(push('/create'))
   }
 }
 
-export default connect(mapStatetoProps, mapDispatchToProps)(CampaignProfile)
+export default connect(null, mapDispatchToProps)(CampaignProfile)
