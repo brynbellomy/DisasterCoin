@@ -1,14 +1,14 @@
-import { FETCH_CREATEDCAMPAIGNS, FETCH_DONATEDCAMPAIGNS, CREATED_CAMPAIGNS, DONATED_CAMPAIGNS } from '../constants/UserCampaignActionTypes'
+import { FETCH_CREATED_CAMPAIGNS, FETCH_DONATED_CAMPAIGNS, CREATED_CAMPAIGNS, DONATED_CAMPAIGNS } from '../constants/UserCampaignActionTypes'
 
 export const fetchCreatedCampaigns = (user) => {
   return {
-    type: FETCH_CREATEDCAMPAIGNS
+    type: FETCH_CREATED_CAMPAIGNS
   }
 }
 
 export const fetchDonatedCampaigns = (user) => {
   return {
-    type: FETCH_DONATEDCAMPAIGNS
+    type: FETCH_DONATED_CAMPAIGNS
   }
 }
 
@@ -25,4 +25,3 @@ export const donatedCampaigns = (campaigns) => {
     campaigns
   }
 }
-
