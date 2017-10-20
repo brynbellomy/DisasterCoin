@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
 import { Connect } from 'uport-connect'
+import { loginUser } from '../actions/userActions'
 /*************************************************************************/
 
 export function GravHash(email, size) {
@@ -35,12 +36,9 @@ class Header extends Component {
     uport.requestCredentials(
 
     ).then((credentials)=>{
-        // console.log(credentials);
-        sessionStorage.setItem('address',credentials.address)
-        sessionStorage.setItem('name', credentials.name)
-        sessionStorage.setItem('isLoggedIn','true')
+        // console.log(credentials)
         // console.log(sessionStorage.getItem('address'))
-        this.props.navigateToProfile(credentials.address)
+        this.props.loginUser(credentials)
     }).catch(() => {})
   }
 
@@ -77,7 +75,7 @@ class Header extends Component {
 // </Navbar>);
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToProfile: (address) => dispatch(push(`/profile/${address}`))
+    loginUser: (credentials) => dispatch(loginUser(credentials))
   }
 }
 
