@@ -45,7 +45,7 @@ async function handleLog(log) {
         await db.addTag(log.args.tag)
     } else if (['LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
         let campaignState = await getEntireCampaignState(log.address)
-        await db.setCampaign(log.args.campaign, campaignState)
+        await db.setCampaign(log.address, campaignState)
 
         if (log.event == 'LogDonation') {
             await db.setUserType(log.args.sender, 'donator')
