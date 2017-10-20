@@ -1,5 +1,6 @@
 const Vendors = artifacts.require("./Vendors.sol");
-// const expectThrow = require("./helpers.js");
+const { expectThrow } = require("./helpers.js");
+// import { expectThrow } from "./helpers.js";
 
 contract('Vendors', (accounts) => {
 
@@ -44,10 +45,10 @@ contract('Vendors', (accounts) => {
   });
 
   it("Should not be able to add a tag to a vendor that does not exist", async () => {
-    // const lumberHex = "0x6c756d6265720000000000000000000000000000000000000000000000000000";
-    // const ipfsHash = "0x6861736800000000000000000000000000000000000000000000000000000000";
-    // const txAddHash = await vendorContract.addVendor(verifiedSupplier, ipfsHash, { from: venderOwner });
-    // const txAddVendorTag = await expectThrow(vendorContract.addVendorTag(verifiedSupplier, lumberHex));
+    const lumberHex = "0x6c756d6265720000000000000000000000000000000000000000000000000000";
+    const ipfsHash = "0x6861736800000000000000000000000000000000000000000000000000000000";
+    const txAddHash = await vendorContract.addVendor(verifiedSupplier, ipfsHash, { from: venderOwner });
+    const txAddVendorTag =  await expectThrow(vendorContract.addVendorTag(verifiedSupplier, lumberHex));
   });
 
 });
