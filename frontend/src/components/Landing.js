@@ -5,6 +5,7 @@ import {Container, Row, Col, Table, Button} from 'reactstrap';
 import { fetchCampaigns } from '../actions/campaignActions'
 // import styled from 'styled-components'
 import { Connect } from 'uport-connect'
+import Header from './Header'
 
 class CampaignLanding extends Component {
 
@@ -31,8 +32,9 @@ class CampaignLanding extends Component {
         })
         return (
             <Container>
+                <Header user={this.props.user} />
                 <Row>
-                    <Col xs={3}/>
+                    <Col xs={3} />
                     <Col xs={8}>
                         <h4>Available Campaigns</h4>
                     </Col>
@@ -61,7 +63,8 @@ class CampaignLanding extends Component {
 
 const mapStatetoProps = (state) => {
   return {
-    campaigns: state.campaigns.campaigns
+    campaigns: state.campaigns.campaigns,
+    user: state.user.user
   }
 }
 
