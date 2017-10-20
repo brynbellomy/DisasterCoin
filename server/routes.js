@@ -7,6 +7,13 @@ const asyncMiddleware = fn =>
 
 router.get('/campaigns', asyncMiddleware(async (req, res, next) => {
     let campaigns = await db.getAllCampaigns()
+
+    let ps = campaigns.map(addr => {
+        return db.getCampaign(addr)
+    })
+
+    campaigns = await Promise.all(ps)
+
     res.json(campaigns)
 }))
 
