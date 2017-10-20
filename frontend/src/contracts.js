@@ -1,11 +1,13 @@
 import { default as contract } from 'truffle-contract'
 
 import campaignHubArtifacts from 'contracts/CampaignHub.json'
+import campaignArtifacts from 'contracts/Campaign.json'
 
 const Promise = require('bluebird')
 const Web3 = require('web3')
 
 const CampaignHub = contract(campaignHubArtifacts)
+const Campaign = contract(campaignArtifacts)
 
 function init() {
     return new Promise((resolve, reject) => {
@@ -26,9 +28,11 @@ function init() {
 
             // init our contracts
             CampaignHub.setProvider(window.web3.currentProvider)
+            Campaign.setProvider(window.web3.currentProvider)
 
             window.contracts = {
                 CampaignHub,
+                Campaign,
             }
 
             resolve()
@@ -40,4 +44,5 @@ function init() {
 export {
     init,
     CampaignHub,
+    Campaign,
 }
