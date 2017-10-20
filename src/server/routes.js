@@ -78,7 +78,8 @@ module.exports = (app) => {
             !data.name ||
             !data.description ||
             !data.deadline ||
-            !data.limit) {
+            !data.limit     ||
+            !data.owner) {
                 res.status(400).send({error: "something went wrong"});
             } else {
                 let newCampaign = {
@@ -87,6 +88,7 @@ module.exports = (app) => {
                     description: data.description,
                     deadline: data.deadline,
                     limit: data.limit,
+                    owner: data.owner,
                 };
                 app.campaigns.push(newCampaign);
                 res.status(201).send({

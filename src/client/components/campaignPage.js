@@ -6,6 +6,56 @@ import axios from 'axios';
 import {Button,Row, Col, Table, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import styled from 'styled-components';
 
+        //TODO validate address and amount
+        const WithdrawButton = (props) =>
+        (<div><Form horizontal>
+            <Row>
+            <ControlLabel>Withdraw Funds</ControlLabel></Row>
+            <FormGroup controlId="withdraw">
+                <Col componentClass={ControlLabel} sm={2}>Address</Col>
+                <Col xs={4}>
+                <FormControl
+                    type="text"
+                    placeholder="0xF4D8e706CfB25c0DECBbDd4D2E2Cc10C66376a3F"
+                    inputRef={input => this.withdrawAddress = input}
+                />
+                </Col>
+            </FormGroup>
+            <FormGroup controlId="amount">
+                <Col componentClass={ControlLabel} sm={2}>Amount</Col>
+                <Col xs={4}>
+                <FormControl
+                    type="text"
+                    placeholder="ether"
+                    inputRef={input => this.withdrawAmount= input}
+                />
+                </Col>
+            </FormGroup>
+            <FormGroup controlId="submit">
+                <Col smOffset={2} sm={10}>
+                    <Button onClick={this.handleWithdrawSubmit}>Withdraw!</Button>
+                </Col>
+            </FormGroup>
+        </Form></div>);
+const ContributeButton = (props) =>
+        (<div><Form horizontal>
+            <Row><ControlLabel>Contribute Funds</ControlLabel></Row>
+            <FormGroup controlId="amount">
+                <Col componentClass={ControlLabel} sm={2}>Amount</Col>
+                <Col xs={4}>
+                <FormControl
+                    type="text"
+                    placeholder="ether"
+                    inputRef={(input) => props.refHandler(input, 'contributeAmount')}
+                />
+                </Col>
+            </FormGroup>
+            <FormGroup controlId="submit">
+                <Col smOffset={2} sm={10}>
+                    <Button onClick={props.handleContributeSubmit}>Contribute!</Button>
+                </Col>
+            </FormGroup>
+        </Form></div>);
 
 class CampaignPage extends Component {
 
@@ -18,10 +68,15 @@ class CampaignPage extends Component {
            deadline: '',
            limit: '',
            totalAmount: 10,
+           owner: '',
        }
+       this.refHandler = this.refHandler.bind(this)
     }
-
+    refHandler (input, key) {
+        this.setState({[key]: input}) 
+    }
     componentDidMount() {
+
         axios.get(`/v1/campaign/${this.state.id}`)
             .then( res => {
                 console.log(res);
@@ -29,8 +84,10 @@ class CampaignPage extends Component {
                     name: res.data.name,
                     description: res.data.description,
                     deadline: res.data.deadline,
-                    limit: res.data.limit
+                    limit: res.data.limit,
+                    owner: res.data.owner
                 });
+                console.log(this.state);
                 //TODO-eth
                 //get account balance from address for totalAmount
             }).catch( ()=> {});
@@ -38,55 +95,7 @@ class CampaignPage extends Component {
     
 
     render() {
-        //TODO validate address and amount
-        const withdrawButton = 
-                (<Form horizontal>
-                    <ControlLabel>Withdraw Funds</ControlLabel>
-                    <FormGroup controlId="withdraw">
-                        <Col componentClass={ControlLabel} sm={2}>Address</Col>
-                        <Col xs={4}>
-                        <FormControl
-                            type="text"
-                            placeholder="0xF4D8e706CfB25c0DECBbDd4D2E2Cc10C66376a3F"
-                            inputRef={input => this.withdrawAddress = input}
-                        />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup controlId="amount">
-                        <Col componentClass={ControlLabel} sm={2}>Amount</Col>
-                        <Col xs={4}>
-                        <FormControl
-                            type="text"
-                            placeholder="ether"
-                            inputRef={input => this.withdrawAmount= input}
-                        />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup controlId="submit">
-                        <Col smOffset={2} sm={10}>
-                            <Button onClick={this.handleWithdrawSubmit}>Withdraw!</Button>
-                        </Col>
-                    </FormGroup>
-                </Form>);
-        const contributeButton = 
-                (<Form horizontal>
-                    <ControlLabel>Contribute Funds</ControlLabel>
-                    <FormGroup controlId="amount">
-                        <Col componentClass={ControlLabel} sm={2}>Amount</Col>
-                        <Col xs={4}>
-                        <FormControl
-                            type="text"
-                            placeholder="ether"
-                            inputRef={input => this.contributeAmount= input}
-                        />
-                        </Col>
-                    </FormGroup>
-                    <FormGroup controlId="submit">
-                        <Col smOffset={2} sm={10}>
-                            <Button onClick={this.handleContributeSubmit}>Contribute!</Button>
-                        </Col>
-                    </FormGroup>
-                </Form>);
+
 
         return(<div>
             <Row>
@@ -120,10 +129,9 @@ class CampaignPage extends Component {
                     </Table>
                     </Col>
                 <Col xs={6}>
-                    {withdrawButton}
+                {this.state.owner === sessionStorage.getItem('address') ? <WithdrawButton /> : <ContributeButton refHandler={this.refHandler} handleContributeSubmit={() => true} />}
                 </Col>
                 </Row>
-
             </div>);
     }
 }

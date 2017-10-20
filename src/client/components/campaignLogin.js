@@ -25,7 +25,7 @@ class CampaignLogin extends Component {
     }
 
     render() {
-     return (<h1> this is a campaign page</h1>)
+     return (<div></div>);
     }
 
 
