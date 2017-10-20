@@ -39,7 +39,7 @@ contract Campaign is Owned
   event LogFlagCampaign(address sender);
   event LogReturnFunds(address sender, uint amount);
   event LogDisburseFunds(address supplier, bytes32 tag, uint amount);
-  event LogSetNewIpfs(bytes32 ipfsHash);
+  event LogSetNewIpfs(bytes32 newIpfsHash);
   event LogStopFlaggedCampaign(bool flaggedStatus);
 
   function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
