@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import axios from 'axios';
+// import axios from 'axios';
 import {Button,Row, Col} from 'react-bootstrap';
 import { Connect } from 'uport-connect';
 import Header from './Header'

@@ -5,7 +5,7 @@ import {withRouter} from 'react-router';
 import {Row, Col, Button, Form} from 'reactstrap'
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import Header from './Header'
-import axios from 'axios';
+// import axios from 'axios';
 import qs    from 'qs';
 
 
@@ -35,11 +35,11 @@ class CampaignStart extends Component {
             limit: this.limit.value,
             owner: sessionStorage.getItem('address')
         }
-        axios.post("/v1/campaign", qs.stringify(data))
-            .then( (res)=> {
-                console.log(res);
-                this.props.history.push(`/campaignPage/${res.data.id}`);
-            });
+        // axios.post("/v1/campaign", qs.stringify(data))
+        //     .then( (res)=> {
+        //         console.log(res);
+        //         this.props.history.push(`/campaignPage/${res.data.id}`);
+        //     });
     }
 
 

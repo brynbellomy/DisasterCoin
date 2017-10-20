@@ -24,9 +24,4 @@ const Main = (props) =>
     </Switch>
   </main>
 
-  const mapStatetoProps = (state) => {
-    return {
-      user: state.user.user
-    }
-  }
-  export default connect(mapStatetoProps)(Main)
+export default Main

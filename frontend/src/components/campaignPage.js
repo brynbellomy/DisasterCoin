@@ -2,7 +2,6 @@
 
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import axios from 'axios';
 import {Button,Row, Col, Table, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
 import Header from './Header'
 
@@ -27,20 +26,20 @@ class CampaignPage extends Component {
     //     this.setState({[key]: input})
     // }
     componentDidMount() {
-        axios.get(`/v1/campaign/${this.state.id}`)
-            .then( res => {
-                console.log(res);
-                this.setState({
-                    name: res.data.name,
-                    description: res.data.description,
-                    deadline: res.data.deadline,
-                    limit: res.data.limit,
-                    owner: res.data.owner
-                });
-                console.log(this.state);
-                //TODO-eth
-                //get account balance from address for totalAmount
-            }).catch( ()=> {});
+        // axios.get(`/v1/campaign/${this.state.id}`)
+        //     .then( res => {
+        //         console.log(res);
+        //         this.setState({
+        //             name: res.data.name,
+        //             description: res.data.description,
+        //             deadline: res.data.deadline,
+        //             limit: res.data.limit,
+        //             owner: res.data.owner
+        //         });
+        //         console.log(this.state);
+        //         //TODO-eth
+        //         //get account balance from address for totalAmount
+        //     }).catch( ()=> {});
     }
     componentWillReceiveProps(props) {
         console.log('nextprops', props)

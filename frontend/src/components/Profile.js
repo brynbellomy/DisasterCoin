@@ -3,8 +3,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import axios from 'axios';
-import {Row, Col, Table, Button} from 'react-bootstrap';
+// import axios from 'axios';
+//import {Row, Col, Table, Button} from 'react-bootstrap';
+import {Row,Col, Table, Button, Container} from 'reactstrap';
 import Header from './Header'
 
 
@@ -16,17 +17,14 @@ class CampaignProfile extends Component {
             address: this.props.match.params.address
         }
     }
-    //componentDidMount
-    //takes in information about the user
-
     render() {
       console.log('hello')
         const startCampaignButton =
-        (<Button onClick={this.props.navigateToCreate}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
+        (<Button onClick={this.props.navigateToCreate} color="primary">Start New Campaign</Button>);
 
         return(
-            <div>
-              <Header user={{}} />
+            <Container>
+                <Header user={{}} />
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>
@@ -79,8 +77,7 @@ class CampaignProfile extends Component {
                         </Table>
                     </Col>
                 </Row>
-
-            </div>
+            </Container>
 
         )
     }
