@@ -11,7 +11,7 @@ import Header from './Header'
 class CampaignProfile extends Component {
 
     constructor(props) {
-        super(props);   
+        super(props);
 
         this.state = {
             createdCampaigns: [],
@@ -31,7 +31,6 @@ class CampaignProfile extends Component {
 
         return(
             <Container>
-                <Header user={{}} />
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>
