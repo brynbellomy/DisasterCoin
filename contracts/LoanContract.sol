@@ -2,7 +2,7 @@ pragma solidity 0.4.15;
 
 import "./Owned.sol";
 
-contract Loan is Owned {
+contract LoanContract is Owned {
     uint public loanGoal;
     uint public interestRate;
     uint public fundingDuration;
@@ -45,8 +45,9 @@ contract Loan is Owned {
     modifier refundable { require(loanCancelledStatus); _; }
     modifier paymentPeriod { require(block.number > loanStartBlock); _; }
 
+//    event LogBool(bool); ////
 
-    function Loan(
+    function LoanContract(
         uint loanGoal_,
         uint interestRate_,
         uint fundingDuration_,

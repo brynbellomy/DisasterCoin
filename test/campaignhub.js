@@ -23,7 +23,7 @@ contract('CampaignHub', (accounts) => {
 
     assert.equal(campaign.logs[0].event, "LogNewOwner")
     assert.equal(campaign.logs[1].event, "LogAddCampaign")
-    assert.equal(campaign.logs[0].args.ipfsHash, ipfsHash);
+    assert.equal(campaign.logs[1].args.ipfsHash, ipfsHash);
   });
 
 });
