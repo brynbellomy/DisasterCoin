@@ -2,8 +2,10 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://0.0.0.0:8080/",
   "dependencies": {
     "bootstrap": "4.0.0-beta",
+    "ethereumjs-util": "^5.1.2",
     "lodash": "^4.17.4",
     "md5": "^2.2.1",
     "react": "^16.0.0",
