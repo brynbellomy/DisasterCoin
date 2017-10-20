@@ -11,6 +11,7 @@ import CampaignStart from "./components/campaignStart";
 import CampaignPage from "./components/campaignPage";
 import CampaignLogin from "./components/campaignLogin";
 import CampaignLanding from "./components/campaignLanding";
+import CampaignLogout from "./components/campaignLogout";
 // Bring app CSS into the picture
 require('./app.css');
 
@@ -33,6 +34,8 @@ class MyApp extends Component {
                 <div><Header /><CampaignPage id={props.match.params.id} /></div>}/>
                 <Route path="/campaignLogin" render={()=>
                 <div><Header /><CampaignLogin /></div>} />
+                <Route path="/campaignLogout" render={(props)=>
+                <div><Header {...props} /><CampaignLogout /></div>}/>
             </div>
             </BrowserRouter>
         );
