@@ -71,37 +71,6 @@ module.exports = (app) => {
         }
     });
 
-    // Handle POST to create a new game
-    app.post('/v1/game', function(req, res) {
-        let data = req.body;
-        if (!data ||
-            !data.game ||
-            !data.color ) {
-            res.status(400).send({ error: 'game and color fields required' });
-        } else {
-            if (data.game === 'klondyke') {
-                let newGame = {
-                    active: true,
-                    cards_remaining: 52,
-                    color: data.color,
-                    drawCount: data.draw,
-                    startTime: Date.now(),
-                    game: data.game,
-                    score: 0,
-                    start: Date.now(),
-                    winner: "",
-                    moves: []
-                };
-
-                // Generate a new initial game state
-                newGame = _.extend(newGame, Solitare.initialState());
-                app.games.push(newGame);
-                res.status(201).send({
-                    id: newGame.id
-                });
-            } else res.status(404).send({ error: "Not implemented" });
-        }
-    });
     //Handle POST to create a new campaign
     app.post('/v1/campaign', function(req,res){
         let data = req.body;
