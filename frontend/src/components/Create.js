@@ -29,7 +29,7 @@ class CampaignStart extends Component {
         const goalAmount = parseInt(this._inputGoalAmount.value, 10)
         const weiLimitPerBlock = parseInt(this._inputWeiLimitPerBlock.value, 10)
         const deadline = parseInt(this._inputDeadline.value, 10)
-        const owner = sessionStorage.getItem('address')
+        const owner = sessionStorage.getItem('ethAddress')
 
         const campaignHub = await contracts.CampaignHub.deployed()
         campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})
