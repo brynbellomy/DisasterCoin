@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import {withRouter} from 'react-router';
-import axios from 'axios';
 //import {Row, Col, Table, Button} from 'react-bootstrap';
 import {Row,Col, Table, Button, Container} from 'reactstrap';
 import styled from 'styled-components';

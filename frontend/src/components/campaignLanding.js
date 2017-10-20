@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import axios from 'axios';
 import {Container, Row, Col, Table, Button} from 'reactstrap';
 import { fetchCampaigns } from '../actions/campaignActions'
 // import styled from 'styled-components'

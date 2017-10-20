@@ -1,8 +1,7 @@
 import React, {Component} from 'react';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import axios from 'axios';
-import {Button, Row, Col} from 'react-bootstrap'
+import {Button, Row, Col} from 'reactstrap'
 import { Connect } from 'uport-connect'
 
 
