@@ -64,7 +64,7 @@ contract Campaign is Owned
   }
 
   modifier reachedFundingPeriod() {
-    require(deadline > block.number);
+    require(deadline < block.number);
     _;
   }
 
