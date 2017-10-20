@@ -35,10 +35,10 @@ class Header extends Component {
     console.log(_.isEmpty(this.props.user))
     return (
       <Navbar color="faded" light>
-        <NavbarBrand href={'/'}>Disaster Coin</NavbarBrand>
+        <NavbarBrand href={'/'}><h2>Disaster Coin</h2></NavbarBrand>
         <Nav className='ml-auto' navbar>
           <NavItem>
-            <NavLink href={noUser ? '/logout' : '/login'}>{noUser ? 'Logout' : 'Login'}</NavLink>
+            <NavLink href={noUser ? '/logout' : '/login'}> {noUser ? 'Logout' : 'Login'}</NavLink>
           </NavItem>
         </Nav>
       </Navbar>
