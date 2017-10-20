@@ -3,7 +3,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {Row, Col, Button, Form} from 'reactstrap'
-import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+// import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
 import Header from './Header'
 // import axios from 'axios';
 import qs    from 'qs';
@@ -46,7 +46,7 @@ class CampaignStart extends Component {
     render() {
         return(
             <div>
-                <Header user={{}} />
+                {/* <Header user={{}} />
                 <Form horizontal>
                     <FormGroup controlId="name">
                         <Col componentClass={ControlLabel} sm={2}>Name of Campaign:</Col>
@@ -69,7 +69,7 @@ class CampaignStart extends Component {
                     <FormGroup controlId="deadline">
                     <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
                         <Col sm={10}>
-                            {/* <DatePicker onChange={this.onDateChange} value={this.state.date} /> */}
+                            
                          </Col>
                     </FormGroup>
                     <FormGroup controlId="withdraw_limit">
@@ -90,7 +90,7 @@ class CampaignStart extends Component {
                             </Button>
                         </Col>
                     </FormGroup>
-                </Form>
+                </Form> */}
             </div>
         );
     }

@@ -34,7 +34,7 @@ class CampaignLanding extends Component {
             <Container>
                 <Header user={this.props.user} />
                 <Row>
-                    <Col xs={3}/>
+                    <Col xs={3} />
                     <Col xs={8}>
                         <h4>Available Campaigns</h4>
                     </Col>

@@ -1,6 +1,5 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import {connect} from 'react-redux'
 import Profile from '../components/Profile'
 import Create from '../components/Create'
 import CampaignPage from '../components/CampaignPage'
