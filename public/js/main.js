@@ -86905,7 +86905,11 @@ var CampaignLanding = function (_Component) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        campaign.name,
+                        _react2.default.createElement(
+                            _reactRouter.Link,
+                            { to: '/campaignPage/' + campaign.id },
+                            campaign.name
+                        ),
                         ' '
                     ),
                     _react2.default.createElement(

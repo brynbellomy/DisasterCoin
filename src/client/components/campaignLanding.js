@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router';
+import {Link, withRouter} from 'react-router';
 import axios from 'axios';
 import {Button,Row, Col, Table} from 'react-bootstrap';
 import styled from 'styled-components';
@@ -37,7 +37,7 @@ class CampaignLanding extends Component {
         let campaigns = this.state.campaigns.map((campaign, index) => {
             return (
                 <tr key={index}>
-                    <td>{campaign.name} </td>
+                    <td><Link to={`/campaignPage/${campaign.id}`}>{campaign.name}</Link> </td>
                     <td>{campaign.limit} </td>
                     <td>{campaign.deadline} </td>
                 </tr>
