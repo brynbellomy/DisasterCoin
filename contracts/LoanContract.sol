@@ -36,40 +36,14 @@ contract Loan is Owned {
     mapping(address => uint) public funderCouponReceived;
     mapping(address => bool) public funderPrincipalReceived;
 
-    modifier duringFundingPeriod {
-        require(block.number <= fundingDeadlineBlock);
-        _;
-    }
-
-    modifier stillFundable {
-        require(currentBalance < loanGoal);
-        _;
-    }
-
-    modifier notExceedingLoanGoal(uint fundingAmount) {
-        require(currentBalance + fundingAmount <= loanGoal);
-        _;
-    }
-
-    modifier goalNotReached {
-        require(currentBalance != loanGoal);
-        _;
-    }
-
-    modifier deadlineNotReached {
-        require(block.number < fundingDeadlineBlock);
-        _;
-    }
-
-    modifier deadlineExceed {
-        require(block.number > fundingDeadlineBlock);
-        _;
-    }
-
-    modifier refundable {
-        require(loanCancelledStatus);
-        _;
-    }
+    modifier duringFundingPeriod { require(block.number <= fundingDeadlineBlock); _; }
+    modifier stillFundable { require(currentBalance < loanGoal); _; }
+    modifier notExceedingLoanGoal(uint fundingAmount) { require(currentBalance + fundingAmount <= loanGoal); _; }
+    modifier goalNotReached { require(currentBalance != loanGoal); _; }
+    modifier deadlineNotReached { require(block.number < fundingDeadlineBlock); _; }
+    modifier deadlineExceed { require(block.number > fundingDeadlineBlock); _; }
+    modifier refundable { require(loanCancelledStatus); _; }
+    modifier paymentPeriod { require(block.number > loanStartBlock); _; }
 
 
     function Loan(
@@ -92,11 +66,6 @@ contract Loan is Owned {
         fundingDeadlineBlock = block.number + fundingDuration_;
         activationDeadlineBlock = block.number + fundingDuration_ + activationWindow_;
     }
-
-
-    // need number of coupons to be non-zero, numCoupons (4) a multiple of repyamentDuration (20)
-
-
 
     function fundLoan()
         duringFundingPeriod
@@ -165,10 +134,7 @@ contract Loan is Owned {
         LogGetRefund(msg.sender, refundAmount);
     }
 
-
-
-
-    function payLoan() payable onlyOwner returns(uint obligationRemaining_) {
+    function payLoan() payable onlyOwner paymentPeriod returns(uint obligationRemaining_) {
         require(msg.value != 0);
         obligationRepaid += msg.value;
         obligationRemaining -= msg.value;
@@ -176,14 +142,14 @@ contract Loan is Owned {
         return obligationRemaining;
     }
 
-    function refundExcessLoanPayment() onlyOwner returns(bool isSuccess) {
+    function refundExcessLoanPayment() onlyOwner paymentPeriod returns(bool isSuccess) {
         require(obligationRepaid > loanGoal * (100 + interestRate) / 100);
         uint refundAmount = obligationRepaid - loanGoal * (100 + interestRate) / 100;
         msg.sender.transfer(refundAmount);
         return true;
     }
 
-    function receiveCouponPayment() returns(bool isSuccess) {
+    function receiveCouponPayment() paymentPeriod returns(bool isSuccess) {
         require(funderContribution[msg.sender] != 0);
         uint numberOfCouponsElapsed = (block.number - loanStartBlock) / (repaymentDuration / numberOfCoupons);
         uint amountOfCouponsPaid = funderCouponReceived[msg.sender];
@@ -195,7 +161,7 @@ contract Loan is Owned {
         return true;
     }
 
-    function receivePrincipalPayment() returns(bool isSuccess) {
+    function receivePrincipalPayment() paymentPeriod returns(bool isSuccess) {
         require(funderContribution[msg.sender] != 0);
         require(!funderPrincipalReceived[msg.sender]);
         funderPrincipalReceived[msg.sender] = true;
@@ -203,4 +169,6 @@ contract Loan is Owned {
         LogReceivePrincipalPayment(msg.sender, funderContribution[msg.sender]);
         return true;
     }
+
+    // can add default function if loan not repaid within a certain amount of time
 }
