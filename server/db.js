@@ -53,8 +53,22 @@ async function addVendorTag(address, tag) {
     await client.hsetAsync('vendors', address, JSON.stringify(vendor))
 }
 
+async function getVendors(address) {
+    let vendors = await client.hgetallAsync('vendors')
+    return _.mapValues(vendors, JSON.parse)
+}
+
+async function getVendor(address) {
+    return JSON.parse(await client.hgetAsync('vendors', address))
+}
+
 async function addTag(tag) {
     await client.saddAsync('vendor-tags', tag)
+}
+
+async function getAllVendorTags() {
+    let tags = await client.smembersAsync('vendor-tags')
+    return tags
 }
 
 /**
@@ -87,6 +101,9 @@ module.exports = {
     getAllCampaigns,
     addVendor,
     addVendorTag,
+    getVendor,
+    getVendors,
+    getAllVendorTags,
     addTag,
     getUserType,
     setLogCursor,
