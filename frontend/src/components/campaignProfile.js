@@ -5,7 +5,8 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
 import {withRouter} from 'react-router';
 import axios from 'axios';
-import {Row, Col, Table, Button} from 'react-bootstrap';
+//import {Row, Col, Table, Button} from 'react-bootstrap';
+import {Row,Col, Table, Button, Container} from 'reactstrap';
 import styled from 'styled-components';
 
 
@@ -17,16 +18,13 @@ class CampaignProfile extends Component {
             address: this.props.match.params.address
         }
     }
-    //componentDidMount
-    //takes in information about the user
-
     render() {
       console.log('hello')
         const startCampaignButton =
         (<Button onClick={this.props.navigateToCreate}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
 
         return(
-            <div>
+            <Container>
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>
@@ -79,8 +77,7 @@ class CampaignProfile extends Component {
                         </Table>
                     </Col>
                 </Row>
-
-            </div>
+            </Container>
 
         )
     }

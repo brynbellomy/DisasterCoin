@@ -2,9 +2,8 @@
 
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import {Row, Col, Form, FormGroup, FormControl, ControlLabel, Button} from 'react-bootstrap';
+import {Row, Col, Form, FormGroup, Input,Label, Button, Container} from 'reactstrap';
 import styled from 'styled-components';
-import DatePicker from 'react-bootstrap-date-picker';
 import axios from 'axios';
 import qs    from 'qs';
 
@@ -45,6 +44,51 @@ class CampaignStart extends Component {
 
     render() {
         return(
+            <Container>
+            <Col xs={2}/>
+            <Col xs={8}>
+                <Form>
+                    <FormGroup row>
+                        <Label for="name" sm={2}>Name of Campaign:</Label>
+                        <Col sm={10}>
+                            <Input type="text" name="name" id="name" placeholder="name of campaign"/>
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="description" sm={2}>Description</Label>
+                        <Col sm={10}>
+                           <Input type="textarea" name="description" id="description" />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                    <Label for="deadline" sm={2}>Deadline</Label>
+                        <Col sm={10}>
+                        <Input type="date" name="deadline" id="deadline" placeholder="Deadline" />
+                        </Col>
+                     </FormGroup>
+                     <FormGroup row>
+                     <Label for="withdraw" sm={2}>Withdraw Limit</Label>
+                     <Col sm={9}>
+                         <Input type="text" name="withdraw" id="withdraw" placeholder="name of campaign"/>
+                     </Col>
+                    <Col sm={1}><div><h6>eth/block</h6></div></Col>
+                    </FormGroup>
+                            <FormGroup controlId="submit">
+                                <Col smOffset={2} sm={10}>
+                                    <Button onClick={this.handleSubmit} type="submit">
+                                        Start Campaign
+                                    </Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                    </Col>
+                    </Container>
+        );
+    }
+
+}
+
+/*
             <div>
                 <Col xs={2}/>
                 <Col xs={8}>
@@ -70,35 +114,30 @@ class CampaignStart extends Component {
                         <FormGroup controlId="deadline">
                         <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
                             <Col sm={10}>
-                                {/* <DatePicker onChange={this.onDateChange} value={this.state.date} /> */}
-                             </Col>
-                        </FormGroup>
-                        <FormGroup controlId="withdraw_limit">
-                            <Col componentClass={ControlLabel} sm={2}> Withdraw Limit</Col>
-                            <Col sm={9}>
-                                <FormControl
-                                    type="text"
-                                    placeholder="max withdraw limit per block"
-                                    inputRef={input => this.limit = input}
-                                    />
-                            </Col>
-                            <Col sm={1} componentClass={ControlLabel}>eth/block</Col>
-                        </FormGroup>
-                        <FormGroup controlId="submit">
-                            <Col smOffset={2} sm={10}>
-                                <Button onClick={this.handleSubmit} type="submit">
-                                    Start Campaign
-                                </Button>
-                            </Col>
-                        </FormGroup>
-                    </Form>
-                </Col>
-                </div>
-        );
-    }
-
-}
-
-
+                            
+                                </Col>
+                                </FormGroup>
+                                <FormGroup controlId="withdraw_limit">
+                                    <Col componentClass={ControlLabel} sm={2}> Withdraw Limit</Col>
+                                    <Col sm={9}>
+                                        <FormControl
+                                            type="text"
+                                            placeholder="max withdraw limit per block"
+                                            inputRef={input => this.limit = input}
+                                            />
+                                    </Col>
+                                    <Col sm={1} componentClass={ControlLabel}>eth/block</Col>
+                                </FormGroup>
+                                <FormGroup controlId="submit">
+                                    <Col smOffset={2} sm={10}>
+                                        <Button onClick={this.handleSubmit} type="submit">
+                                            Start Campaign
+                                        </Button>
+                                    </Col>
+                                </FormGroup>
+                            </Form>
+                        </Col>
+                        </div>
+    */
 
 export default CampaignStart
