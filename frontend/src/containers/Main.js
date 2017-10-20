@@ -5,6 +5,7 @@ import Create from '../components/Create'
 import Home from '../components/Home'
 import CampaignPage from '../components/CampaignPage'
 import Landing from '../components/Landing'
+import Vendors from '../components/Vendors'
 import Logout from '../components/Logout'
 // import logo from './logo.svg'
 
@@ -21,6 +22,7 @@ const Main = (props) =>
       <Route path='/create' component={Create} />
       <Route path='/campaign/:id' component={CampaignPage} />
       <Route path='/campaigns' component={Landing} />
+      <Route path='/vendors' component={Vendors} />
       <Route path='/logout' component={Logout} />
     </Switch>
   </main>

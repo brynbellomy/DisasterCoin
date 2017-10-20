@@ -52,6 +52,9 @@ class Header extends Component {
             <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/campaigns'}>Campaigns</NavLink>
           </NavItem>
           <NavItem>
+            <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/vendors'}>Vendors</NavLink>
+          </NavItem>
+          <NavItem>
             <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}> {noUser ? 'Logout' : 'Login'}</NavLink>
           </NavItem>
         </Nav>
