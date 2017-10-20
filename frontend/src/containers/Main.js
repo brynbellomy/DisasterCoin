@@ -11,11 +11,11 @@ const Main = () =>
   <main>
     <Switch>
       <Route exact path='/' component={CampaignLanding} />
-      <Route path='/campaignProfile/:address' exact component={CampaignProfile} />
-      <Route path='/campaignStart' component={CampaignStart} />
-      <Route path='/campaignPage/:id' component={CampaignPage} />
-      <Route path='/campaignLogin' component={CampaignLogin} />
-      <Route path='/campaignLogout' component={CampaignLogout} />
+      <Route path='/profile/:address' component={CampaignProfile} />
+      <Route exact path='/create' component={CampaignStart} />
+      <Route path='/campaign/:id' component={CampaignPage} />
+      <Route path='/login' component={CampaignLogin} />
+      <Route path='/logout' component={CampaignLogout} />
     </Switch>
   </main>
 

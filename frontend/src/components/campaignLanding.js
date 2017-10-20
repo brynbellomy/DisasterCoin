@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import axios from 'axios';
 import {Button,Row, Col, Table} from 'react-bootstrap';
+import { fetchCampaigns } from '../actions/campaignActions'
 // import styled from 'styled-components'
 import { Connect } from 'uport-connect'
 
@@ -16,22 +18,13 @@ class CampaignLanding extends Component {
   }
 
     componentDidMount () {
-      // axios.get('/v1/campaigns')
-      //   .then((res) => {
-      //     this.setState({
-      //       campaigns: res.data
-      //     })
-      //     console.log(this.state.campaigns)
-      //   })
-      //   .catch(err => {
-      //     console.log(err)
-      //   })
+      this.props.fetchCampaigns()
     }
     render () {
-        let campaigns = this.state.campaigns.map((campaign, index) => {
+        let campaigns = this.props.campaigns.map((campaign, index) => {
             return (
                 <tr key={index}>
-                    <td><Link to={`/campaignPage/${campaign.id}`}>{campaign.name}</Link> </td>
+                    <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
                     <td>{campaign.limit} </td>
                     <td>{campaign.deadline} </td>
                 </tr>
@@ -65,4 +58,16 @@ class CampaignLanding extends Component {
 
 }
 
-export default CampaignLanding
+const mapStatetoProps = (state) => {
+  return {
+    campaigns: state.campaigns.campaigns
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchCampaigns: () => dispatch(fetchCampaigns()),
+    navigateToCampaign: (id) => dispatch(push(`/campaign/${id}`))
+  }
+}
+export default connect(mapStatetoProps, mapDispatchToProps)(CampaignLanding)

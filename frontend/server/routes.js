@@ -1,9 +1,7 @@
 /* Copyright G. Hemingway @2017 - All rights reserved */
 "use strict";
 
-let _               = require('underscore'),
-    Solitare        = require('./solitare');
-
+import * as _ from 'lodash'
 
 module.exports = (app) => {
 
@@ -107,12 +105,12 @@ module.exports = (app) => {
             }
     })
 
-    //Handle GET to fetch all campaigns of specific user 
+    //Handle GET to fetch all campaigns of specific user
     //app.get('/v1/donatedCampaigns/:address', function)
 
 
    app.get('/v1/campaigns', function(req,res){
-      res.status(200).send(app.campaigns); 
+      res.status(200).send(app.campaigns);
    });
 
     // Provide end-point to request shuffled deck of cards and initial state - for testing

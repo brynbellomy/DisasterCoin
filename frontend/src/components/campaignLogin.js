@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {withRouter} from 'react-router';
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import axios from 'axios';
-import {Button,Row, Col} from 'react-bootstrap';
-import styled from 'styled-components';
-import { Connect } from 'uport-connect';
+import {Button, Row, Col} from 'react-bootstrap'
+import { Connect } from 'uport-connect'
 
 
 class CampaignLogin extends Component {
@@ -19,8 +19,8 @@ class CampaignLogin extends Component {
             sessionStorage.setItem('name', credentials.name);
             sessionStorage.setItem('isLoggedIn','true');
             console.log(sessionStorage.getItem('address'));
-            this.props.history.push(`/campaignProfile/${credentials.address}`);
-        }).catch( ()=>{});
+            this.props.navigateToProfile(credentials.address)
+        }).catch( ()=>{})
 
     }
 
@@ -31,7 +31,10 @@ class CampaignLogin extends Component {
 
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    navigateToProfile: (address) => dispatch(push(`/profile/${address}`))
+  }
+}
 
-
-
-export default CampaignLogin
+export default connect(null, mapDispatchToProps)(CampaignLogin)

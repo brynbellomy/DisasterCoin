@@ -22,7 +22,7 @@ class CampaignProfile extends Component {
 
     render() {
         const startCampaignButton =
-        (<Button onClick={()=>{this.props.history.push("/campaignStart")}}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
+        (<Button onClick={this.props.navigateToCreate}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
 
         return(
             <div>
@@ -88,7 +88,7 @@ class CampaignProfile extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToStart: () => dispatch(push('/campaignStart'))
+    navigateToCreate: () => dispatch(push('/create'))
   }
 }
 
