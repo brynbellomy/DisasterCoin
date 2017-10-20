@@ -41,7 +41,7 @@ class Header extends Component {
     const NavLinks = () => {
       if(sessionStorage.getItem('isLoggedIn')=='true') {
         const newLogout = { pathname: "/campaignLogout/", logout: true}
-        return (<Nav pullRight><NavItem eventKey={1} ><Link to={newLogout.pathname} {...newLogout} >Log Out</Link></NavItem></Nav>);
+        return (<Nav pullRight><NavItem eventKey={1} ><Link to={newLogout}>Log Out</Link></NavItem></Nav>);
       } else {
         return (<Nav pullRight><NavItem eventKey={1}><Link to={`/campaignLogin/`} >Log In</Link></NavItem></Nav>);
       }
