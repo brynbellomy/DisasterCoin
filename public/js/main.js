@@ -86843,7 +86843,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactRouter = __webpack_require__(65);
+var _reactRouterDom = __webpack_require__(160);
 
 var _axios = __webpack_require__(84);
 
@@ -86906,7 +86906,7 @@ var CampaignLanding = function (_Component) {
                         'td',
                         null,
                         _react2.default.createElement(
-                            _reactRouter.Link,
+                            _reactRouterDom.Link,
                             { to: '/campaignPage/' + campaign.id },
                             campaign.name
                         ),
@@ -86985,7 +86985,7 @@ var CampaignLanding = function (_Component) {
     return CampaignLanding;
 }(_react.Component);
 
-exports.default = (0, _reactRouter.withRouter)(CampaignLanding);
+exports.default = (0, _reactRouterDom.withRouter)(CampaignLanding);
 
 /***/ }),
 /* 863 */
