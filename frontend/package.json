@@ -2,6 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://0.0.0.0:8080/",
   "dependencies": {
     "bootstrap": "4.0.0-beta",
     "lodash": "^4.17.4",

@@ -45,11 +45,14 @@ class Header extends Component {
   render() {
     const noUser = !_.isEmpty(this.props.user)
     return (
-      <Navbar color="faded" light>
-        <NavbarBrand href={'/'}><h2>Disaster Coin</h2></NavbarBrand>
-        <Nav className='ml-auto' navbar>
+      <Navbar color="faded" style={{backgroundColor: 'black'}} light>
+        <NavbarBrand href={'/'}><h2 style={{color: 'white'}}>Re:Cover</h2></NavbarBrand>
+        <Nav className='ml-auto' navbar style={{display: 'flex', flexDirection: 'row'}}>
           <NavItem>
-            <NavLink onClick={this.loginHandler}> {noUser ? 'Logout' : 'Login'}</NavLink>
+            <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/campaigns'}>Campaigns</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}> {noUser ? 'Logout' : 'Login'}</NavLink>
           </NavItem>
         </Nav>
       </Navbar>

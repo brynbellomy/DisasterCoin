@@ -6,7 +6,9 @@ const port     = process.env.PORT || 8080
 const cookieParser = require('cookie-parser')
 const bodyParser   = require('body-parser')
 const loghandler   = require('./loghandler')
+const cors = require('cors')
 
+app.use(cors())
 app.use(cookieParser())
 
 app.use(bodyParser.urlencoded({
