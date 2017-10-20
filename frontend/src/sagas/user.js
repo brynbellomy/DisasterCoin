@@ -25,7 +25,7 @@ function* loginUser (action) {
   sessionStorage.setItem('address', credentials.address)
   sessionStorage.setItem('name', credentials.name)
   sessionStorage.setItem('isLoggedIn', 'true')
-  console.log('I made it here')
+  yield put(loggedInUser(credentials))
   yield put(push(`/profile/${credentials.address}`))
 }
 

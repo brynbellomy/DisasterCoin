@@ -76,10 +76,15 @@ class Header extends Component {
 //       <NavLinks />
 //   </Navbar.Header>
 // </Navbar>);
+const mapStatetoProps = (state) => {
+  return {
+    user: state.user.user
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
     loginUser: (credentials) => dispatch(loginUser(credentials))
   }
 }
 
-export default connect(null, mapDispatchToProps)(Header)
+export default connect(mapStatetoProps, mapDispatchToProps)(Header)
