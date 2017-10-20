@@ -35,6 +35,7 @@ function decodeLog(log) {
     return {
         event: event.name,
         args: args,
+        address: log.address,
         blockNumber: log.blockNumber,
         logIndex: log.logIndex,
     }
