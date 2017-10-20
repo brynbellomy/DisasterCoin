@@ -3,11 +3,9 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {withRouter} from 'react-router';
-import axios from 'axios';
 //import {Row, Col, Table, Button} from 'react-bootstrap';
 import {Row,Col, Table, Button, Container} from 'reactstrap';
-import styled from 'styled-components';
+import Header from './Header'
 
 
 class CampaignProfile extends Component {
@@ -21,10 +19,11 @@ class CampaignProfile extends Component {
     render() {
       console.log('hello')
         const startCampaignButton =
-        (<Button onClick={this.props.navigateToCreate}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
+        (<Button onClick={this.props.navigateToCreate} color="primary">Start New Campaign</Button>);
 
         return(
             <Container>
+                <Header user={{}} />
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>

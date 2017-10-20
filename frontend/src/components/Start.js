@@ -4,11 +4,11 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {Row, Col, Form, FormGroup, Input,Label, Button, Container} from 'reactstrap';
 import styled from 'styled-components';
-import axios from 'axios';
+// import axios from 'axios';
 import qs    from 'qs';
 
 
-class CampaignStart extends Component {
+class Start extends Component {
 
     constructor(props) {
         super(props);
@@ -85,4 +85,4 @@ class CampaignStart extends Component {
 
 }
 
-export default CampaignStart
+export default Start
