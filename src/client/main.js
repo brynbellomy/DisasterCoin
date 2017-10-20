@@ -18,7 +18,6 @@ require('./app.css');
 class MyApp extends Component {
     constructor(props) {
         super(props);
-        sessionStorage.clear();
     }
 
     render() {
