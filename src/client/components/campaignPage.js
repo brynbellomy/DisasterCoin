@@ -11,7 +11,7 @@ class CampaignPage extends Component {
 
     constructor(props) {
         super(props);
-       this.state = {
+        this.state = {
            id: this.props.id,
            name: '',
            description: '',
