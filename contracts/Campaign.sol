@@ -25,7 +25,6 @@ contract Campaign is Owned
   uint public weiLimitPerBlock;
   uint public weiWithdrawnSoFar;
   uint public deadline;
-  uint public gracePeriod;
 
   Bytes32SetLib.Bytes32Set tags;
   AddressSetLib.AddressSet flaggers;
@@ -37,6 +36,11 @@ contract Campaign is Owned
   event LogPaused(address sender);
   event LogFundsTransfered(address sender, uint amount);
   event LogCampaignTagAdded(bytes32 tag);
+  event LogFlagCampaign(address sender);
+  event LogReturnFunds(address sender, uint amount);
+  event LogDisburseFunds(address supplier, bytes32 tag, uint amount);
+  event LogSetNewIpfs(bytes32 ipfsHash);
+  event LogStopFlaggedCampaign(bool flaggedStatus);
 
   function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
     // TODO support list of owners
@@ -45,7 +49,6 @@ contract Campaign is Owned
     vendors = Vendors(_vendors);
     weiLimitPerBlock = _weiLimitPerBlock;
     deadline = _deadline + block.number;
-    gracePeriod = 10;
     campaignFlagged = false;
   }
 
@@ -71,36 +74,25 @@ contract Campaign is Owned
     _;
   }
 
-  modifier inGracePeriod() {
-    require(block.number > deadline);
-    require(block.number <= deadline + gracePeriod);
-    _;
-  }
-
   function flagCampaign()
     haveNotFlagged
     returns (bool)
-    {
+  {
       require(!flaggers.contains(msg.sender));
       flagVotes += donations[msg.sender];
       flaggers.add(msg.sender);
-      return true;
-  }
-
-  function updateGracePeriod(uint _gracePeriod) onlyOwner returns (bool) {
-      require(gracePeriod < _gracePeriod);
-      gracePeriod = _gracePeriod;
+      LogFlagCampaign(msg.sender);
       return true;
   }
 
   function returnFunds()
     reachedFundingPeriod
-    inGracePeriod
-    {
+  {
     uint amountToSend = donations[msg.sender];
     require(amountToSend > 0);
     donations[msg.sender] = 0;
     msg.sender.transfer(amountToSend);
+    LogReturnFunds(msg.sender, amountToSend);
   }
 
   function getBalance() constant returns (uint) {
@@ -144,11 +136,14 @@ contract Campaign is Owned
 
     vendor.transfer(amount);
     weiWithdrawnSoFar += amount;
+
+    LogDisburseFunds(vendor, tag, amount);
   }
 
   function setNewIpfs(bytes32 newIpfsHash)
     onlyOwner {
     ipfsHash = newIpfsHash;
+    LogSetNewIpfs(newIpfsHash);
   }
 
   function stopFlaggedCampaign()
@@ -156,9 +151,11 @@ contract Campaign is Owned
   returns (bool)
   {
     require(flagVotes/cumulativeBalance * 100 > 50);
+    // TODO +1 to prevent shaddiness
     require(!campaignFlagged);
     campaignFlagged = true;
+    LogStopFlaggedCampaign(campaignFlagged);
+    return true;
   }
-
 
 }
