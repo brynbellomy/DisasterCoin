@@ -10,15 +10,20 @@ import { Provider } from 'react-redux'
 import store, { history } from './store/store'
 import { ConnectedRouter } from 'react-router-redux'
 
-ReactDOM.render(
-  (<Provider store={store}>
-    { /* ConnectedRouter will use the store from Provider automatically */ }
-    <ConnectedRouter history={history}>
-      <App />
-    </ConnectedRouter>
-  </Provider>),
-  document.getElementById('root')
-)
-registerServiceWorker()
-// Now you can dispatch navigation actions from anywhere!
-// store.dispatch(push('/foo'))
+import * as contracts from './contracts'
+
+contracts.init().then(() => {
+
+    ReactDOM.render(
+      (<Provider store={store}>
+        { /* ConnectedRouter will use the store from Provider automatically */ }
+        <ConnectedRouter history={history}>
+          <App />
+        </ConnectedRouter>
+      </Provider>),
+      document.getElementById('root')
+    )
+    registerServiceWorker()
+    // Now you can dispatch navigation actions from anywhere!
+    // store.dispatch(push('/foo'))
+})

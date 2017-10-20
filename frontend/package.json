@@ -17,6 +17,8 @@
     "redux": "^3.7.2",
     "redux-persist": "^4.10.1",
     "redux-saga": "^0.16.0",
+    "styled-components": "^2.2.1",
+    "truffle-contract": "^3.0.0",
     "uport-connect": "^0.6.6",
     "web3": "0.20.2"
   },
