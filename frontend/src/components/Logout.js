@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-// import axios from 'axios';
-import {Button,Row, Col} from 'react-bootstrap';
+import {Button,Row, Col} from 'reactstrap';
+// import styled from 'styled-components';
 import { Connect } from 'uport-connect';
 import Header from './Header'
 

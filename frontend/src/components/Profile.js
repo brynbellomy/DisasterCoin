@@ -3,7 +3,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
+<<<<<<< HEAD:frontend/src/components/Profile.js
 // import axios from 'axios';
+=======
+import {withRouter} from 'react-router';
+>>>>>>> ad5dc1a83ccb1874d2854f97e48b0cac0530d6dd:frontend/src/components/campaignProfile.js
 //import {Row, Col, Table, Button} from 'react-bootstrap';
 import {Row,Col, Table, Button, Container} from 'reactstrap';
 import Header from './Header'
