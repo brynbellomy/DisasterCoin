@@ -13,7 +13,8 @@ const Vendors = (props) => {
 
 const mapStatetoProps = (state) => {
   return {
-    user: state.user.user
+    user: state.user.user,
+    vendors: state.vendors.vendors
   }
 }
 

@@ -7,23 +7,30 @@ import CampaignPage from '../components/CampaignPage'
 import Landing from '../components/Landing'
 import Vendors from '../components/Vendors'
 import Logout from '../components/Logout'
+import Loans from '../components/Loans'
 // import logo from './logo.svg'
 
-const Profiles = () =>
+const ProfilesHandler = () =>
  <Switch>
    <Route exact path={'/profile/:address'} component={Profile} />
  </Switch>
 
+const LoansHandler = () =>
+  <Switch>
+    <Route exact path={'/loans'} component={Loans} />
+    {/* <Route exact path={'/loans/:id'} component={LoanPage} /> */}
+  </Switch>
 const Main = (props) =>
   <main>
     <Switch>
       <Route exact path='/' component={Home}></Route>
-      <Route path='/profile' component={Profiles} />
+      <Route path='/profile' component={ProfilesHandler} />
       <Route path='/create' component={Create} />
       <Route path='/campaign/:id' component={CampaignPage} />
       <Route path='/campaigns' component={Landing} />
       <Route path='/vendors' component={Vendors} />
       <Route path='/logout' component={Logout} />
+      <Route path='/loans' component={LoansHandler} />
     </Switch>
   </main>
 

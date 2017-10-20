@@ -19,32 +19,29 @@ export function GravHash(email, size) {
 
 
 class Header extends Component {
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super(props)
     this.loginHandler = this.loginHandler.bind(this)
   }
 
-  componentWillMount() {
-    if(this.props.logout) {
+  componentWillMount () {
+    if (this.props.logout) {
       sessionStorage.clear()
     }
   }
   loginHandler () {
-    const uport = new Connect(`Phil's Campaign Dapp`);
-
-    uport.requestCredentials(
-
-    ).then((credentials)=>{
+    const uport = new Connect(`Recover `)
+    uport.requestCredentials().then((credentials) => {
         // console.log(credentials)
         // console.log(sessionStorage.getItem('address'))
-        this.props.loginUser(credentials)
+      this.props.loginUser(credentials)
     }).catch(() => {})
   }
 
-  render() {
-    const noUser = !_.isEmpty(this.props.user)
+  render () {
+    const noUser = _.isEmpty(this.props.user)
     return (
-      <Navbar color="faded" style={{backgroundColor: 'black'}} light>
+      <Navbar color='faded' style={{backgroundColor: 'black'}} light>
         <NavbarBrand href={'/'}><h2 style={{color: 'white'}}>Re:Cover</h2></NavbarBrand>
         <Nav className='ml-auto' navbar style={{display: 'flex', flexDirection: 'row'}}>
           <NavItem>
@@ -54,9 +51,19 @@ class Header extends Component {
             <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/vendors'}>Vendors</NavLink>
           </NavItem>
           <NavItem>
+            <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/loans'}>Loans</NavLink>
+          </NavItem>
+          {noUser
+            ? null
+            : (<NavItem>
+              <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={`/profile/${this.props.user.address}`}>Profile</NavLink>
+            </NavItem>)
+          }
+
+          <NavItem>
             {noUser
-              ? <NavLink onClick={this.props.logoutUser} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Logout'}</NavLink>
-              : <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Login'}</NavLink>
+              ? <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Login'}</NavLink>
+              : <NavLink onClick={this.props.logoutUser} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Logout'}</NavLink>
             }
 
           </NavItem>

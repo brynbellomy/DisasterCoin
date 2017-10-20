@@ -25,12 +25,9 @@ class CampaignProfile extends Component {
     }
 
     render() {
-      console.log('hello')
-        const startCampaignButton =
-        (<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>);
 
         return(
-            <Container>
+            <Container style={{marginTop: 30}}>
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>
@@ -48,13 +45,14 @@ class CampaignProfile extends Component {
 
                 </Row>
 
-                <Row>
+                <Row style={{marginTop: 30}}>
                     <Col xs={12}>
-                        {startCampaignButton}
+                        {<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>}
+                        {<Button onClick={() => true} color='info' style={{marginLeft: 30}}>Request Loan</Button>}
                     </Col>
                 </Row>
 
-                <Row>
+                <Row style={{marginTop: 30}}>
                     <Col xs={6}>
                         <h4>Campaigns Created</h4>
                         <Table striped>
@@ -76,6 +74,35 @@ class CampaignProfile extends Component {
                                 <tr>
                                     <th>Name</th>
                                     <th>Amount Donated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+                <Row style={{marginTop: 30}}>
+                    <Col xs={6}>
+                        <h4>Loans Taken</h4>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount Borrowed</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Col>
+
+                    <Col xs={6}>
+                        <h4>Loans Funded</h4>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount Credited</th>
                                 </tr>
                             </thead>
                             <tbody>

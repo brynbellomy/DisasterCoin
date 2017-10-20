@@ -1,11 +1,9 @@
-import React, {Component} from 'react';
+import React, {Component} from 'react'
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import {Container, Row, Col, Table, Button} from 'reactstrap';
+import {Row, Col, Table} from 'reactstrap'
 import { fetchCampaigns } from '../actions/campaignActions'
 // import styled from 'styled-components'
-import { Connect } from 'uport-connect'
-import Header from './Header'
 
 class CampaignLanding extends Component {
 
@@ -17,46 +15,45 @@ class CampaignLanding extends Component {
     }
   }
 
-    componentDidMount () {
-      this.props.fetchCampaigns()
-    }
-    render () {
-        // let campaigns = this.props.campaigns.map((campaign, index) => {
-        //     return (
-        //         <tr key={index}>
-        //             <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
-        //             <td>{campaign.limit} </td>
-        //             <td>{campaign.deadline} </td>
-        //         </tr>
-        //     )
-        // })
-        return (
-          <div style={{width: '100%'}}>
-            <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30 }}>
-            <Row>
-              <h4>Available Campaigns</h4>
-            </Row>
-                <Row>
-                <Col>
-                    <Table striped>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Limit</th>
-                                <th>Deadline</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {/* {campaigns} */}
-                        </tbody>
-                    </Table>
-                </Col>
-            </Row>
-          </div>
-          </div>
-        )
-    }
-
+  componentDidMount () {
+    this.props.fetchCampaigns()
+  }
+  render () {
+      // let campaigns = this.props.campaigns.map((campaign, index) => {
+      //     return (
+      //         <tr key={index}>
+      //             <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
+      //             <td>{campaign.limit} </td>
+      //             <td>{campaign.deadline} </td>
+      //         </tr>
+      //     )
+      // })
+    return (
+      <div style={{width: '100%'}}>
+        <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30}}>
+          <Row>
+            <h4>Available Campaigns</h4>
+          </Row>
+          <Row>
+            <Col>
+              <Table striped>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Limit</th>
+                    <th>Deadline</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {/* {campaigns} */}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    )
+  }
 }
 
 const mapStatetoProps = (state) => {
