@@ -12,7 +12,7 @@ class CampaignPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-           id: this.props.id,
+           id: this.props.match.params.id,
            name: '',
            description: '',
            deadline: '',
@@ -21,7 +21,6 @@ class CampaignPage extends Component {
            owner: '',
            withdrawAmount: '',
            withdrawAddress: '',
-
        }
     //    this.refHandler = this.refHandler.bind(this)
     }

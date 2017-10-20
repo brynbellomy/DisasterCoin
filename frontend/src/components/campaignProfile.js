@@ -12,7 +12,7 @@ class CampaignProfile extends Component {
     constructor(props) {
         super(props);
         this.state= {
-            address: this.props.address
+            address: this.props.match.params.address
         }
     }
     //componentDidMount
@@ -32,7 +32,7 @@ class CampaignProfile extends Component {
                     <Col xs={2}>
                         <p><b>Address</b></p>
                         <p><b>Name</b></p>
-                       
+
                     </Col>
                     <Col xs={10}>
                         <p>{this.state.address}</p>
