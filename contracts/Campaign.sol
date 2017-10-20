@@ -1,11 +1,11 @@
 pragma solidity 0.4.15;
 
-import "./Stoppable.sol";
+import "./Owned.sol";
 import "./Vendors.sol";
 import './Bytes32SetLib.sol';
 import './AddressSetLib.sol';
 
-contract Campaign is Stoppable
+contract Campaign is Owned
 {
   using Bytes32SetLib for Bytes32SetLib.Bytes32Set;
   using AddressSetLib for AddressSetLib.AddressSet;
