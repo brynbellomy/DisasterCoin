@@ -17,7 +17,8 @@
     "redux": "^3.7.2",
     "redux-persist": "^4.10.1",
     "redux-saga": "^0.16.0",
-    "uport-connect": "^0.6.6"
+    "uport-connect": "^0.6.6",
+    "web3": "0.20.2"
   },
   "devDependencies": {
     "react-scripts": "1.0.14"
