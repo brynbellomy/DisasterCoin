@@ -3,20 +3,24 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import {withRouter} from 'react-router';
-//import {Row, Col, Table, Button} from 'react-bootstrap';
 import {Row,Col, Table, Button, Container} from 'reactstrap';
-import styled from 'styled-components';
+import { loggedInUser } from '../actions/userActions'
 
 
 class CampaignProfile extends Component {
 
     constructor(props) {
         super(props);
+        
         this.state= {
-            address: this.props.match.params.address
+            user: []
         }
     }
+
+    componentDidMount () {
+      this.props.loggedInUser()
+    }
+
     render() {
       console.log('hello')
         const startCampaignButton =
@@ -83,10 +87,18 @@ class CampaignProfile extends Component {
 
 }
 
+
+const mapStatetoProps = (state) => {
+  return {
+    user: state.user.user
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
+    loggedInUser: () => dispatch(loggedInUser()),
     navigateToCreate: () => dispatch(push('/create'))
   }
 }
 
-export default connect(null, mapDispatchToProps)(CampaignProfile)
+export default connect(mapStatetoProps, mapDispatchToProps)(CampaignProfile)
