@@ -5,6 +5,7 @@ contract('CampaignHub', (accounts) => {
 
   let campaginHubContract;
   const owner = accounts[0];
+  const campaignOwner = accounts[1];
 
   beforeEach(() => {
     return CampaignHub.new({from: owner})
@@ -18,10 +19,10 @@ contract('CampaignHub', (accounts) => {
     const goalAmount = 11;
     const weiLimitPerBlock = 1;
     const deadline = 2;
-    const campaign = await campaginHubContract.addCampaign(ipfsHash, goalAmount, weiLimitPerBlock, deadline);
+    const campaign = await campaginHubContract.addCampaign(ipfsHash, goalAmount, weiLimitPerBlock, deadline, campaignOwner);
 
-    assert.equal(campaign.logs[0].event, "LogAddCampaign")
-    assert(campaign.logs[0].args.campaign);
+    assert.equal(campaign.logs[0].event, "LogNewOwner")
+    assert.equal(campaign.logs[1].event, "LogAddCampaign")
     assert.equal(campaign.logs[0].args.ipfsHash, ipfsHash);
   });
 
