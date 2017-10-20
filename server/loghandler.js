@@ -1,4 +1,5 @@
 
+const _ = require('lodash')
 const contracts = require('./contracts')
 const { CampaignHub, Campaign, web3, getContractAddresses, addContractAddress } = contracts
 const db = require('./db')
@@ -30,15 +31,9 @@ async function handleLog(log) {
     let shouldBreak = false
 
     if (log.event === 'LogAddCampaign') {
-        const campaign = await Campaign.at(log.args.campaign)
-        const ipfsHash = await campaign.ipfsHash()
-        const weiLimitPerBlock = await campaign.weiLimitPerBlock()
-        const goalAmount = await campaign.goalAmount()
-        const deadline = await campaign.deadline()
+        let campaignState = await getEntireCampaignState(log.args.campaign)
+        await db.setCampaign(log.args.campaign, campaignState)
 
-        console.log('DEADLINE ~>', deadline)
-
-        await db.addCampaign(log.args.campaign, { ipfsHash, weiLimitPerBlock, goalAmount, deadline })
         addContractAddress(log.args.campaign, 'Campaign')
         shouldBreak = true
 
@@ -48,6 +43,9 @@ async function handleLog(log) {
         await db.addVendorTag(log.args.vendorAddr, log.args.tag)
     } else if (log.event === 'LogTagAdded') {
         await db.addTag(log.args.tag)
+    } else if (['LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
+        let campaignState = await getEntireCampaignState(log.args.campaign)
+        await db.setCampaign(log.args.campaign, campaignState)
     } else {
         console.log(`Unhandled log (${log.event})`)
     }
@@ -55,6 +53,48 @@ async function handleLog(log) {
     await db.setLogCursor(log.blockNumber, log.logIndex)
 
     return shouldBreak
+}
+
+async function getEntireCampaignState(address) {
+    const campaign = await Campaign.at(address)
+
+    const campaigner = await campaign.owner()
+    const currentBalance = await campaign.currentBalance()
+    const cumulativeBalance = await campaign.cumulativeBalance()
+    const goalAmount = await campaign.goalAmount()
+    const ipfsHash = await campaign.ipfsHash()
+    const weiLimitPerBlock = await campaign.weiLimitPerBlock()
+    const weiWithdrawnSoFar = await campaign.weiWithdrawnSoFar()
+    const deadline = await campaign.deadline()
+    const campaignFlagged = await campaign.campaignFlagged()
+    const flagVotes = await campaign.flagVotes()
+
+    const [ _addresses, _donations ] = await campaign.getDonations()
+    const fundsByDonator = _.zipObject(_addresses, _donations)
+
+    const [ _tags, _funds ] = await campaign.getFundsByTag()
+    const fundsByTag = _.zipObject(_tags, _funds)
+
+    const tags = await campaign.getTags()
+    const flaggers = await campaign.getFlaggers()
+
+    return {
+        address,
+        campaigner,
+        currentBalance,
+        cumulativeBalance,
+        goalAmount,
+        ipfsHash,
+        weiLimitPerBlock,
+        weiWithdrawnSoFar,
+        deadline,
+        campaignFlagged,
+        flagVotes,
+        fundsByDonator,
+        fundsByTag,
+        tags,
+        flaggers,
+    }
 }
 
 module.exports = async () => {

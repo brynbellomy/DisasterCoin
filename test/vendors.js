@@ -1,6 +1,5 @@
 const Vendors = artifacts.require("./Vendors.sol");
 const { expectThrow } = require("./helpers.js");
-// import { expectThrow } from "./helpers.js";
 
 contract('Vendors', (accounts) => {
 

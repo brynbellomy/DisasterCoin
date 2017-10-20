@@ -8,7 +8,7 @@ module.exports = function(deployer) {
   deployer.deploy(AddressSetLib);
   deployer.deploy(Bytes32SetLib);
 
-  deployer.link(AddressSetLib, CampaignHub);
+  deployer.link(AddressSetLib, [Campaign, CampaignHub]);
   deployer.link(Bytes32SetLib, [Campaign, CampaignHub, Vendors]);
 
   deployer.deploy(Vendors).then(() => {
