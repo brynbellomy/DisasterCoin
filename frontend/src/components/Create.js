@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {Row, Col, Button, Form} from 'reactstrap'
 import Header from './Header'
+import * as contracts from '../contracts'
 
 
 class CampaignStart extends Component {
@@ -24,14 +25,6 @@ class CampaignStart extends Component {
 
     handleSubmit = async (e) => {
         e.preventDefault();
-        // console.log(sessionStorage.getItem('address'));
-        // const data = {
-        //     name: this.name.value,
-        //     description: this.description.value,
-        //     deadline: Date.parse(this.state.date),
-        //     limit: this.limit.value,
-        //     owner: sessionStorage.getItem('address')
-        // }
 
         const goalAmount = parseInt(this._inputGoalAmount.value, 10)
         const weiLimitPerBlock = parseInt(this._inputWeiLimitPerBlock.value, 10)
