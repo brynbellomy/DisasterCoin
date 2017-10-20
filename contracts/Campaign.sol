@@ -1,12 +1,14 @@
 pragma solidity 0.4.15;
 
-import "./Owned.sol";
+import "./Stoppable.sol";
 import "./Vendors.sol";
 import './Bytes32SetLib.sol';
+import './AddressSetLib.sol';
 
-contract Campaign is Owned
+contract Campaign is Stoppable
 {
   using Bytes32SetLib for Bytes32SetLib.Bytes32Set;
+  using AddressSetLib for AddressSetLib.AddressSet;
   Vendors vendors;
 
   mapping(address => bool) donatorRegistry;
@@ -15,13 +17,18 @@ contract Campaign is Owned
   bytes32 public ipfsHash;
 
   mapping(address => uint) donations;
+  AddressSetLib.AddressSet donators;
+
   mapping(bytes32 => uint) fundsByTag;
 
   uint public weiLimitPerBlock;
   uint public weiWithdrawnSoFar;
   uint public deadline;
+  uint public gracePeriod;
 
   Bytes32SetLib.Bytes32Set tags;
+  AddressSetLib.AddressSet flaggers;
+  bool public campaignFlagged;
 
   event LogDonation(address sender, uint amount);
   event LogWithdrawl(address sender, uint amount);
@@ -36,6 +43,14 @@ contract Campaign is Owned
     vendors = Vendors(_vendors);
     weiLimitPerBlock = _weiLimitPerBlock;
     deadline = _deadline + block.number;
+    gracePeriod = 10;
+    campaignFlagged = false;
+  }
+
+  modifier haveNotFlagged() {
+    require(!flaggers.contains(msg.sender));
+    require(donators.contains(msg.sender));
+    _;
   }
 
   modifier rateLimit(uint amount) {
@@ -48,9 +63,40 @@ contract Campaign is Owned
     _;
   }
 
-  function returnFunds() {
-    require(currentBalance > goalAmount);
-    msg.sender.transfer(donations[msg.sender]);
+
+  modifier campaignNotFlagged() {
+    require(!campaignFlagged);
+    _;
+  }
+
+  modifier inGracePeriod() {
+    require(block.number > deadline);
+    require(block.number <= deadline + gracePeriod);
+    _;
+  }
+
+  function flagCampaign()
+    haveNotFlagged
+    returns (bool)
+    {
+      flaggers.add(msg.sender);
+      return true;
+  }
+
+  function updateGracePeriod(uint _gracePeriod) onlyOwner returns (bool) {
+      require(gracePeriod < _gracePeriod);
+      gracePeriod = _gracePeriod;
+      return true;
+  }
+
+  function returnFunds()
+    reachedFundingPeriod
+    inGracePeriod
+    {
+    uint amountToSend = donations[msg.sender];
+    require(amountToSend > 0);
+    donations[msg.sender] = 0;
+    msg.sender.transfer(amountToSend);
   }
 
   function getBalance() constant returns (uint) {
@@ -66,12 +112,13 @@ contract Campaign is Owned
   }
 
 
-  function donate(bytes32 tag) payable returns (bool) {
+  function donate(bytes32 tag) payable campaignNotFlagged returns (bool) {
     // require that tag exists if passed in
     require(tag == 0 || vendors.tagExists(tag) && tags.contains(tag));
 
     fundsByTag[tag] += msg.value;
     donations[msg.sender] += msg.value;
+    donators.add(msg.sender);
     LogDonation(msg.sender, msg.value);
     return true;
   }
@@ -79,6 +126,7 @@ contract Campaign is Owned
   function disburseFunds(address vendor, bytes32 tag, uint amount)
     onlyOwner
     reachedFundingPeriod
+    campaignNotFlagged
     rateLimit(amount)
   {
     require(vendors.tagExists(tag));
@@ -96,5 +144,15 @@ contract Campaign is Owned
     onlyOwner {
     ipfsHash = newIpfsHash;
   }
+
+  function stopFlaggedCampaign()
+  reachedFundingPeriod
+  returns (bool)
+  {
+    require((flaggers.size()/donators.size()) * 100 > 50);
+    require(!campaignFlagged);
+    campaignFlagged = true;
+  }
+
 
 }
