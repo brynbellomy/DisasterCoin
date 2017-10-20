@@ -11,7 +11,7 @@ const Main = () =>
   <main>
     <Switch>
       <Route exact path='/' component={CampaignLanding} />
-      <Route path='/campaignProfile/:address' component={CampaignProfile} />
+      <Route path='/campaignProfile/:address' exact component={CampaignProfile} />
       <Route path='/campaignStart' component={CampaignStart} />
       <Route path='/campaignPage/:id' component={CampaignPage} />
       <Route path='/campaignLogin' component={CampaignLogin} />

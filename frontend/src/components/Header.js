@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react'
 import md5 from 'md5'
+import * as _ from 'lodash'
 
 
 //react bootstrap stuff
@@ -19,27 +20,25 @@ export function GravHash(email, size) {
 class Header extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
-  }
-
-  componentWillReceiveProps() {
-    console.log("sup bitch glad u made it :P");
   }
 
   componentWillMount() {
     if(this.props.logout) {
-      sessionStorage.clear();
+      sessionStorage.clear()
     }
   }
 
 
   render() {
+    const noUser = !_.isEmpty(this.props.user)
+    console.log(this.props.user)
+    console.log(_.isEmpty(this.props.user))
     return (
-      <Navbar color="faded" light expand="md">
+      <Navbar color="faded" light>
         <NavbarBrand>Disaster Coin</NavbarBrand>
         <Nav className='ml-auto' navbar>
           <NavItem>
-            <NavLink href={this.props.user ? '/campaignLogout' : '/campaignLogin'}>{this.props.user ? 'Logout' : 'Login'}</NavLink>
+            <NavLink href={noUser ? '/campaignLogout' : '/campaignLogin'}>{noUser ? 'Logout' : 'Login'}</NavLink>
           </NavItem>
         </Nav>
       </Navbar>

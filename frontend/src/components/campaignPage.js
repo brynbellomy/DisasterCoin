@@ -151,4 +151,4 @@ class CampaignPage extends Component {
 }
 
 
-export default withRouter(CampaignPage);
+export default CampaignPage

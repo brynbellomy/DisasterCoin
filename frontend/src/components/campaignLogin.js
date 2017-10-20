@@ -12,7 +12,7 @@ class CampaignLogin extends Component {
     }
     componentDidMount() {
         const uport = new Connect(`Phil's Campaign Dapp`);
-        
+
         uport.requestCredentials().then( (credentials)=>{
             console.log(credentials);
             sessionStorage.setItem('address',credentials.address);
@@ -21,7 +21,7 @@ class CampaignLogin extends Component {
             console.log(sessionStorage.getItem('address'));
             this.props.history.push(`/campaignProfile/${credentials.address}`);
         }).catch( ()=>{});
-        
+
     }
 
     render() {
@@ -34,4 +34,4 @@ class CampaignLogin extends Component {
 
 
 
-export default withRouter(CampaignLogin);
+export default CampaignLogin

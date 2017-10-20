@@ -41,7 +41,7 @@ class CampaignStart extends Component {
                 this.props.history.push(`/campaignPage/${res.data.id}`);
             });
     }
-    
+
 
     render() {
         return(
@@ -70,7 +70,7 @@ class CampaignStart extends Component {
                         <FormGroup controlId="deadline">
                         <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
                             <Col sm={10}>
-                                <DatePicker onChange={this.onDateChange} value={this.state.date} id="change_handler_example"/>
+                                {/* <DatePicker onChange={this.onDateChange} value={this.state.date} /> */}
                              </Col>
                         </FormGroup>
                         <FormGroup controlId="withdraw_limit">
@@ -101,4 +101,4 @@ class CampaignStart extends Component {
 
 
 
-export default withRouter(CampaignStart);
+export default CampaignStart

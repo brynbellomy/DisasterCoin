@@ -2,38 +2,32 @@ import React, {Component} from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import axios from 'axios';
 import {Button,Row, Col, Table} from 'react-bootstrap';
-import styled from 'styled-components';
-import { Connect } from 'uport-connect';
-
+// import styled from 'styled-components'
+import { Connect } from 'uport-connect'
 
 class CampaignLanding extends Component {
 
-    constructor(props) {
-        super(props);
+  constructor (props) {
+    super(props)
 
-        this.state={
-            campaigns: []
-        }
+    this.state = {
+      campaigns: []
     }
+  }
 
-    componentDidMount() {
-        axios.get('/v1/campaigns')
-            .then( (res)=>{
-                this.setState({
-                    campaigns: res.data
-                });
-
-                console.log(this.state.campaigns)
-            })
-            .catch( err => {
-                console.log(err)
-            })
+    componentDidMount () {
+      // axios.get('/v1/campaigns')
+      //   .then((res) => {
+      //     this.setState({
+      //       campaigns: res.data
+      //     })
+      //     console.log(this.state.campaigns)
+      //   })
+      //   .catch(err => {
+      //     console.log(err)
+      //   })
     }
-
-
-
-    render() {
-
+    render () {
         let campaigns = this.state.campaigns.map((campaign, index) => {
             return (
                 <tr key={index}>
@@ -71,4 +65,4 @@ class CampaignLanding extends Component {
 
 }
 
-export default withRouter(CampaignLanding);
+export default CampaignLanding

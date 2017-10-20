@@ -13,7 +13,7 @@ class CampaignLogout extends Component {
     componentDidMount() {
         sessionStorage.clear();
         this.props.history.push("/");
-        
+
     }
 
     render() {
@@ -26,4 +26,4 @@ class CampaignLogout extends Component {
 
 
 
-export default withRouter(CampaignLogout);
+export default CampaignLogout
