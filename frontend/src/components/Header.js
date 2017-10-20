@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import md5 from 'md5'
 import * as _ from 'lodash'
