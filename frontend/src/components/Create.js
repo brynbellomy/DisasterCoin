@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import {Row, Col, Button, Form} from 'reactstrap'
 import {FormGroup, FormControl, ControlLabel} from 'react-bootstrap';
+import Header from './Header'
 import axios from 'axios';
 import qs    from 'qs';
 
@@ -45,6 +46,7 @@ class CampaignStart extends Component {
     render() {
         return(
             <div>
+                <Header user={{}} />
                 <Form horizontal>
                     <FormGroup controlId="name">
                         <Col componentClass={ControlLabel} sm={2}>Name of Campaign:</Col>

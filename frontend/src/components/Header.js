@@ -2,8 +2,8 @@
 import React, { Component } from 'react'
 import md5 from 'md5'
 import * as _ from 'lodash'
-
-
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 //react bootstrap stuff
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
@@ -21,6 +21,7 @@ export function GravHash(email, size) {
 class Header extends Component {
   constructor(props) {
     super(props);
+    this.loginHandler = this.loginHandler.bind(this)
   }
 
   componentWillMount() {
@@ -31,26 +32,26 @@ class Header extends Component {
   loginHandler () {
     const uport = new Connect(`Phil's Campaign Dapp`);
 
-    uport.requestCredentials().then( (credentials)=>{
-        console.log(credentials);
+    uport.requestCredentials(
+
+    ).then((credentials)=>{
+        // console.log(credentials);
         sessionStorage.setItem('address',credentials.address)
         sessionStorage.setItem('name', credentials.name)
         sessionStorage.setItem('isLoggedIn','true')
-        console.log(sessionStorage.getItem('address'))
+        // console.log(sessionStorage.getItem('address'))
         this.props.navigateToProfile(credentials.address)
     }).catch(() => {})
   }
 
   render() {
     const noUser = !_.isEmpty(this.props.user)
-    console.log(this.props.user)
-    console.log(_.isEmpty(this.props.user))
     return (
       <Navbar color="faded" light>
         <NavbarBrand href={'/'}><h2>Disaster Coin</h2></NavbarBrand>
         <Nav className='ml-auto' navbar>
           <NavItem>
-            <NavLink href={noUser ? '/logout' : '/login'}> {noUser ? 'Logout' : 'Login'}</NavLink>
+            <NavLink onClick={this.loginHandler}> {noUser ? 'Logout' : 'Login'}</NavLink>
           </NavItem>
         </Nav>
       </Navbar>
@@ -74,5 +75,10 @@ class Header extends Component {
 //       <NavLinks />
 //   </Navbar.Header>
 // </Navbar>);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    navigateToProfile: (address) => dispatch(push(`/profile/${address}`))
+  }
+}
 
-export default Header
+export default connect(null, mapDispatchToProps)(Header)

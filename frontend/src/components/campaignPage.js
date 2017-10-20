@@ -4,8 +4,7 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import axios from 'axios';
 import {Button,Row, Col, Table, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import styled from 'styled-components';
-
+import Header from './Header'
 
 class CampaignPage extends Component {
 
@@ -63,13 +62,15 @@ class CampaignPage extends Component {
         // console.log('session', sessionStorage.getItem('address'))
         // console.log(this.state.owner === sessionStorage.getItem('address'))
         let wProps = {}
-        // const WithdrawButton = (<div><Form horizontal>
-        //     <Row>
-        //     <ControlLabel>Withdraw Funds</ControlLabel></Row>
-        //     <FormGroup controlId="withdraw">
-        //         <Col componentClass={ControlLabel} sm={2}>Address</Col>
-        //         <Col xs={4}>
-        //         <FormControl
+        // const WithdrawButton = (<div>
+        //                 <Header user={{}} />
+        //                 <Form horizontal>
+        // //     <Row>
+        // //     <ControlLabel>Withdraw Funds</ControlLabel></Row>
+        // //     <FormGroup controlId="withdraw">
+        // //         <Col componentClass={ControlLabel} sm={2}>Address</Col>
+        // //         <Col xs={4}>
+        // //         <FormControl
         //             type="text"
         //             placeholder="0xF4D8e706CfB25c0DECBbDd4D2E2Cc10C66376a3F"
         //             inputRef={input => this.withdrawAddress = input }

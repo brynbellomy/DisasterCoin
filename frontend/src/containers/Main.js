@@ -1,5 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import {connect} from 'react-redux'
 import Profile from '../components/Profile'
 import Create from '../components/Create'
 import CampaignPage from '../components/CampaignPage'
@@ -9,18 +10,23 @@ import Logout from '../components/Logout'
 
 const Profiles = () =>
  <Switch>
-   <Route path={'/profile/:address'} component={Profile} />
+   <Route exact path={'/profile/:address'} component={Profile} />
  </Switch>
 
-const Main = () =>
+const Main = (props) =>
   <main>
-      <Switch>
-        <Route exact path='/' component={Landing} />
-        <Route path='/profile' component={Profiles} />
-        <Route path='/create' component={Create} />
-        <Route path='/campaign/:id' component={CampaignPage} />
-        <Route path='/logout' component={Logout} />
-      </Switch>
+    <Switch>
+      <Route exact path='/' component={Landing} />
+      <Route path='/profile' component={Profiles} />
+      <Route path='/create' component={Create} />
+      <Route path='/campaign/:id' component={CampaignPage} />
+      <Route path='/logout' component={Logout} />
+    </Switch>
   </main>
 
-export default Main
+  const mapStatetoProps = (state) => {
+    return {
+      user: state.user.user
+    }
+  }
+  export default connect(mapStatetoProps)(Main)
