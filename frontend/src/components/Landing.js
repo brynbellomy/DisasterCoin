@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import axios from 'axios';
-import {Button,Row, Col, Table} from 'react-bootstrap';
+import {Container, Row, Col, Table, Button} from 'reactstrap';
 import { fetchCampaigns } from '../actions/campaignActions'
 // import styled from 'styled-components'
 import { Connect } from 'uport-connect'
@@ -31,11 +31,14 @@ class CampaignLanding extends Component {
             )
         })
         return (
-            <div>
+            <Container>
                 <Row>
-                    <Col xsOffset={1} xs={11}>
+                    <Col xs={3}/>
+                    <Col xs={8}>
                         <h4>Available Campaigns</h4>
                     </Col>
+                </Row>
+                    <Row>
                     <Col xsOffset={1} xs={11}>
                         <Table striped>
                             <thead>
@@ -51,8 +54,7 @@ class CampaignLanding extends Component {
                         </Table>
                     </Col>
                 </Row>
-
-            </div>
+            </Container>
         );
     }
 
