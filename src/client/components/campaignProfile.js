@@ -25,48 +25,58 @@ class CampaignProfile extends Component {
         return(
             <div>
                 <Row>
-                    <Col xs={2} xsOffset={1}><h4> CampaignProfile</h4> </Col>
-                    <Col xs={8}>
-                        <Row>
-                            <Col xs={1}> </Col>
-                            <Col xs={11}>
-                                <Col xs={6} className="text-right">
-                                    <p><b>Address</b></p>
-                                    <p><b>Name</b></p>
-                                   
-                                </Col>
-                                <Col xs={6}>
-                                    <p>{this.state.address}</p>
-                                    <p>{sessionStorage.getItem('name')}</p>
-                                </Col>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xsOffset={4} xs={12}>
-                                {startCampaignButton}
-                                    </Col>
-                            </Row>
-                        <Row>
-                            <Col xs={12}>
-                                <h4>Campaigns Started (0)</h4>
-                            </Col>
-                            <Col xs={12}>
-                                <Table striped>
-                                    <thead>
-                                        <tr><th>Status</th>
-                                        <th>Start Date</th>
-                                        <th># of moves</th>
-                                        <th>Score</th>
-                                        <th>Game Type</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </Table>
-                            </Col>
-                        </Row>
+                    <Col xs={12}><h4>User Profile</h4> </Col>
+                </Row>
+
+                <Row>
+                    <Col xs={2}>
+                        <p><b>Address</b></p>
+                        <p><b>Name</b></p>
+                       
+                    </Col>
+                    <Col xs={10}>
+                        <p>{this.state.address}</p>
+                        <p>{sessionStorage.getItem('name')}</p>
+                    </Col>
+
+                </Row>
+
+                <Row>
+                    <Col xs={12}>
+                        {startCampaignButton}
                     </Col>
                 </Row>
+
+                <Row>
+                    <Col xs={6}>
+                        <h4>Campaigns Created</h4>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount Fundraised</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Col>
+
+                    <Col xs={6}>
+                        <h4>Campaigns Donated</h4>
+                        <Table striped>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount Donated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </Table>
+                    </Col>
+                </Row>
+
             </div>
 
         )
