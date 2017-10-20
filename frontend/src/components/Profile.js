@@ -1,10 +1,10 @@
 'use strict';
 
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-//import {Row, Col, Table, Button} from 'react-bootstrap';
+import { connect } from 'react-redux'
 import {Row,Col, Table, Button, Container} from 'reactstrap';
+import { fetchCreatedCampaigns, fetchDonatedCampaigns } from '../actions/userCampaignActions'
 import Header from './Header'
 
 
@@ -12,18 +12,25 @@ class CampaignProfile extends Component {
 
     constructor(props) {
         super(props);
-        this.state= {
-            address: this.props.match.params.address
+
+        this.state = {
+            createdCampaigns: [],
+            donatedCampaigns: []
         }
     }
+    // need to pass user info to fetchCreatedCampaigns & fetchDonatedCampaigns
+    componentDidMount () {
+        this.props.fetchCreatedCampaigns(sessionStorage.getItem('address'))
+        //this.props.fetchCreatedCampaigns(sessionStorage.getItem('ethAddress'))
+    }
+
     render() {
       console.log('hello')
         const startCampaignButton =
-        (<Button onClick={this.props.navigateToCreate} color="primary">Start New Campaign</Button>);
+        (<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>);
 
         return(
             <Container>
-                <Header user={{}} />
                 <Row>
                     <Col xs={12}><h4>User Profile</h4> </Col>
                 </Row>
@@ -35,7 +42,7 @@ class CampaignProfile extends Component {
 
                     </Col>
                     <Col xs={10}>
-                        <p>{this.state.address}</p>
+                        <p>{sessionStorage.getItem('address')}</p>
                         <p>{sessionStorage.getItem('name')}</p>
                     </Col>
 
@@ -83,8 +90,17 @@ class CampaignProfile extends Component {
 
 }
 
+const mapStatetoProps = (state) => {
+  return {
+    createdCampaigns: state.createdCampaigns.createdCampaigns,
+    donatedCampaigns: state.donatedCampaigns.donatedCampaigns
+  }
+}
+
 const mapDispatchToProps = (dispatch) => {
   return {
+    fetchCreatedCampaigns: (address) => dispatch(fetchCreatedCampaigns(address)),
+    fetchDonatedCampaigns: (ethAddress) => dispatch(fetchDonatedCampaigns(ethAddress)),
     navigateToCreate: () => dispatch(push('/create'))
   }
 }

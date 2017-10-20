@@ -1,0 +1,2 @@
+export const FETCH_VENDORS = 'FETCH_VENDORS'
+export const STORE_VENDORS = 'STORE_VENDORS'

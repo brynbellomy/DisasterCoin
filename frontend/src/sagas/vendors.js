@@ -1,32 +1,32 @@
 import { all, put, takeEvery } from 'redux-saga/effects'
-import { storeCampaigns } from '../actions/campaignActions'
-import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS } from '../constants/CampaignActionTypes'
+import { storeVendors } from '../actions/vendorActions'
+import { FETCH_VENDORS } from '../constants/VendorActionTypes'
 
-function* fetchCampaigns () {
+function* fetchVendors () {
   let config = {
     method: 'GET',
     headers: new Headers(),
     mode: 'cors',
     cache: 'default'
   }
-  let campaigns = []
+  let vendors = []
   // '/campaigns'
-  yield fetch('http://0.0.0.0:8080/campaigns', config)
+  yield fetch('http://0.0.0.0:8080/vendors', config)
     .then((response) => response.json())
-    .then((campaignsArr) => {
+    .then((vendorsArr) => {
         console.log('yayyyy')
-      campaigns = campaignsArr
+      vendors = vendorsArr
     })
     .catch(err => {
       console.log(err)
     })
 
-  yield put(storeCampaigns(campaigns))
+  yield put(storeVendors(vendors))
 }
 
 function* campaignSaga () {
   yield all([
-    takeEvery(FETCH_CAMPAIGNS, fetchCampaigns)
+    takeEvery(FETCH_VENDORS, fetchVendors)
     // takeEvery(REGISTER_USER, registerUser)
   ])
 }

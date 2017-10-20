@@ -21,42 +21,40 @@ class CampaignLanding extends Component {
       this.props.fetchCampaigns()
     }
     render () {
-        let campaigns = this.props.campaigns.map((campaign, index) => {
-            return (
-                <tr key={index}>
-                    <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
-                    <td>{campaign.limit} </td>
-                    <td>{campaign.deadline} </td>
-                </tr>
-            )
-        })
+        // let campaigns = this.props.campaigns.map((campaign, index) => {
+        //     return (
+        //         <tr key={index}>
+        //             <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
+        //             <td>{campaign.limit} </td>
+        //             <td>{campaign.deadline} </td>
+        //         </tr>
+        //     )
+        // })
         return (
-            <Container>
-                <Header user={this.props.user} />
+          <div style={{width: '100%'}}>
+            <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30 }}>
+            <Row>
+              <h4>Available Campaigns</h4>
+            </Row>
                 <Row>
-                    <Col xs={3} />
-                    <Col xs={8}>
-                        <h4>Available Campaigns</h4>
-                    </Col>
-                </Row>
-                    <Row>
-                    <Col xsOffset={1} xs={11}>
-                        <Table striped>
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Limit</th>
-                                    <th>Deadline</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {campaigns}
-                            </tbody>
-                        </Table>
-                    </Col>
-                </Row>
-            </Container>
-        );
+                <Col>
+                    <Table striped>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Limit</th>
+                                <th>Deadline</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* {campaigns} */}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+          </div>
+          </div>
+        )
     }
 
 }

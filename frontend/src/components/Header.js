@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react'
 import md5 from 'md5'
 import * as _ from 'lodash'
@@ -8,6 +7,7 @@ import { connect } from 'react-redux'
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
 import { Connect } from 'uport-connect'
+import { loginUser, logoutUser } from '../actions/userActions'
 /*************************************************************************/
 
 export function GravHash(email, size) {
@@ -35,23 +35,30 @@ class Header extends Component {
     uport.requestCredentials(
 
     ).then((credentials)=>{
-        // console.log(credentials);
-        sessionStorage.setItem('address',credentials.address)
-        sessionStorage.setItem('name', credentials.name)
-        sessionStorage.setItem('isLoggedIn','true')
+        // console.log(credentials)
         // console.log(sessionStorage.getItem('address'))
-        this.props.navigateToProfile(credentials.address)
+        this.props.loginUser(credentials)
     }).catch(() => {})
   }
 
   render() {
     const noUser = !_.isEmpty(this.props.user)
     return (
-      <Navbar color="faded" light>
-        <NavbarBrand href={'/'}><h2>Disaster Coin</h2></NavbarBrand>
-        <Nav className='ml-auto' navbar>
+      <Navbar color="faded" style={{backgroundColor: 'black'}} light>
+        <NavbarBrand href={'/'}><h2 style={{color: 'white'}}>Re:Cover</h2></NavbarBrand>
+        <Nav className='ml-auto' navbar style={{display: 'flex', flexDirection: 'row'}}>
           <NavItem>
-            <NavLink onClick={this.loginHandler}> {noUser ? 'Logout' : 'Login'}</NavLink>
+            <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/campaigns'}>Campaigns</NavLink>
+          </NavItem>
+          <NavItem>
+            <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/vendors'}>Vendors</NavLink>
+          </NavItem>
+          <NavItem>
+            {noUser
+              ? <NavLink onClick={this.props.logoutUser} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Logout'}</NavLink>
+              : <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Login'}</NavLink>
+            }
+
           </NavItem>
         </Nav>
       </Navbar>
@@ -75,10 +82,16 @@ class Header extends Component {
 //       <NavLinks />
 //   </Navbar.Header>
 // </Navbar>);
+const mapStatetoProps = (state) => {
+  return {
+    user: state.user.user
+  }
+}
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToProfile: (address) => dispatch(push(`/profile/${address}`))
+    loginUser: (credentials) => dispatch(loginUser(credentials)),
+    logoutUser: () => dispatch(logoutUser())
   }
 }
 
-export default connect(null, mapDispatchToProps)(Header)
+export default connect(mapStatetoProps, mapDispatchToProps)(Header)

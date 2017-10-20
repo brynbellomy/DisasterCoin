@@ -1,5 +1,6 @@
 import NavigationReducer from './NavigationReducer'
 import userReducer from './userReducer'
+import vendorReducer from './vendorReducer'
 import campaignsReducer from './campaignsReducer'
 // import profileReducer from './profileReducer'
 import { routerReducer } from 'react-router-redux'
@@ -10,7 +11,8 @@ const Nemo = combineReducers({
   // profiles: profileReducer,
   user: userReducer,
   router: routerReducer,
-  campaigns: campaignsReducer
+  campaigns: campaignsReducer,
+  vendors: vendorReducer
 })
 
 export default Nemo
