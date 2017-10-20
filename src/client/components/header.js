@@ -37,7 +37,6 @@ class Header extends Component {
 
 
   render() {
-    
     const NavLinks = () => {
       if(sessionStorage.getItem('isLoggedIn')=='true') {
         const newLogout = { pathname: "/campaignLogout/", logout: true}
@@ -45,8 +44,7 @@ class Header extends Component {
       } else {
         return (<Nav pullRight><NavItem eventKey={1}><Link to={`/campaignLogin/`} >Log In</Link></NavItem></Nav>);
       }
-    } 
-  
+    }
     return (<Navbar staticTop={true} bsStyle="default" >
       <Navbar.Header>
         <Navbar.Brand>
