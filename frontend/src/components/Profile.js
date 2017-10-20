@@ -19,9 +19,10 @@ class CampaignProfile extends Component {
         }
     }
     // need to pass user info to fetchCreatedCampaigns & fetchDonatedCampaigns
-    // componentDidMount () {
-    //   this.props.fetchCreatedCampaigns()
-    // }
+    componentDidMount () {
+        this.props.fetchCreatedCampaigns(sessionStorage.getItem('address'))
+        //this.props.fetchCreatedCampaigns(sessionStorage.getItem('ethAddress'))
+    }
 
     render() {
       console.log('hello')
@@ -99,8 +100,8 @@ const mapStatetoProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchCreatedCampaigns: (user) => dispatch(fetchCreatedCampaigns(user)),
-    fetchDonatedCampaigns: (user) => dispatch(fetchDonatedCampaigns(user)),
+    fetchCreatedCampaigns: (address) => dispatch(fetchCreatedCampaigns(address)),
+    fetchDonatedCampaigns: (ethAddress) => dispatch(fetchDonatedCampaigns(ethAddress)),
     navigateToCreate: () => dispatch(push('/create'))
   }
 }

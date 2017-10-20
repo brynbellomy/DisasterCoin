@@ -3,6 +3,7 @@ import { push } from 'react-router-redux'
 import { LOGIN_USER, REGISTER_USER } from '../constants/UserActionTypes'
 import { loggedInUser } from '../actions/userActions'
 import * as _ from 'lodash'
+import * as ethutil from 'ethereumjs-util'
 
 function* loginUser (action) {
   const credentials = action.credentials
@@ -22,9 +23,11 @@ function* loginUser (action) {
   // yield _.isEmpty(userObj)
   //     ? registerUser(credentials)
   //     : put(loggedInUser(userObj))
+  console.log('credentials ~>', credentials)
   sessionStorage.setItem('address', credentials.address)
   sessionStorage.setItem('name', credentials.name)
   sessionStorage.setItem('isLoggedIn', 'true')
+  // sessionStorage.setItem('ethAddress', ethutil.publicToAddress(credentials.publicKey))
   console.log('I made it here')
   yield put(push(`/profile/${credentials.address}`))
 }

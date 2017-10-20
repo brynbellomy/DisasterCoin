@@ -2,7 +2,7 @@ import { all, put, takeEvery } from 'redux-saga/effects'
 import { createdCampaigns, donatedCampaigns } from '../actions/userCampaignActions'
 import { FETCH_CREATEDCAMPAIGNS, FETCH_DONATEDCAMPAIGNS } from '../constants/UserCampaignActionTypes'
 
-function* fetchCreatedCampaigns (user) {
+function* fetchCreatedCampaigns (address) {
   let config = {
     method: 'GET',
     headers: new Headers(),
@@ -13,7 +13,7 @@ function* fetchCreatedCampaigns (user) {
 
   let createdUserCampaigns = []
 
-  yield fetch(`/campaigns/user/${user.address}`, config)
+  yield fetch(`/campaigns/user/${address}`, config)
     .then((response) => response.json())
     .then((createdCampaignsArr) => {
       createdUserCampaigns = createdCampaignsArr
@@ -24,7 +24,7 @@ function* fetchCreatedCampaigns (user) {
   yield put(createdCampaigns(createdUserCampaigns))
 }
 
-function* fetchDonatedCampaigns (user) {
+function* fetchDonatedCampaigns (ethAddress) {
   let config = {
     method: 'GET',
     headers: new Headers(),
@@ -35,7 +35,7 @@ function* fetchDonatedCampaigns (user) {
 
   let donatedUserCampaigns = []
 
-  yield fetch(`/campaigns/donator/${user.ethAddress}`, config)
+  yield fetch(`/campaigns/donator/${ethAddress}`, config)
     .then((response) => response.json())
     .then((donatedCampaignsArr) => {
       donatedUserCampaigns = donatedCampaignsArr

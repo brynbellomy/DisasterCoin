@@ -11,14 +11,16 @@ function* fetchCampaigns () {
   }
   let campaigns = []
   // '/campaigns'
-  yield fetch(`/campaigns`, config)
+  yield fetch('http://0.0.0.0:8080/campaigns', config)
     .then((response) => response.json())
     .then((campaignsArr) => {
+        console.log('yayyyy')
       campaigns = campaignsArr
     })
     .catch(err => {
       console.log(err)
     })
+
   yield put(storeCampaigns(campaigns))
 }
 
