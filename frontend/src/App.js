@@ -9,6 +9,7 @@ class App extends Component {
   render () {
     return (
       <div style={{backgroundColor: '#FCFCFC'}}>
+        <Header />
         <Main />
       </div>
     )

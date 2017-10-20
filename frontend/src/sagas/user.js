@@ -27,7 +27,7 @@ function* loginUser (action) {
   sessionStorage.setItem('address', credentials.address)
   sessionStorage.setItem('name', credentials.name)
   sessionStorage.setItem('isLoggedIn', 'true')
-  sessionStorage.setItem('ethAddress', ethutil.publicToAddress(credentials.publicKey))
+  // sessionStorage.setItem('ethAddress', ethutil.publicToAddress(credentials.publicKey))
   yield put(loggedInUser(credentials))
   yield put(push(`/profile/${credentials.address}`))
 }

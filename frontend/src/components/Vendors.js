@@ -6,7 +6,6 @@ import Header from './Header'
 const Vendors = (props) => {
   return (
     <div>
-      <Header user={props.user} />
       Vendors
     </div>
   )

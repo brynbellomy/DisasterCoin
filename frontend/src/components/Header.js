@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
 import { Connect } from 'uport-connect'
-import { loginUser } from '../actions/userActions'
+import { loginUser, logoutUser } from '../actions/userActions'
 /*************************************************************************/
 
 export function GravHash(email, size) {
@@ -54,7 +54,11 @@ class Header extends Component {
             <NavLink style={{color: 'white', paddingRight: 6, paddingLeft: 6}} href={'/vendors'}>Vendors</NavLink>
           </NavItem>
           <NavItem>
-            <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}> {noUser ? 'Logout' : 'Login'}</NavLink>
+            {noUser
+              ? <NavLink onClick={this.props.logoutUser} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Logout'}</NavLink>
+              : <NavLink onClick={this.loginHandler} style={{paddingRight: 6, paddingLeft: 6, color: 'white'}}>{'Login'}</NavLink>
+            }
+
           </NavItem>
         </Nav>
       </Navbar>
@@ -85,7 +89,8 @@ const mapStatetoProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    loginUser: (credentials) => dispatch(loginUser(credentials))
+    loginUser: (credentials) => dispatch(loginUser(credentials)),
+    logoutUser: () => dispatch(logoutUser())
   }
 }
 

@@ -32,7 +32,6 @@ class CampaignLanding extends Component {
         // })
         return (
           <div style={{width: '100%'}}>
-            <Header user={this.props.user} />
             <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30 }}>
             <Row>
               <h4>Available Campaigns</h4>
