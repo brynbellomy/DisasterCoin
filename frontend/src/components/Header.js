@@ -7,6 +7,7 @@ import * as _ from 'lodash'
 //react bootstrap stuff
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
+import { Connect } from 'uport-connect'
 /*************************************************************************/
 
 export function GravHash(email, size) {
@@ -27,7 +28,18 @@ class Header extends Component {
       sessionStorage.clear()
     }
   }
+  loginHandler () {
+    const uport = new Connect(`Phil's Campaign Dapp`);
 
+    uport.requestCredentials().then( (credentials)=>{
+        console.log(credentials);
+        sessionStorage.setItem('address',credentials.address)
+        sessionStorage.setItem('name', credentials.name)
+        sessionStorage.setItem('isLoggedIn','true')
+        console.log(sessionStorage.getItem('address'))
+        this.props.navigateToProfile(credentials.address)
+    }).catch(() => {})
+  }
 
   render() {
     const noUser = !_.isEmpty(this.props.user)

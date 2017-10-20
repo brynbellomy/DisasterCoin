@@ -17,15 +17,10 @@
     "pug": "^2.0.0-beta11",
     "qs": "^6.5.1",
     "react": "^15.4.2",
-    "react-bootstrap": "^0.31.3",
-    "react-bootstrap-date-picker": "^5.1.0",
-    "react-bootstrap-date-time-picker": "0.0.3",
     "react-dom": "^15.4.2",
     "react-router": "^4.2.0",
-    "react-router-dom": "^4.2.2",
     "serve-favicon": "^2.3.2",
     "styled-components": "^2.2.1",
-    "underscore": "^1.8.3",
     "uport-connect": "^0.6.6"
   },
   "devDependencies": {

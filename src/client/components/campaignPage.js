@@ -4,7 +4,6 @@ import React, {Component} from 'react';
 import {withRouter} from 'react-router';
 import axios from 'axios';
 import {Button,Row, Col, Table, Form, FormGroup, ControlLabel, FormControl} from 'react-bootstrap';
-import styled from 'styled-components';
 
 
 class CampaignPage extends Component {
