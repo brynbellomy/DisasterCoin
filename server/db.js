@@ -23,7 +23,7 @@ client.on('error', (err) => {
 async function setCampaign(address, campaignState) {
     await client.hsetAsync('campaign', address, JSON.stringify(campaignState))
     await client.saddAsync('campaigns', address)
-    await client.hsetAsync('user-types', campaignState.campaigner, 'campaigner')
+    await setUserType(campaignState.campaigner, 'campaigner')
 }
 
 async function getAllCampaigns() {
@@ -76,7 +76,12 @@ async function getAllVendorTags() {
  */
 
 async function getUserType(user) {
-    await client.hgetAsync('user-types', user)
+    let type = await client.hgetAsync('user-types', user)
+    return type
+}
+
+async function setUserType(user, type) {
+    await client.hsetAsync('user-types', user, type)
 }
 
 /**
@@ -106,6 +111,7 @@ module.exports = {
     getAllVendorTags,
     addTag,
     getUserType,
+    setUserType,
     setLogCursor,
     getLogCursor,
 }
