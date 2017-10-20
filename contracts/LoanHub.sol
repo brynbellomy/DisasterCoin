@@ -43,7 +43,6 @@ contract LoanHub is Owned {
         LogDeployNewLoan(msg.sender, loanContract, loanGoal_, interestRate_,
             fundingDuration_, repaymentDuration_, numberOfCoupons_, activationWindow_);
 
-
         // update data and then log it
     }
 
