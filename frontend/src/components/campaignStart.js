@@ -26,19 +26,15 @@ class CampaignStart extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(sessionStorage.getItem('address'));
-        const data = {
-            name: this.name.value,
-            description: this.description.value,
-            deadline: Date.parse(this.state.date),
-            limit: this.limit.value,
-            owner: sessionStorage.getItem('address')
-        }
-        axios.post("/v1/campaign", qs.stringify(data))
-            .then( (res)=> {
-                console.log(res);
-                this.props.history.push(`/campaignPage/${res.data.id}`);
-            });
+
+        console.log(e);
+        console.log(this.name.value);
+        console.log(this.deadline.value);
+        let d = this.deadline.value;
+        let date = d.split("-");
+        let f = new Date(date[0], date[1] -1, date[2])
+        f = f.getTime();
+
     }
 
 
@@ -51,35 +47,36 @@ class CampaignStart extends Component {
                     <FormGroup row>
                         <Label for="name" sm={2}>Name of Campaign:</Label>
                         <Col sm={10}>
-                            <Input type="text" name="name" id="name" placeholder="name of campaign"/>
+                            <Input innerRef={ (input)=>this.name = input } type="text" name="name" id="name" placeholder="name of campaign"/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="description" sm={2}>Description</Label>
                         <Col sm={10}>
-                           <Input type="textarea" name="description" id="description" />
+                           <Input  innerRef={ (input)=>this.description = input } type="textarea" name="description" id="description" />
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                     <Label for="deadline" sm={2}>Deadline</Label>
                         <Col sm={10}>
-                        <Input type="date" name="deadline" id="deadline" placeholder="Deadline" />
+                        <Input innerRef={ (input)=>this.deadline = input } type="date" name="deadline" id="deadline" placeholder="Deadline" />
                         </Col>
                      </FormGroup>
                      <FormGroup row>
                      <Label for="withdraw" sm={2}>Withdraw Limit</Label>
                      <Col sm={9}>
-                         <Input type="text" name="withdraw" id="withdraw" placeholder="name of campaign"/>
+                         <Input  innerRef={ (input)=>this.withdraw = input } type="text" name="withdraw" id="withdraw" placeholder="withdraw limit"/>
                      </Col>
                     <Col sm={1}><div><h6>eth/block</h6></div></Col>
                     </FormGroup>
-                            <FormGroup controlId="submit">
-                                <Col smOffset={2} sm={10}>
-                                    <Button onClick={this.handleSubmit} type="submit">
-                                        Start Campaign
-                                    </Button>
-                                </Col>
-                            </FormGroup>
+                    <FormGroup>
+                        <Col sm={2}/>
+                        <Col sm={10}>
+                            <Button onClick={this.handleSubmit} type="submit">
+                                    Start Campaign
+                                </Button>
+                        </Col>
+                     </FormGroup>
                         </Form>
                     </Col>
                     </Container>
@@ -87,57 +84,5 @@ class CampaignStart extends Component {
     }
 
 }
-
-/*
-            <div>
-                <Col xs={2}/>
-                <Col xs={8}>
-                    <Form horizontal>
-                        <FormGroup controlId="name">
-                            <Col componentClass={ControlLabel} sm={2}>Name of Campaign:</Col>
-                            <Col sm={10}>
-                                <FormControl
-                                    type="text"
-                                    placeholder="Name of Campaign"
-                                    inputRef={input => this.name = input}/>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup controlId="description">
-                            <Col componentClass={ControlLabel} sm={2}>Description</Col>
-                            <Col sm={10}>
-                                <FormControl
-                                    componentClass="textarea"
-                                    placeholder="Description"
-                                    inputRef={input => this.description = input}/>
-                            </Col>
-                        </FormGroup>
-                        <FormGroup controlId="deadline">
-                        <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
-                            <Col sm={10}>
-                            
-                                </Col>
-                                </FormGroup>
-                                <FormGroup controlId="withdraw_limit">
-                                    <Col componentClass={ControlLabel} sm={2}> Withdraw Limit</Col>
-                                    <Col sm={9}>
-                                        <FormControl
-                                            type="text"
-                                            placeholder="max withdraw limit per block"
-                                            inputRef={input => this.limit = input}
-                                            />
-                                    </Col>
-                                    <Col sm={1} componentClass={ControlLabel}>eth/block</Col>
-                                </FormGroup>
-                                <FormGroup controlId="submit">
-                                    <Col smOffset={2} sm={10}>
-                                        <Button onClick={this.handleSubmit} type="submit">
-                                            Start Campaign
-                                        </Button>
-                                    </Col>
-                                </FormGroup>
-                            </Form>
-                        </Col>
-                        </div>
-    */
 
 export default CampaignStart
