@@ -17,8 +17,9 @@ class CampaignLogin extends Component {
             console.log(credentials);
             sessionStorage.setItem('address',credentials.address);
             sessionStorage.setItem('name', credentials.name);
+            sessionStorage.setItem('isLoggedIn','true');
             console.log(sessionStorage.getItem('address'));
-            this.props.history.push(`/`);
+            this.props.history.push(`/campaignProfile/${credentials.address}`);
         }).catch( ()=>{});
         
     }

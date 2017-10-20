@@ -22,6 +22,7 @@ export function GravHash(email, size) {
 class Header extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
   }
 
   componentWillReceiveProps() {
@@ -31,30 +32,26 @@ class Header extends Component {
   componentWillMount() {
     if(this.props.logout) {
       sessionStorage.clear();
-      sessionStorage.setItem('isLoggedIn',false);
     }
   }
 
 
   render() {
-    /*
+    
     const NavLinks = () => {
       if(sessionStorage.getItem('isLoggedIn')=='true') {
-        let mGrav = GravHash(sessionStorage.getItem('primary_email'),50);
-        let mGravProfile = GravHash(sessionStorage.getItem('primary_email'),200);
-        sessionStorage.setItem('gravHash',mGravProfile);
-        const newLogout = { pathname: "/logout/", logout: true }
-        return (<Nav pullRight><NavItem eventKey={1} ><Link to={`/profile/${sessionStorage.getItem('username')}`}><Image src={mGrav} thumbnail/></Link></NavItem><NavItem eventKey={2}><Link to={newLogout}>Log Out</Link></NavItem></Nav>);
+        return (<Nav pullRight><NavItem eventKey={1} ><Link to={`/campaignLogout/`}>Log Out</Link></NavItem></Nav>);
       } else {
-        return (  <Nav pullRight><NavItem eventKey={1}><Link to='/login'>Log In</Link></NavItem><NavItem eventKey={2}><Link to='./register'>Register</Link></NavItem></Nav>);
+        return (<Nav pullRight><NavItem eventKey={1}><Link to={`/campaignLogin/`} >Log In</Link></NavItem></Nav>);
       }
-    }*/
-
-      return (<Navbar staticTop={true} bsStyle="default" >
+    } 
+  
+    return (<Navbar staticTop={true} bsStyle="default" >
       <Navbar.Header>
         <Navbar.Brand>
-         Disaster Coin
+          Disaster Coin
         </Navbar.Brand>
+          <NavLinks />
       </Navbar.Header>
     </Navbar>);
 

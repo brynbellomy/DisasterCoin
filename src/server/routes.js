@@ -136,6 +136,9 @@ module.exports = (app) => {
             }
     })
 
+    //Handle GET to fetch all campaigns of specific user 
+    //app.get('/v1/donatedCampaigns/:address', function)
+
 
    app.get('/v1/campaigns', function(req,res){
       res.status(200).send(app.campaigns); 
