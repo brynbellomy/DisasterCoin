@@ -11,7 +11,6 @@ contract Campaign is Owned
   using AddressSetLib for AddressSetLib.AddressSet;
   Vendors vendors;
 
-  mapping(address => bool) donatorRegistry;
   uint public currentBalance;
   uint public cumulativeBalance;
   uint public goalAmount;
@@ -28,7 +27,7 @@ contract Campaign is Owned
 
   Bytes32SetLib.Bytes32Set tags;
   AddressSetLib.AddressSet flaggers;
-  uint flagVotes;
+  uint public flagVotes;
   bool public campaignFlagged;
 
   event LogDonation(address sender, uint amount);
@@ -158,4 +157,51 @@ contract Campaign is Owned
     return true;
   }
 
+  /**
+   * Getters
+   */
+
+  function getDonations()
+    constant
+    returns (address[], uint[])
+  {
+    address[] memory _addresses = new address[](donators.size());
+    uint[] memory _donations = new uint[](donators.size());
+
+    for (uint i = 0; i < donators.size(); i++) {
+      _addresses[i] = donators.get(i);
+      _donations[i] = donations[ _addresses[i] ];
+    }
+
+    return (_addresses, _donations);
+  }
+
+  function getFundsByTag()
+    constant
+    returns (bytes32[], uint[])
+  {
+    bytes32[] memory _tags = new bytes32[](tags.size());
+    uint[] memory _funds = new uint[](tags.size());
+
+    for (uint i = 0; i < tags.size(); i++) {
+      _tags[i] = tags.get(i);
+      _funds[i] = fundsByTag[ _tags[i] ];
+    }
+
+    return (_tags, _funds);
+  }
+
+  function getTags()
+    constant
+    returns (bytes32[])
+  {
+    return tags.values;
+  }
+
+  function getFlaggers()
+    constant
+    returns (address[])
+  {
+    return flaggers.values;
+  }
 }

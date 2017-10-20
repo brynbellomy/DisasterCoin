@@ -27,16 +27,13 @@ class CampaignStart extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.name.value);
-        console.log(this.description.value);
-        console.log(this.limit.value);
-        console.log(Date.parse(this.state.date));
-        console.log(this.state.date);
+        console.log(sessionStorage.getItem('address'));
         const data = {
             name: this.name.value,
             description: this.description.value,
             deadline: Date.parse(this.state.date),
-            limit: this.limit.value
+            limit: this.limit.value,
+            owner: sessionStorage.getItem('address')
         }
         axios.post("/v1/campaign", qs.stringify(data))
             .then( (res)=> {
