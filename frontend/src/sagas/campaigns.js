@@ -11,7 +11,7 @@ function* fetchCampaigns () {
   }
   let campaigns = []
   // '/campaigns'
-  yield fetch(`/v1/campaigns`, config)
+  yield fetch(`/campaigns`, config)
     .then((response) => response.json())
     .then((campaignsArr) => {
       campaigns = campaignsArr

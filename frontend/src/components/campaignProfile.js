@@ -21,6 +21,7 @@ class CampaignProfile extends Component {
     //takes in information about the user
 
     render() {
+      console.log('hello')
         const startCampaignButton =
         (<Button onClick={this.props.navigateToCreate}bsStyle="primary" bsSize="small">Start New Campaign</Button>);
 
