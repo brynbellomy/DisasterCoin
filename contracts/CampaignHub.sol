@@ -16,7 +16,7 @@ contract CampaignHub is Owned
         vendors = _vendors;
     }
 
-    event LogAddCampaign(address campaign, bytes32 ipfsHash);
+    event LogAddCampaign(address campaigner, address campaign, bytes32 ipfsHash);
 
     function addCampaign(bytes32 ipfsHash, uint goalAmount, uint weiLimitPerBlock, uint deadline)
         onlyOwner
@@ -24,6 +24,6 @@ contract CampaignHub is Owned
         Campaign campaign = new Campaign(ipfsHash, goalAmount, vendors, weiLimitPerBlock, deadline);
         campaigns.add(campaign);
 
-        LogAddCampaign(address(campaign), ipfsHash);
+        LogAddCampaign(msg.sender, address(campaign), ipfsHash);
     }
 }
