@@ -46,12 +46,12 @@ class Campaign extends Component {
             <div>
                 <Form>
                     <FormGroup row>
-                        <Label for="amount" sm={3}>Amount (wei):</Label>
+                        <Label for="amount" sm={3}>Amount (Ether):</Label>
                         <Col sm={4}>
                         <Input
                             getRef={(input)=>this.amount= input}
                             type="text"
-                            placeholder="wei"
+                            placeholder="Ether"
                         />
                         </Col>
                     </FormGroup>
@@ -88,12 +88,12 @@ class Campaign extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup row>
-                        <Label for="amount" sm={3}>Amount (wei):</Label>
+                        <Label for="amount" sm={3}>Amount (Ether):</Label>
                         <Col sm={4}>
                         <Input
                             getRef={(input)=>this.withdrawAmount= input}
                             type="text"
-                            placeholder="wei"
+                            placeholder="Ether"
                         />
                         </Col>
                     </FormGroup>

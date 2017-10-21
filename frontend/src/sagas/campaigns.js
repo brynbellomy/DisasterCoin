@@ -946,7 +946,8 @@ function* donateCampaign (donateInput) {
   const instance = campaignTract.at(donateInput.donate.address)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
   // console.log(donateInput.donate.value)
-  yield instance.donate('Food', {from: accounts[0], value: window.web3.toWei(donateInput.donate.value, 'ether')}, () => true)
+  // console.log(window.web3.toWei(parseInt(donateInput.donate.amount), 'ether'))
+  yield instance.donate('Food', {from: accounts[0], value: window.web3.toWei(parseInt(donateInput.donate.amount), 'ether')}, (err, tx) => {console.log('tx', tx)})
 }
 // disburseFunds(address vendor, bytes32 tag, uint amount)
 function* withdrawCampaign (withdrawInput) {
@@ -954,12 +955,9 @@ function* withdrawCampaign (withdrawInput) {
   campaignTract = window.web3.eth.contract(campaignABI.abi)
   const instance = campaignTract.at(withdrawInput.withdraw.address)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
-  // console.log(donateInput.donate.value)
-  console.log('accounts', accounts)
-  console.log('withdrawInput', withdrawInput)
   const {withdrawAddress, tag, amount } = withdrawInput.withdraw
 
-  yield instance.disburseFunds(withdrawAddress, tag, amount, {from: accounts[0], gas: 2e6}, () => {})
+  yield instance.disburseFunds(withdrawAddress, 'Food', amount, {from: accounts[0], gas: 2e6}, (err, tx) => {console.log('tx', tx)})
 }
 
 function* campaignSaga () {
