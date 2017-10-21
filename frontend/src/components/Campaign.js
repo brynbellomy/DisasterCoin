@@ -22,7 +22,8 @@ class Campaign extends Component {
     }
 
     render() {
-        console.log(this.props.campaign)
+
+        console.log(this.props.user)
         return (
             <div>
                 <Row>
