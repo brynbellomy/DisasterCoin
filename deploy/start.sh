@@ -4,8 +4,7 @@
 testrpc &
 
 # build contracts
-cd /opt
-truffle deploy
+cd /opt && truffle deploy
 
 # build frontend
 # cd /opt/frontend
@@ -16,4 +15,4 @@ truffle deploy
 
 
 # start backend
-node server
+cd /opt/server && node server
