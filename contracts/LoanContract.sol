@@ -1,8 +1,10 @@
 pragma solidity 0.4.15;
 
 import "./Owned.sol";
+import "./LoanHub.sol";
 
 contract LoanContract is Owned {
+    address public loanHubInstanceAddress;
     uint public loanGoal;
     uint public interestRate;
     uint public fundingDuration;
@@ -20,7 +22,7 @@ contract LoanContract is Owned {
     bool public loanCancelledStatus;
 
     uint public obligationRepaid;
-    uint public obligationRemaining;
+    uint public obligationOwed;
 
     event LogFundLoan(address sender, uint amount);
     event LogFullyFunded(bool isFunded);
@@ -31,6 +33,9 @@ contract LoanContract is Owned {
     event LogLoanFullyPaidOff(address owner_, uint blockNumber);
     event LogReceiveCouponPayment(address sender, uint amountOfCouponPaid);
     event LogReceivePrincipalPayment(address sender, uint amountOfPrincipalPaid);
+    event LogDeclareLoanCancelled(address sender, uint blockNumber);
+    event LogDeclareLoanPaid(address sender, uint blockNumber);
+    event LogDeclareLoanDefaulted(address sender, uint blockNumber);
 
     mapping(address => uint) public funderContribution;
     mapping(address => uint) public funderCouponReceived;
@@ -59,6 +64,7 @@ contract LoanContract is Owned {
             && (repaymentDuration_ !=0) && (numberOfCoupons_ != 0));
         require(repaymentDuration_ % numberOfCoupons_ == 0);
 
+        loanHubInstanceAddress = msg.sender; // implies deployment from loanHubContract
         loanGoal = loanGoal_;
         interestRate = interestRate_;
         fundingDuration = fundingDuration_;
@@ -92,7 +98,7 @@ contract LoanContract is Owned {
             loanStartBlock = block.number;
             loanActivated = true;
             LogActivateLoan(msg.sender, block.number);
-            obligationRemaining = loanGoal * (100 + interestRate) / 100;
+            obligationOwed = loanGoal * (100 + interestRate) / 100;
             return true;
         }
     }
@@ -121,6 +127,9 @@ contract LoanContract is Owned {
         returns (bool isSuccess)
     {
         require(!loanActivated);
+        LoanHub loanHubInstance = LoanHub(loanHubInstanceAddress);
+        loanHubInstance.declareLoanCancelled(owner);
+        LogDeclareLoanCancelled(msg.sender, block.number);
         loanCancelledStatus = true;
         LogCancelLoan(msg.sender, block.number);
         returnFunds = true;
@@ -138,14 +147,13 @@ contract LoanContract is Owned {
     function payLoan() payable onlyOwner paymentPeriod returns(uint obligationRemaining_) {
         require(msg.value != 0);
         obligationRepaid += msg.value;
-        obligationRemaining -= msg.value;
-        if(obligationRemaining == 0) LogLoanFullyPaidOff(msg.sender, block.number);
-        return obligationRemaining;
+        if(obligationRepaid >= obligationOwed) LogLoanFullyPaidOff(msg.sender, block.number);
+        return int(obligationOwed - obligationRepaid) > 0 ? obligationOwed - obligationRepaid : 0;
     }
 
     function refundExcessLoanPayment() onlyOwner paymentPeriod returns(bool isSuccess) {
-        require(obligationRepaid > loanGoal * (100 + interestRate) / 100);
-        uint refundAmount = obligationRepaid - loanGoal * (100 + interestRate) / 100;
+        require(obligationRepaid > obligationOwed);
+        uint refundAmount = obligationRepaid - obligationOwed;
         msg.sender.transfer(refundAmount);
         return true;
     }
@@ -171,5 +179,37 @@ contract LoanContract is Owned {
         return true;
     }
 
-    // can add default function if loan not repaid within a certain amount of time
+    function declareLoanPaid() public returns(bool) {
+        require(obligationRepaid >= obligationOwed);
+        LoanHub loanHubInstance = LoanHub(loanHubInstanceAddress);
+        loanHubInstance.declareLoanPaid(owner);
+        LogDeclareLoanPaid(msg.sender, block.number);
+        return true;
+    }
+
+    function declareLoanDefaulted() public returns(bool) {
+        // only callable after the loan repayment end date has finished, not callable for defaulted coupon payments
+        require((obligationRepaid < obligationOwed) &&
+            (block.number > loanStartBlock + fundingDuration));
+        LoanHub loanHubInstance = LoanHub(loanHubInstanceAddress);
+        loanHubInstance.declareLoanDefaulted(owner);
+        LogDeclareLoanDefaulted(msg.sender, block.number);
+        return true;
+    }
+/*
+    function sellBond() public return(bool){
+        // call by bond holder with the price
+        // update list and sold
+
+    }
+    function getBondSellerPrice(bondSellerAddress);
+    //value left bond
+
+    function buyBond(bondSellerAddress) ;
+    // called by bond purchaser
+    // if payment is equal to selling price, then update everything
+*/
+
+
+
 }
