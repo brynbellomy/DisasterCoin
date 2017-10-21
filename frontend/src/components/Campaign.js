@@ -29,14 +29,14 @@ class Campaign extends Component {
                     <Col xs={3} >
                         <p><b> Name: </b></p>
                         <p><b> Description: </b></p>
-                        <p><b> Total Amount Fundraised: </b></p>
+                        <p><b> Deadline: </b></p>
                         <p><b> Withdraw Limit: </b></p>
                     </Col>
                     <Col xs={4}>
-                        <p></p>
-                        <p></p>
-                        <p></p>
-                        <p></p>
+                        <p>{this.state.campaign.name}</p>
+                        <p>{this.state.campaign.description}</p>
+                        <p>{this.state.campaign.deadline}</p>
+                        <p>{this.state.campaign.withdraw}</p>
                     </Col>
                 </Row>
                 <Row>
