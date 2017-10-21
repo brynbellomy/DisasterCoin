@@ -196,11 +196,11 @@ contract LoanContract is Owned {
         LogDeclareLoanDefaulted(msg.sender, block.number);
         return true;
     }
-
+/*
     function sellBond() public return(bool){
         // call by bond holder with the price
         // update list and sold
-        
+
     }
     function getBondSellerPrice(bondSellerAddress);
     //value left bond
@@ -208,7 +208,7 @@ contract LoanContract is Owned {
     function buyBond(bondSellerAddress) ;
     // called by bond purchaser
     // if payment is equal to selling price, then update everything
-
+*/
 
 
 
