@@ -31,6 +31,7 @@ function* registerVendor (vendorObj) {
   yield window.web3.eth.getAccountsPromise().then(accountRet => accounts = accountRet)
   const vendor = vendorObj.vendor
   yield vendorsContract.addVendor(vendor.address, vendor.ipfsHash, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
+  console.log(tx)
   // console.log('tx ~>', tx)
   // yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }

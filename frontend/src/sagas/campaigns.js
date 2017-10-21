@@ -50,6 +50,7 @@ function* fetchCampaign (id) {
 }
 
 function* createCampaign (campaignAction) {
+  console.log(window.contracts)
   let campaignHub, accounts, tx
   yield contracts.CampaignHub.deployed().then((campaignHubDeployed) => campaignHub = campaignHubDeployed)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)

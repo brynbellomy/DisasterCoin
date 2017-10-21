@@ -19,7 +19,7 @@ class Campaign extends Component {
 
     componentDidMount() {
         this.props.fetchCampaign(this.props.match.params.id)
-        
+
     }
 
 
