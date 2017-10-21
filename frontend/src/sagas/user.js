@@ -2,7 +2,7 @@ import { all, put, takeEvery } from 'redux-saga/effects'
 import { push } from 'react-router-redux'
 import { LOGIN_USER, REGISTER_USER } from '../constants/UserActionTypes'
 import { loggedInUser } from '../actions/userActions'
-import  findWhere from 'lodash'
+import * as _ from 'lodash'
 import * as ethutil from 'ethereumjs-util'
 
 function* loginUser (action) {
@@ -25,8 +25,9 @@ function* loginUser (action) {
     eAddr: accounts[0]
   }
   //let's first check if the user is registered 
-  let myUser = findWhere(userArr.users,{uAddr: credentials.address})
+  let myUser = _.find(userArr.users,{uAddr: credentials.address})
   if(!myUser) {
+    console.log("there shouldnt be a user")
     userArr.users.push(userData)
     sessionStorage.setItem('users',JSON.stringify(userArr))
   } 
