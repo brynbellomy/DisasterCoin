@@ -899,7 +899,6 @@ function* fetchCampaigns () {
   yield fetch('http://0.0.0.0:8080/campaigns', config)
     .then((response) => response.json())
     .then((campaignsArr) => {
-        console.log('yayyyy')
       campaigns = campaignsArr
     })
     .catch(err => {

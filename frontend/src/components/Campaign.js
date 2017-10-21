@@ -132,7 +132,7 @@ class Campaign extends Component {
 const mapStatetoProps = (state) => {
   return {
     user: state.user.user,
-    campaign: state.campaign.campaign,
+    campaign: state.campaigns.campaign,
   }
 }
 

@@ -3,6 +3,7 @@ import userReducer from './userReducer'
 import vendorReducer from './vendorReducer'
 import campaignsReducer from './campaignsReducer'
 import loansReducer from './loansReducer'
+import globalReducer from './globalReducer'
 import userCampaignReducer from './userCampaignReducer'
 // import profileReducer from './profileReducer'
 import { routerReducer } from 'react-router-redux'
@@ -16,9 +17,12 @@ const Nemo = combineReducers({
   campaigns: campaignsReducer,
   vendors: vendorReducer,
   loans: loansReducer,
-  campaign: campaignsReducer,
   createdCampaigns: userCampaignReducer,
   donatedCampaigns: userCampaignReducer
 })
 
-export default Nemo
+const rootReducer = (state, action) => {
+  return Nemo(globalReducer(state, action), action)
+}
+
+export default rootReducer
