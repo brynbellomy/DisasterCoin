@@ -2,98 +2,127 @@
 
 import React, {Component} from 'react';
 import {withRouter} from 'react-router';
-import {Row, Col, Button, Form} from 'reactstrap'
+import {Row, Col, Button, Form, Container, Input, FormGroup, Label} from 'reactstrap'
 import Header from './Header'
 import * as contracts from '../contracts'
+import {LoginHandler} from './Header'
+
 
 
 class CampaignStart extends Component {
 
     constructor(props) {
         super(props);
-        this.onDateChange = this.onDateChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            date: new Date().toISOString()
+            name: '',
+            goal: '',
+            description: '',
+            deadline: '',
+            withdraw: ''
         }
     }
 
-    onDateChange = (value) => {
-        this.setState({date: value});
-        console.log(value);
-    }
 
     handleSubmit = async (e) => {
         e.preventDefault();
+        console.log(this.state)
+        console.log(this.deadline.value)
+        console.log(this.withdraw.value)
+       
+        let date = this.deadline.value.split("-");
+        const deadline = new Date(date[0], date[1]-1,date[2]).getTime()
+        const goalAmount = this.goal.value
+        const weiLimitPerBlock = this.withdraw.value
+        const owner = sessionStorage.getItem('address')
+        console.log(LoginHandler)
+       // const deadline = parseInt(this._inputDeadline.value, 10)
+        //const owner = sessionStorage.getItem('address')
+       // const campaignHub = await contracts.CampaignHub.deployed()
+         //campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})*/
+        }
 
-        const goalAmount = parseInt(this._inputGoalAmount.value, 10)
-        const weiLimitPerBlock = parseInt(this._inputWeiLimitPerBlock.value, 10)
-        const deadline = parseInt(this._inputDeadline.value, 10)
-        const owner = sessionStorage.getItem('ethAddress')
-
-        const campaignHub = await contracts.CampaignHub.deployed()
-        campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})
-    }
 
 
     render() {
-        return(
-            <div>
-                <div>Goal amount: <input ref={x => this._inputGoalAmount = x} /></div>
-                <div>Wei limit per block: <input ref={x => this._inputWeiLimitPerBlock = x} /></div>
-                <div>Deadline: <input ref={x => this._inputDeadline = x} /></div>
-                <div>Owner: <input ref={x => this._inputOwner = x} /></div>
-                <button onClick={this.handleSubmit}>Create</button>
-
-                {/* <Header user={{}} />
-                <Form horizontal>
-                    <FormGroup controlId="name">
-                        <Col componentClass={ControlLabel} sm={2}>Name of Campaign:</Col>
-                        <Col sm={10}>
-                            <FormControl
-                                type="text"
-                                placeholder="Name of Campaign"
-                                inputRef={input => this.name = input}/>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup controlId="description">
-                        <Col componentClass={ControlLabel} sm={2}>Description</Col>
-                        <Col sm={10}>
-                            <FormControl
-                                componentClass="textarea"
-                                placeholder="Description"
-                                inputRef={input => this.description = input}/>
-                        </Col>
-                    </FormGroup>
-                    <FormGroup controlId="deadline">
-                    <Col componentClass={ControlLabel} sm={2}> Choose Deadline</Col>
-                        <Col sm={10}>
-
-                         </Col>
-                    </FormGroup>
-                    <FormGroup controlId="withdraw_limit">
-                        <Col componentClass={ControlLabel} sm={2}> Withdraw Limit</Col>
-                        <Col sm={9}>
-                            <FormControl
-                                type="text"
-                                placeholder="max withdraw limit per block"
-                                inputRef={input => this.limit = input}
+            return(
+                <div>
+                    <Header user={{}}/>
+                <Container>
+                <Col xs={2}/>
+                <Col xs={8}>
+                    <Form>
+                        <FormGroup row>
+                            <Label for="name" sm={2}>Name of Campaign:</Label>
+                            <Col sm={10}>
+                                <Input
+                                getRef={(input) => this.name = input}
+                                type="text" 
+                                 defaultValue="Name"
+                                 placeholder="name of campaign"/>
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="goal" sm={2}> Goal Amount</Label>
+                            <Col sm={10}>
+                                <Input 
+                                getRef={(input) => this.goal = input}
+                                id="goal"
+                                 type="number" 
+                                 defaultValue={10}
+                                 />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                            <Label for="description" sm={2}>Description</Label>
+                            <Col sm={10}>
+                               <Input 
+                               getRef={(input) => this.description = input}
+                               type="textarea" 
+                               defaultValue="hi"
+                               name="description" 
                                 />
+                            </Col>
+                        </FormGroup>
+                        <FormGroup row>
+                        <Label for="deadline" sm={2}>Deadline</Label>
+                            <Col sm={10}>
+                            <Input 
+                            getRef={(input) => this.deadline = input}
+                            type="date" 
+                            name="deadline" 
+                            id="deadline" 
+                            placeholder="Deadline" 
+                             />
+                            </Col>
+                         </FormGroup>
+                         <FormGroup row>
+                         <Label for="withdraw" sm={2}>Wei Limit Per Block</Label>
+                         <Col sm={9}>
+                             <Input 
+                             getRef={(input)=> this.withdraw = input}
+                             id="withdraw" 
+                             type="number"
+                             name="withdraw"
+                             defaultValue={12}
+                             placeholder="withdraw limit"/>
+                         </Col>
+                        <Col sm={1}><div><h6>eth/block</h6></div></Col>
+                        </FormGroup>
+                        <FormGroup>
+                            <Col sm={2}/>
+                            <Col sm={10}>
+                                <Button onClick={this.handleSubmit} type="submit">
+                                        Start Campaign
+                                    </Button>
+                            </Col>
+                         </FormGroup>
+                            </Form>
                         </Col>
-                        <Col sm={1} componentClass={ControlLabel}>eth/block</Col>
-                    </FormGroup>
-                    <FormGroup controlId="submit">
-                        <Col smOffset={2} sm={10}>
-                            <Button onClick={this.handleSubmit} type="submit">
-                                Start Campaign
-                            </Button>
-                        </Col>
-                    </FormGroup>
-                </Form> */}
-            </div>
-        );
-    }
-
+                        </Container>
+                </div>
+            );
+        }
+    
 }
 
 
