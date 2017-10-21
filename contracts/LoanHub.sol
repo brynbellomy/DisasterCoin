@@ -2,8 +2,11 @@ pragma solidity ^0.4.15;
 
 import "./Owned.sol";
 import "./LoanContract.sol";
+import "./AddressSetLib.sol";
 
 contract LoanHub is Owned {
+    using AddressSetLib for AddressSetLib.AddressSet;
+
     event LogDeployNewLoan(
         address loanCreator,
         address loanContractAddress,
@@ -22,6 +25,34 @@ contract LoanHub is Owned {
         uint repaymentDuration;
         uint numberOfCoupons;
         uint activationWindow;
+    }
+
+    mapping(address => LoanDescription) allLoans;
+    AddressSetLib.AddressSet allLoansKeys;
+
+    function getAllLoans()
+        constant
+        returns (address[], uint[], uint[], uint[], uint[], uint[], uint[])
+    {
+        address[] memory _addr = new address[](allLoansKeys.size());
+        uint[] memory _loanGoal = new uint[](allLoansKeys.size());
+        uint[] memory _interestRate = new uint[](allLoansKeys.size());
+        uint[] memory _fundingDuration = new uint[](allLoansKeys.size());
+        uint[] memory _repaymentDuration = new uint[](allLoansKeys.size());
+        uint[] memory _numberOfCoupons = new uint[](allLoansKeys.size());
+        uint[] memory _activationWindow = new uint[](allLoansKeys.size());
+
+        for (uint i = 0; i < allLoansKeys.size(); i++) {
+            _addr[i] = allLoansKeys.get(i);
+            _loanGoal[i] = allLoans[ _addr[i] ].loanGoal;
+            _interestRate[i] = allLoans[ _addr[i] ].interestRate;
+            _fundingDuration[i] = allLoans[ _addr[i] ].fundingDuration;
+            _repaymentDuration[i] = allLoans[ _addr[i] ].repaymentDuration;
+            _numberOfCoupons[i] = allLoans[ _addr[i] ].numberOfCoupons;
+            _activationWindow[i] = allLoans[ _addr[i] ].activationWindow;
+        }
+
+        return (_addr, _loanGoal, _interestRate, _fundingDuration, _repaymentDuration, _numberOfCoupons, _activationWindow);
     }
 
     mapping(address => LoanDescription[]) public borrowerAllLoans;

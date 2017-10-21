@@ -17,12 +17,13 @@ class Loans extends React.Component {
     this.props.fetchLoans()
   }
 
-  render () {
+  render() {
     return (
         <div>
         <Container>
         <Col xs={2}/>
         <Col xs={8}>
+            <h2>Deploy new loan</h2>
             <Form>
                 <FormGroup row>
                     <Label for="loanGoal" sm={2}>Loan goal</Label>
