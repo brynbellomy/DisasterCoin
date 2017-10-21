@@ -198,8 +198,18 @@ contract LoanContract is Owned {
     }
 
     function sellBond() public return(bool){
+        // call by bond holder with the price
+        // update list and sold
         
     }
+    function getBondSellerPrice(bondSellerAddress);
+    //value left bond
+
+    function buyBond(bondSellerAddress) ;
+    // called by bond purchaser
+    // if payment is equal to selling price, then update everything
+
+
 
 
 }
