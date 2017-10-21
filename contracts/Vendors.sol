@@ -11,25 +11,25 @@ contract Vendors is Owned
 
     struct Vendor {
         Bytes32SetLib.Bytes32Set tags;
-        bytes32 ipfsHash;
+        string name;
         bool exists;
     }
 
     mapping(address => Vendor) vendors;
 
-    event LogVendorAdded(address vendorAddr, bytes32 ipfsHash);
+    event LogVendorAdded(address vendorAddr, string name);
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
     event LogTagAdded(bytes32 tag);
 
-    function addVendor(address vendorAddr, bytes32 ipfsHash)
+    function addVendor(address vendorAddr, string name)
         onlyOwner
     {
         require(vendors[vendorAddr].exists == false);
 
         vendors[vendorAddr].exists = true;
-        vendors[vendorAddr].ipfsHash = ipfsHash;
+        vendors[vendorAddr].name = name;
 
-        LogVendorAdded(vendorAddr, ipfsHash);
+        LogVendorAdded(vendorAddr, name);
     }
 
     function addVendorTag(address vendorAddr, bytes32 tag)

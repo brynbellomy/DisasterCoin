@@ -12,6 +12,7 @@ services:
     ports:
       - "81:8080"
       - "8080:8080"
+      - "80:3000"
     depends_on:
       - redis
     links:
@@ -21,18 +22,18 @@ services:
       - REDIS_PORT=6379
     volumes:
       - frontend_static:/opt/frontend_static
-  nginx:
-    build:
-      context: ..
-      dockerfile: deploy/Dockerfile-nginx
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    links:
-      - backend
-    volumes:
-      - frontend_static:/opt/frontend_static
+  # nginx:
+  #   build:
+  #     context: ..
+  #     dockerfile: deploy/Dockerfile-nginx
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - backend
+  #   links:
+  #     - backend
+  #   volumes:
+  #     - frontend_static:/opt/frontend_static
 
 volumes:
   frontend_static:

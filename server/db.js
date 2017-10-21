@@ -44,8 +44,8 @@ async function getCampaign(address) {
  * Vendors
  */
 
-async function addVendor(address, ipfsHash) {
-    await client.hsetAsync('vendors', address, JSON.stringify({ ipfsHash, tags: [] }))
+async function addVendor(address, name) {
+    await client.hsetAsync('vendors', address, JSON.stringify({ name, tags: [] }))
 }
 
 async function addVendorTag(address, tag) {

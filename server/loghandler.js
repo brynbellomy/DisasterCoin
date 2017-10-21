@@ -39,17 +39,19 @@ async function handleLog(log) {
         shouldBreak = true
 
     } else if (log.event === 'LogVendorAdded') {
-        await db.addVendor(log.args.vendorAddr, log.args.ipfsHash)
+        await db.addVendor(log.args.vendorAddr, log.args.name)
     } else if (log.event === 'LogVendorTagAdded') {
         await db.addVendorTag(log.args.vendorAddr, log.args.tag)
     } else if (log.event === 'LogTagAdded') {
         await db.addTag(log.args.tag)
-    } else if (['LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
+    } else if (['LogNewOwner', 'LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
         let campaignState = await getEntireCampaignState(log.address)
         await db.setCampaign(log.address, campaignState)
 
         if (log.event == 'LogDonation') {
             await db.setUserType(log.args.sender, 'donator')
+        } else if (log.event == 'LogNewOwner') {
+            await db.setUserType(log.args.newOwner, 'campaigner')
         }
     } else {
         console.log(`Unhandled log (${log.event})`)
@@ -67,7 +69,7 @@ async function getEntireCampaignState(address) {
     const currentBalance = await campaign.currentBalance()
     const cumulativeBalance = await campaign.cumulativeBalance()
     const goalAmount = await campaign.goalAmount()
-    const ipfsHash = await campaign.ipfsHash()
+    const name = await campaign.name()
     const weiLimitPerBlock = await campaign.weiLimitPerBlock()
     const weiWithdrawnSoFar = await campaign.weiWithdrawnSoFar()
     const deadline = await campaign.deadline()
@@ -89,7 +91,7 @@ async function getEntireCampaignState(address) {
         currentBalance,
         cumulativeBalance,
         goalAmount,
-        ipfsHash,
+        name,
         weiLimitPerBlock,
         weiWithdrawnSoFar,
         deadline,
