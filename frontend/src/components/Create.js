@@ -9,8 +9,6 @@ import Header from './Header'
 import * as contracts from '../contracts'
 
 
-
-
 class CampaignStart extends Component {
 
     constructor(props) {
@@ -24,31 +22,24 @@ class CampaignStart extends Component {
         }
     }
 
-
     handleSubmit = async (e) => {
         e.preventDefault();
         console.log(this.state)
         console.log(this.deadline.value)
         console.log(this.withdraw.value)
 
-        let date = this.deadline.value.split("-");
-        const deadline = new Date(date[0], date[1]-1,date[2]).getTime()
+        const deadline = this.deadline.value
         const goalAmount = this.goal.value
+        console.log('type', typeof goalAmount)
         const weiLimitPerBlock = this.withdraw.value
-        // const owner = sessionStorage.getItem('address')
-        // console.log(LoginHandler)
-        // const deadline = parseInt(this._inputDeadline.value, 10)
-        //const owner = sessionStorage.getItem('address')
         const campaignHub = await contracts.CampaignHub.deployed()
-        // campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner)
 
         let accounts = await window.web3.eth.getAccountsPromise()
-        console.log('accounts ~>', accounts)
-        let tx = await campaignHub.addCampaign('ipfs hash', 12, 23, 34, {from: accounts[0], gas: 2e6})
+        let tx = await campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, {from: accounts[0], gas: 2e6})
         console.log('tx ~>', tx)
+
+        this.props.navigateToCampaign()
     }
-
-
 
     render() {
             return(
@@ -62,15 +53,9 @@ class CampaignStart extends Component {
                             <Col sm={10}>
                                 <Input
                                 getRef={(input) => this.name = input}
-<<<<<<< HEAD
                                 type="text"
                                 defaultValue="Name"
                                 placeholder="name of campaign"/>
-=======
-                                type="text"
-                                 defaultValue="Name"
-                                 placeholder="name of campaign"/>
->>>>>>> uport doesn't work with testrpc
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -100,7 +85,7 @@ class CampaignStart extends Component {
                             <Col sm={10}>
                             <Input
                             getRef={(input) => this.deadline = input}
-                            type="date"
+                            type="number"
                             name="deadline"
                             id="deadline"
                             placeholder="Deadline"
@@ -123,7 +108,7 @@ class CampaignStart extends Component {
                         <FormGroup>
                             <Col sm={2}/>
                             <Col sm={10}>
-                                {<Button onClick={() => this.props.navigateToCampaign()} color="primary">Create New Campaign</Button>}
+                                {<Button onClick={this.handleSubmit} color="primary">Create New Campaign</Button>}
                             </Col>
                          </FormGroup>
                             </Form>
