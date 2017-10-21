@@ -5,7 +5,7 @@ import {withRouter} from 'react-router';
 import {Row, Col, Button, Form, Container, Input, FormGroup, Label} from 'reactstrap'
 import Header from './Header'
 import * as contracts from '../contracts'
-import {LoginHandler} from './Header'
+//import {LoginHandler} from './Header'
 
 
 
@@ -34,7 +34,7 @@ class CampaignStart extends Component {
         const goalAmount = this.goal.value
         const weiLimitPerBlock = this.withdraw.value
         const owner = sessionStorage.getItem('address')
-        console.log(LoginHandler)
+       // console.log(LoginHandler)
        // const deadline = parseInt(this._inputDeadline.value, 10)
         //const owner = sessionStorage.getItem('address')
        // const campaignHub = await contracts.CampaignHub.deployed()
