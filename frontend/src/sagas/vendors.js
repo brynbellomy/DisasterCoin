@@ -1,6 +1,7 @@
 import { all, put, takeEvery } from 'redux-saga/effects'
 import { storeVendors } from '../actions/vendorActions'
 import { FETCH_VENDORS, REGISTER_VENDOR } from '../constants/VendorActionTypes'
+import * as contracts from '../contracts'
 
 function* fetchVendors () {
   let config = {
@@ -24,9 +25,14 @@ function* fetchVendors () {
   yield put(storeVendors(vendors))
 }
 
-function* registerVendor (vendor) {
-
-
+function* registerVendor (vendorObj) {
+  let vendorsContract, accounts, tx
+  yield contracts.Vendors.deployed().then(contract => vendorsContract = contract)
+  yield window.web3.eth.getAccountsPromise().then(accountRet => accounts = accountRet)
+  const vendor = vendorObj.vendor
+  yield vendorsContract.addVendor(vendor.address, vendor.ipfsHash, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
+  // console.log('tx ~>', tx)
+  // yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
 
 function* campaignSaga () {
