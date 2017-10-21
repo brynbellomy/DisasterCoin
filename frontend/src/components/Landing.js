@@ -19,15 +19,16 @@ class CampaignLanding extends Component {
     this.props.fetchCampaigns()
   }
   render () {
-      // let campaigns = this.props.campaigns.map((campaign, index) => {
-      //     return (
-      //         <tr key={index}>
-      //             <td><h3 onClick={() => this.props.navigateToCampaign(campaign.id)}>{campaign.name}</h3></td>
-      //             <td>{campaign.limit} </td>
-      //             <td>{campaign.deadline} </td>
-      //         </tr>
-      //     )
-      // })
+      let campaigns = this.props.campaigns.map((campaign, index) => {
+          console.log(campaign)
+          return (
+              <tr key={index}>
+                  <td><h3 onClick={() => this.props.navigateToCampaign(campaign.address)}>{campaign.name}</h3></td>
+                  <td>{campaign.limit} </td>
+                  <td>{campaign.deadline} </td>
+              </tr>
+          )
+      })
     return (
       <div style={{width: '100%'}}>
         <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30}}>
@@ -45,7 +46,7 @@ class CampaignLanding extends Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {campaigns} */}
+                   {campaigns}
                 </tbody>
               </Table>
             </Col>

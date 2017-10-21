@@ -13,46 +13,37 @@ class Campaign extends Component {
         super(props);
 
         this.state = {
-            campaign: {}
+            campaign: {},
+
         }
     }
 
-    componentDidMount() {
+    componentWillMount () {
         this.props.fetchCampaign(this.props.match.params.id)
-
     }
 
-
     render() {
+
+        console.log(this.props.user)
         return (
             <div>
                 <Row>
                     <Col xs={3} >
-                        <p><b> Name: </b></p>
-                        <p><b> Description: </b></p>
+                        <p><b> Address: </b></p>
+                        <p><b> Campaigner: </b></p>
+                        <p><b> Cumulative Balance: </b></p>
+                        <p><b> Current Balance: </b></p>
                         <p><b> Deadline: </b></p>
-                        <p><b> Withdraw Limit: </b></p>
                     </Col>
                     <Col xs={4}>
-                        <p>{this.state.campaign.name}</p>
-                        <p>{this.state.campaign.description}</p>
-                        <p>{this.state.campaign.deadline}</p>
-                        <p>{this.state.campaign.withdraw}</p>
+                        <p>{this.props.campaign ? this.props.campaign.address : null}</p>
+                        <p>{this.props.campaign ? this.props.campaign.campaigner: null}</p>
+                        <p>{this.props.campaign ? this.props.campaign.cumulativeBalance: null}</p>
+                        <p>{this.props.campaign ? this.props.campaign.currentBalance: null}</p>
+                        <p>{this.props.campaign ? this.props.campaign.deadline : null}</p>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={6}>
-                        <Table striped>
-                            <thead>
-                            <tr>
-                                <th>txHash</th>
-                                <th>from</th>
-                                <th> amount </th>
-                            </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </Table>
-                    </Col>
                 </Row>
             </div>
         )
@@ -60,6 +51,7 @@ class Campaign extends Component {
 }
 const mapStatetoProps = (state) => {
   return {
+    user: state.user.user,
     campaign: state.campaign.campaign,
   }
 }

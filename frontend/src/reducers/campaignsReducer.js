@@ -6,11 +6,15 @@ const initialState = {
 }
 
 export default function campaignsReducer (state = initialState, action) {
+  let newState = null
   switch (action.type) {
     case STORE_CAMPAIGNS:
-      return Object.assign({}, state, {campaigns: action.campaigns})
+      newState = Object.assign({}, state, {campaigns: action.campaigns})
+      return newState
     case STORE_CAMPAIGN:
-      return Object.assign({}, state, {campaign: action.campaign})
+      if (typeof action.campaign === 'null') return true
+      newState = Object.assign({}, state, {campaign: action.campaign})
+      return newState
     default:
 
   }
