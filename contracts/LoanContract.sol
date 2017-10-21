@@ -188,6 +188,7 @@ contract LoanContract is Owned {
     }
 
     function declareLoanDefaulted() public returns(bool) {
+        // only callable after the loan repayment end date has finished, not callable for defaulted coupon payments
         require((obligationRepaid < obligationOwed) &&
             (block.number > loanStartBlock + fundingDuration));
         LoanHub loanHubInstance = LoanHub(loanHubInstanceAddress);
@@ -196,5 +197,9 @@ contract LoanContract is Owned {
         return true;
     }
 
-    // can add default function if loan not repaid within a certain amount of time
+    function sellBond() public return(bool){
+        
+    }
+
+
 }
