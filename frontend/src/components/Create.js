@@ -1,11 +1,13 @@
+
 'use strict';
 
 import React, {Component} from 'react';
-import {withRouter} from 'react-router';
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import {Row, Col, Button, Form, Container, Input, FormGroup, Label} from 'reactstrap'
 import Header from './Header'
 import * as contracts from '../contracts'
-//import {LoginHandler} from './Header'
+
 
 
 
@@ -39,7 +41,7 @@ class CampaignStart extends Component {
         //const owner = sessionStorage.getItem('address')
        // const campaignHub = await contracts.CampaignHub.deployed()
          //campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})*/
-        }
+    }
 
 
 
@@ -56,8 +58,8 @@ class CampaignStart extends Component {
                                 <Input
                                 getRef={(input) => this.name = input}
                                 type="text" 
-                                 defaultValue="Name"
-                                 placeholder="name of campaign"/>
+                                defaultValue="Name"
+                                placeholder="name of campaign"/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
@@ -110,9 +112,7 @@ class CampaignStart extends Component {
                         <FormGroup>
                             <Col sm={2}/>
                             <Col sm={10}>
-                                <Button onClick={this.handleSubmit} type="submit">
-                                        Start Campaign
-                                    </Button>
+                                {<Button onClick={() => this.props.navigateToCampaign()} color="primary">Create New Campaign</Button>}
                             </Col>
                          </FormGroup>
                             </Form>
@@ -124,6 +124,10 @@ class CampaignStart extends Component {
     
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    navigateToCampaign: (id) => dispatch(push('/campaign/${id}'))
+  }
+}
 
-
-export default CampaignStart
+export default connect(null, mapDispatchToProps)(CampaignStart)

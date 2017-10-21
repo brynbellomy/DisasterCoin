@@ -132,4 +132,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(null, mapDispatchToProps)(CampaignProfile)
+export default connect(mapStatetoProps, mapDispatchToProps)(CampaignProfile)

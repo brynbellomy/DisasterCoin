@@ -1,4 +1,4 @@
-import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS } from '../constants/CampaignActionTypes'
+import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS, FETCH_CAMPAIGN, STORE_CAMPAIGN } from '../constants/CampaignActionTypes'
 
 export const fetchCampaigns = () => {
   return {
@@ -10,5 +10,19 @@ export const storeCampaigns = (campaigns) => {
   return {
     type: STORE_CAMPAIGNS,
     campaigns
+  }
+}
+
+export const fetchCampaign = (address) => {
+  return {
+    type: FETCH_CAMPAIGNS,
+    address
+  }
+}
+
+export const storeCampaign = (campaign) => {
+  return {
+    type: STORE_CAMPAIGN,
+    campaign
   }
 }
