@@ -16,7 +16,6 @@ export default function campaignsReducer (state = initialState, action) {
       newState = Object.assign({}, state, {campaign: action.campaign})
       return newState
     default:
-
   }
   return state
 }

@@ -1,6 +1,6 @@
 import { all, put, takeEvery } from 'redux-saga/effects'
 import { storeCampaigns, storeCampaign } from '../actions/campaignActions'
-import { FETCH_CAMPAIGNS, FETCH_CAMPAIGN, CREATE_CAMPAIGN } from '../constants/CampaignActionTypes'
+import { FETCH_CAMPAIGNS, FETCH_CAMPAIGN, CREATE_CAMPAIGN, DONATE_CAMPAIGN, WITHDRAW_CAMPAIGN } from '../constants/CampaignActionTypes'
 import { push } from 'react-router-redux'
 import * as contracts from '../contracts'
 
@@ -58,11 +58,25 @@ function* createCampaign (campaignAction) {
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
 
+function* donateCampaign (campaignAddress) {
+  let campaign
+  yield contracts.Campaign.at(campaignAddress.donate).then(res => campaign = res)
+  //yield campaign.donate()
+}
+
+function* withdrawCampaign (campaignAddress) {
+  let campaign
+  yield contracts.Campaign.at(campaignAddress.donate).then(res => campaign = res)
+  //yield campaign.disburseFunds()
+}
+
 function* campaignSaga () {
   yield all([
     takeEvery(FETCH_CAMPAIGNS, fetchCampaigns),
     takeEvery(FETCH_CAMPAIGN, fetchCampaign),
-    takeEvery(CREATE_CAMPAIGN, createCampaign)
+    takeEvery(CREATE_CAMPAIGN, createCampaign),
+    takeEvery(DONATE_CAMPAIGN, donateCampaign),
+    takeEvery(WITHDRAW_CAMPAIGN, withdrawCampaign),
   ])
 }
 

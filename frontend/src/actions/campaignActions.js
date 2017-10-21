@@ -1,4 +1,5 @@
-import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS, FETCH_CAMPAIGN, STORE_CAMPAIGN, CREATE_CAMPAIGN } from '../constants/CampaignActionTypes'
+import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS, FETCH_CAMPAIGN, STORE_CAMPAIGN, CREATE_CAMPAIGN, WITHDRAW_CAMPAIGN, DONATE_CAMPAIGN } from '../constants/CampaignActionTypes'
+
 
 export const fetchCampaigns = () => {
   return {
@@ -33,3 +34,21 @@ export const createCampaign = (campaign) => {
     campaign
   }
 }
+
+export const withdrawCampaign = (withdraw) => {
+  return {
+    type: WITHDRAW_CAMPAIGN,
+    withdraw
+  }
+}
+
+export const donateCampaign = (donate) => {
+  return {
+    type: DONATE_CAMPAIGN,
+    donate
+  }
+}
+
+
+
+
