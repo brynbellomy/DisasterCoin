@@ -20,7 +20,7 @@ function configureStore () {
     reducers,
     compose(
       applyMiddleware(routeMiddleware, sagaMiddleware),
-      autoRehydrate()
+      // autoRehydrate()
     )
   )
   sagaMiddleware.run(rootSaga)
