@@ -27,7 +27,7 @@ function* fetchCampaigns () {
 }
 
 
-function* fetchCampaign (address) {
+function* fetchCampaign (id) {
   let config = {
     method: 'GET',
     headers: new Headers(),
@@ -36,9 +36,10 @@ function* fetchCampaign (address) {
   }
   let campaign = []
 
-  yield fetch('http://0.0.0.0:8080/campaign/${address}', config)
+  yield fetch(`http://0.0.0.0:8080/campaign/${id.address}`, config)
     .then((response) => response.json())
     .then((campaignArr) => {
+      console.log(campaignArr)
       campaign = campaignArr
     })
     .catch(err => {
