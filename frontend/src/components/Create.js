@@ -46,7 +46,6 @@ class CampaignStart extends Component {
     render() {
             return(
                 <div>
-                    <Header user={{}}/>
                 <Container>
                 <Col xs={2}/>
                 <Col xs={8}>
