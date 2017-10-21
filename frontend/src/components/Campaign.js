@@ -13,7 +13,7 @@ class Campaign extends Component {
         super(props);
 
         this.state = {
-            campaign: props.campaign || {},
+            campaign: props.campaign,
         }
 
         this.handleDonate = this.handleDonate.bind(this)
@@ -35,6 +35,7 @@ class Campaign extends Component {
     }
 
     render() {
+      console.log(this.props.campaign)
         const DonateButton = () => (
             <div>
                 <Form>

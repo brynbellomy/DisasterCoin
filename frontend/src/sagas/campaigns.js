@@ -57,15 +57,18 @@ function* createCampaign (campaignAction) {
   yield put(storeCampaign(tx.logs[0].args))
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
-//donate(bytes32 tag) payable campaignNotFlagged returns (bool) 
+//donate(bytes32 tag) payable campaignNotFlagged returns (bool)
 function* donateCampaign (donateInput) {
   console.log(donateInput)
-  let campaign, accounts
-  yield contracts.Campaign.at(donateInput.donate.address).then(res => campaign = res)
-  yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
-  console.log(donateInput.donate.value)
-  yield campaign.donate('tagexample', {from: accounts[0], value: donateInput.donate.value}).then(txReturn => console.log(txReturn))
-  
+  let campaignTract, accounts
+  console.log('contracts', contracts.Campaign.deployed())
+  yield contracts.Campaign.deployed().then(deployed => campaignTract = deployed)
+  console.log(campaignTract)
+  // yield contracts.Campaign.at(donateInput.donate.address).then(res => campaign = res)
+  // yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
+  // console.log(donateInput.donate.value)
+  // yield campaign.donate('Food', {from: accounts[0], value: donateInput.donate.value}).then(txReturn => console.log(txReturn))
+
 }
 // disburseFunds(address vendor, bytes32 tag, uint amount)
 function* withdrawCampaign (campaignAddress) {
