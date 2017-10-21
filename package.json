@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "reactstrap": "next"
+    "reactstrap": "next",
+    "redux-logger": "^3.0.6"
   }
 }
