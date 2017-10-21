@@ -34,18 +34,16 @@ function* fetchCampaign (id) {
     mode: 'cors',
     cache: 'default'
   }
-  let campaign = []
+  let campaign = {}
 
   yield fetch(`http://0.0.0.0:8080/campaign/${id.address}`, config)
     .then((response) => response.json())
     .then((campaignArr) => {
-
       campaign = campaignArr
     })
     .catch(err => {
       console.log(err)
     })
-
   yield put(storeCampaign(campaign))
 }
 
