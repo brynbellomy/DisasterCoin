@@ -48,13 +48,13 @@ function* fetchCampaign (id) {
 }
 
 function* createCampaign (campaignAction) {
-  console.log(window.contracts)
   let campaignHub, accounts, tx
   yield contracts.CampaignHub.deployed().then((campaignHubDeployed) => campaignHub = campaignHubDeployed)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
-  yield console.log('accounts', accounts[0])
   const campaign = campaignAction.campaign
   yield campaignHub.addCampaign(campaign.name, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6}).then(txReturn => tx = txReturn)
+  yield console.log(tx)
+  yield put(storeCampaign(tx.logs[0].args))
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
 //donate(bytes32 tag) payable campaignNotFlagged returns (bool) 

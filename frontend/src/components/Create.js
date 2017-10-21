@@ -46,10 +46,8 @@ class CampaignStart extends Component {
 
     render() {
             return(
-                <div>
-                <Container>
-                <Col xs={2}/>
-                <Col xs={8}>
+
+                <Container style={{marginTop: 30}}>
                     <Form>
                         <FormGroup row>
                             <Label for="name" sm={2}>Name of Campaign:</Label>
@@ -114,10 +112,8 @@ class CampaignStart extends Component {
                                 {<Button onClick={this.handleSubmit} color="primary">Create New Campaign</Button>}
                             </Col>
                          </FormGroup>
-                            </Form>
-                        </Col>
-                        </Container>
-                </div>
+                    </Form>
+                </Container>
             );
         }
 

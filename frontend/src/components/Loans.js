@@ -19,8 +19,7 @@ class Loans extends React.Component {
 
   render() {
     return (
-        <div>
-        <Container>
+        <Container style={{marginTop: 30}}>
         <Col xs={2}/>
         <Col xs={8}>
             <h2>Deploy new loan</h2>
@@ -101,7 +100,6 @@ class Loans extends React.Component {
             </Form>
         </Col>
         </Container>
-        </div>
     )
   }
 

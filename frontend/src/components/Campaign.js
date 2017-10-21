@@ -13,7 +13,7 @@ class Campaign extends Component {
         super(props);
 
         this.state = {
-            campaign: {},
+            campaign: props.campaign || {},
         }
 
         this.handleDonate = this.handleDonate.bind(this)
@@ -41,7 +41,7 @@ class Campaign extends Component {
                     <FormGroup row>
                         <Label for="amount" sm={3}>Amount (wei):</Label>
                         <Col sm={4}>
-                        <Input 
+                        <Input
                             getRef={(input)=>this.amount= input}
                             type="text"
                             placeholder="wei"
@@ -52,7 +52,7 @@ class Campaign extends Component {
                     <Col sm={2}>
                         <Button onClick={this.handleDonate}>Contribute Funds!</Button>
                     </Col>
-                </Row> 
+                </Row>
                 </Form>
             </div>
         )
@@ -63,7 +63,7 @@ class Campaign extends Component {
                     <FormGroup row>
                         <Label for="address" sm={3}>Address:</Label>
                         <Col sm={4}>
-                        <Input 
+                        <Input
                             getRef={(input)=>this.address= input}
                             type="text"
                             placeholder="0x339FDb91708eDD47D92E847206aEd92f1C275699"
@@ -73,7 +73,7 @@ class Campaign extends Component {
                     <FormGroup row>
                         <Label for="amount" sm={3}>Amount (wei):</Label>
                         <Col sm={4}>
-                        <Input 
+                        <Input
                             getRef={(input)=>this.amount= input}
                             type="text"
                             placeholder="wei"
@@ -84,13 +84,12 @@ class Campaign extends Component {
                         <Col sm={2}>
                             <Button onClick={this.handleWithdraw}>Withdraw Funds!</Button>
                         </Col>
-                    </Row> 
+                    </Row>
                     </Form>
             </div>
         )
-        console.log(this.props.user.ethAddress)
         return (
-            <Container>
+            <Container style={{marginTop: 30}}>
                 <Row>
                     <Col xs={3} >
                         <p><b> Address: </b></p>
@@ -109,7 +108,7 @@ class Campaign extends Component {
                 </Row>
                 <Row>
                     <Col sm={10}>
-                    {this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />}
+                    {this.props.campaign ? (this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />) : null}
                     </Col>
                 </Row>
             </Container>
@@ -128,7 +127,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchCampaign: (address) => dispatch(fetchCampaign(address)),
     donateCampaign: (donate) => dispatch(donateCampaign(donate)),
     withdrawCampaign: (withdraw) => dispatch(donateCampaign(withdraw)),
-  } 
+  }
 }
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Campaign)
