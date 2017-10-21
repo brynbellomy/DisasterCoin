@@ -21,14 +21,16 @@ contract Vendors is Owned
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
     event LogTagAdded(bytes32 tag);
 
-    function addVendor(address vendorAddr, string name)
+    function addVendor(address vendorAddr, string name, bytes32[] tagsArr)
       public
     {
         require(vendors[vendorAddr].exists == false);
 
         vendors[vendorAddr].exists = true;
         vendors[vendorAddr].name = name;
-
+        for (uint i = 0; i < tagsArr.length; i++) {
+          addVendorTag(vendorAddr, tagsArr[i]);
+        }
         LogVendorAdded(vendorAddr, name);
     }
 
