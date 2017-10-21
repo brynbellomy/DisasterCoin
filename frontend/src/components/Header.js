@@ -36,6 +36,7 @@ class Header extends Component {
         // console.log(sessionStorage.getItem('address'))
       this.props.loginUser(credentials)
     }).catch(() => {})
+    LoginHandler(uport)
   }
 
   render () {
@@ -89,6 +90,12 @@ class Header extends Component {
 //       <NavLinks />
 //   </Navbar.Header>
 // </Navbar>);
+const LoginHandler = (uport) => {
+ console.log(uport)
+ return uport
+}
+
+
 const mapStatetoProps = (state) => {
   return {
     user: state.user.user
@@ -100,5 +107,7 @@ const mapDispatchToProps = (dispatch) => {
     logoutUser: () => dispatch(logoutUser())
   }
 }
+
+export {LoginHandler}
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Header)
