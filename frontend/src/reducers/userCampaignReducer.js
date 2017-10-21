@@ -8,11 +8,14 @@ const initialState = {
 export default function userCampaignReducer (state = initialState, action) {
   // For now, don't handle any actions
   // and just return the state given to us.
+  let newState
   switch (action.type) {
     case CREATED_CAMPAIGNS:
-      return Object.assign({}, state, {createdCampaigns: action.createdCampaigns})
+      newState = Object.assign({}, state, {createdCampaigns: action.createdCampaigns})
+      return newState
     case DONATED_CAMPAIGNS:
-      return Object.assign({}, state, {donatedCampaigns: action.donatedCampaigns})
+      newState = Object.assign({}, state, {donatedCampaigns: action.donatedCampaigns})
+      return newState
     default:
 
   }

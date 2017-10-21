@@ -26,13 +26,15 @@ function* fetchVendors () {
 }
 
 function* registerVendor (vendorObj) {
-  console.log('vendorObj', vendorObj)
   let vendorsContract, accounts, tx
   yield contracts.Vendors.deployed().then(contract => vendorsContract = contract)
   yield window.web3.eth.getAccountsPromise().then(accountRet => accounts = accountRet)
   const vendor = vendorObj.vendorObj
-  console.log(vendor.user, vendor.name, accounts[0])
-  yield vendorsContract.addVendor(vendor.user.address, vendor.name, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
+  // console.log(vendor.user, vendor.name, accounts[0])
+  yield vendorsContract.addVendor(accounts[0], vendor.name, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
+  vendor.tags.map(tag => {
+    vendorsContract.addVendorTag(accounts[0], tag, {from: accounts[0], gas: 2e6})
+  })
   console.log(tx)
   // console.log('tx ~>', tx)
   // yield put(push(`/campaign/${tx.logs[0].args.campaign}`))

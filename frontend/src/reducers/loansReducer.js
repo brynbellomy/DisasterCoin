@@ -5,9 +5,11 @@ const initialState = {
 }
 
 export default function campaignsReducer (state = initialState, action) {
+  let newState
   switch (action.type) {
     case STORE_LOANS:
-      return Object.assign({}, state, {loans: action.loans})
+      newState = Object.assign({}, state, {loans: action.loans})
+      return newState
     default:
 
   }

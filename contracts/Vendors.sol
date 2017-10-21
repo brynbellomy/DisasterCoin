@@ -21,16 +21,9 @@ contract Vendors is Owned
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
     event LogTagAdded(bytes32 tag);
 
-    function Vendors() { //hard coded
-        addTag('medical');
-        addTag('construction');
-        addTag('education');
-        addTag('food');
-        addTag('sanitation');        
-    }
-
-
-    function addVendor(address vendorAddr, string name) {
+    function addVendor(address vendorAddr, string name)
+      public
+    {
         require(vendors[vendorAddr].exists == false);
 
         vendors[vendorAddr].exists = true;
@@ -39,7 +32,9 @@ contract Vendors is Owned
         LogVendorAdded(vendorAddr, name);
     }
 
-    function addVendorTag(address vendorAddr, bytes32 tag) {
+    function addVendorTag(address vendorAddr, bytes32 tag)
+        public
+    {
         require(vendors[vendorAddr].exists);
         require(vendors[vendorAddr].tags.contains(tag) == false);
         require(tags.contains(tag));
