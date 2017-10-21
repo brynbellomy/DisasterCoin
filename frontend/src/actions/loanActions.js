@@ -1,4 +1,12 @@
-import { FETCH_LOANS, STORE_LOANS } from '../constants/LoanActionTypes'
+import { FETCH_LOANS, STORE_LOANS, DEPLOY_LOAN } from '../constants/LoanActionTypes'
+
+export const deployLoan = (loan) => {
+  console.log('deploy loan action ~>', loan)
+  return {
+    type: DEPLOY_LOAN,
+    loan
+  }
+}
 
 export const fetchLoans = () => {
   return {

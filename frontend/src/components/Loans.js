@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux'
-import { fetchLoans } from '../actions/loanActions'
+import { fetchLoans, deployLoan } from '../actions/loanActions'
 import { Button, Form, FormGroup, FormText, Input, Label, Col,Row,Container, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap'
 
 class Loans extends React.Component {
@@ -10,96 +10,115 @@ class Loans extends React.Component {
     this.state = {
       modal: false
     }
-    this.toggle = this.toggle.bind(this)
+    this.onClickRequestLoan = this.onClickRequestLoan.bind(this)
   }
+
   componentDidMount () {
     this.props.fetchLoans()
   }
-  toggle () {
-    this.setState({modal: !this.state.modal})
-  }
+
   render () {
     return (
-      <div style={{display: 'flex', justifyContent: 'center'}}>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} autoFocus={false}>
-          <ModalHeader toggle={this.toggle}>Request Loan</ModalHeader>
-          <ModalBody>
+        <div>
+        <Container>
+        <Col xs={2}/>
+        <Col xs={8}>
             <Form>
-              <FormGroup row>
-                <Label for="goal" sm={3}>Goal:</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.goal = input}
-                    type="number"
-                    defaultValue={100000000}
-                    />
-                  </Col>
-                  <Col sm={1}><div><h3>wei</h3></div></Col>
+                <FormGroup row>
+                    <Label for="loanGoal" sm={2}>Loan goal</Label>
+                    <Col sm={10}>
+                        <Input
+                        id="loanGoal"
+                        getRef={(input) => this.loanGoal = input}
+                        type="text"
+                        defaultValue={1}
+                        placeholder="Loan goal"/>
+                    </Col>
                 </FormGroup>
                 <FormGroup row>
-                <Label for="interest" sm={3}>Interest Rate:</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.interest = input}
-                    type="number"
-                    defaultValue={6}
-                    />
-                  </Col>
-                  <Col sm={1}><div><h2>%</h2></div></Col>
+                    <Label for="interestRate" sm={2}>Interest rate</Label>
+                    <Col sm={10}>
+                        <Input
+                        getRef={(input) => this.interestRate = input}
+                        id="interestRate"
+                         type="number"
+                         defaultValue={2}
+                         />
+                    </Col>
                 </FormGroup>
                 <FormGroup row>
-                <Label for="fduration" sm={3}>FundingDuration:</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.fduration = input}
-                    type="number"
-                    defaultValue={100}
-                    />
-                  </Col>
-                  <Col sm={1}><div><h3>blocks</h3></div></Col>
+                    <Label for="fundingDuration" sm={2}>Funding duration</Label>
+                    <Col sm={10}>
+                       <Input
+                       getRef={(input) => this.fundingDuration = input}
+                       type="number"
+                       defaultValue={3}
+                       name="fundingDuration"
+                        />
+                    </Col>
                 </FormGroup>
                 <FormGroup row>
-                <Label for="pduration" sm={3}>Bond Payout Duration:</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.pduration= input}
+                <Label for="repaymentDuration" sm={2}>Repayment duration</Label>
+                    <Col sm={10}>
+                    <Input
+                    getRef={(input) => this.repaymentDuration = input}
                     type="number"
-                    defaultValue={1000}
-                    />
-                  </Col>
-                  <Col sm={1}><div><h3>blocks</h3></div></Col>
+                    name="repaymentDuration"
+                    id="repaymentDuration"
+                       defaultValue={30}
+                     />
+                    </Col>
+                 </FormGroup>
+                 <FormGroup row>
+                 <Label for="numberOfCoupons" sm={2}>Number of coupons</Label>
+                 <Col sm={9}>
+                     <Input
+                     getRef={(input)=> this.numberOfCoupons = input}
+                     id="numberOfCoupons"
+                     type="number"
+                     name="numberOfCoupons"
+                     defaultValue={10} />
+                 </Col>
                 </FormGroup>
-                <FormGroup row>
-                <Label for="freq" sm={3}>Frequency of Payout(per year)</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.pduration= input}
-                    type="number"
-                    defaultValue={4}
-                    />
-                  </Col>
+                 <FormGroup row>
+                 <Label for="activationWindow" sm={2}>Activation window</Label>
+                 <Col sm={9}>
+                     <Input
+                     getRef={(input)=> this.activationWindow = input}
+                     id="activationWindow"
+                     type="number"
+                     name="activationWindow"
+                     defaultValue={4} />
+                 </Col>
                 </FormGroup>
-                <FormGroup row>
-                <Label for="bond" sm={3}>Activation Window for Bond</Label>
-                <Col sm={4}>
-                  <Input
-                    getRef={(input)=> this.pduration= input}
-                    type="number"
-                    defaultValue={4}
-                    />
-                  </Col>
-                  <Col sm={1}><div><h3>blocks</h3></div></Col>
+                <FormGroup>
+                    <Col sm={2}/>
+                    <Col sm={10}>
+                        <Button onClick={this.onClickRequestLoan} color='primary' style={{marginTop: 30}}>Request Loan</Button>
+                    </Col>
                 </FormGroup>
             </Form>
-          </ModalBody>
-          <ModalFooter>
-            <Button color='primary' onClick={this.toggle}>Do Something</Button>{' '}
-            <Button color='secondary' onClick={this.toggle}>Cancel</Button>
-          </ModalFooter>
-        </Modal>
-          {<Button onClick={this.toggle} color='primary' style={{marginTop: 30}}>Request Loan</Button>}
-      </div>
+        </Col>
+        </Container>
+        </div>
     )
+  }
+
+  async onClickRequestLoan() {
+    const loanGoal = this.loanGoal.value
+    const interestRate = this.interestRate.value
+    const fundingDuration = this.fundingDuration.value
+    const repaymentDuration = this.repaymentDuration.value
+    const numberOfCoupons = this.numberOfCoupons.value
+    const activationWindow = this.activationWindow.value
+    this.props.deployLoan({
+        loanGoal,
+        interestRate,
+        fundingDuration,
+        repaymentDuration,
+        numberOfCoupons,
+        activationWindow,
+    })
   }
 }
 
@@ -113,6 +132,7 @@ const mapStatetoProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchLoans: () => dispatch(fetchLoans()),
+    deployLoan: (loan) => dispatch(deployLoan(loan)),
     navigateToCampaign: (id) => dispatch(push(`/loans/${id}`))
   }
 }
