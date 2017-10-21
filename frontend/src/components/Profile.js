@@ -48,7 +48,7 @@ class CampaignProfile extends Component {
                 <Row style={{marginTop: 30}}>
                     <Col xs={12}>
                         {<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>}
-                        {<Button onClick={() => true} color='info' style={{marginLeft: 30}}>Request Loan</Button>}
+                        {<Button onClick={() => this.props.navigateToLoans()} color='info' style={{marginLeft: 30}}>Request Loan</Button>}
                     </Col>
                 </Row>
 
@@ -128,7 +128,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCreatedCampaigns: (address) => dispatch(fetchCreatedCampaigns(address)),
     fetchDonatedCampaigns: (ethAddress) => dispatch(fetchDonatedCampaigns(ethAddress)),
-    navigateToCreate: () => dispatch(push('/create'))
+    navigateToCreate: () => dispatch(push('/create')),
+    navigateToLoans: () => dispatch(push('/loans'))
   }
 }
 

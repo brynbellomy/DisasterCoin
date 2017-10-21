@@ -39,7 +39,7 @@ function* fetchCampaign (id) {
   yield fetch(`http://0.0.0.0:8080/campaign/${id.address}`, config)
     .then((response) => response.json())
     .then((campaignArr) => {
-      console.log(campaignArr)
+
       campaign = campaignArr
     })
     .catch(err => {
@@ -50,6 +50,7 @@ function* fetchCampaign (id) {
 }
 
 function* createCampaign (campaignAction) {
+  console.log(window.contracts)
   let campaignHub, accounts, tx
   yield contracts.CampaignHub.deployed().then((campaignHubDeployed) => campaignHub = campaignHubDeployed)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
