@@ -12,6 +12,10 @@ import { ConnectedRouter } from 'react-router-redux'
 
 import * as contracts from './contracts'
 
+import { Connect } from 'uport-connect'
+
+window.uport = new Connect('ReCover')
+
 contracts.init().then(() => {
 
     ReactDOM.render(

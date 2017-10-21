@@ -14,7 +14,7 @@ contract Campaign is Owned
   uint public currentBalance;
   uint public cumulativeBalance;
   uint public goalAmount;
-  bytes32 public ipfsHash;
+  string public name;
 
   mapping(address => uint) donations;
   AddressSetLib.AddressSet donators;
@@ -41,9 +41,9 @@ contract Campaign is Owned
   event LogSetNewIpfs(bytes32 newIpfsHash);
   event LogStopFlaggedCampaign(bool flaggedStatus);
 
-  function Campaign(bytes32 _ipfsHash, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
+  function Campaign(string _name, uint _goalAmount, address _vendors, uint _weiLimitPerBlock, uint _deadline) {
     // TODO support list of owners
-    ipfsHash = _ipfsHash;
+    name = _name;
     goalAmount = _goalAmount;
     vendors = Vendors(_vendors);
     weiLimitPerBlock = _weiLimitPerBlock;
@@ -137,12 +137,6 @@ contract Campaign is Owned
     weiWithdrawnSoFar += amount;
 
     LogDisburseFunds(vendor, tag, amount);
-  }
-
-  function setNewIpfs(bytes32 newIpfsHash)
-    onlyOwner {
-    ipfsHash = newIpfsHash;
-    LogSetNewIpfs(newIpfsHash);
   }
 
   function stopFlaggedCampaign()

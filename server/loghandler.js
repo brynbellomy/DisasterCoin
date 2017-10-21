@@ -8,6 +8,7 @@ const { decodeLog } = require('./loghandler-utils')
 
 function getAllLogs() {
     return new Promise((resolve, reject) => {
+        console.log('getContractAddresses() ~>', getContractAddresses())
         web3.eth.filter({ fromBlock: 0, toBlock: 'latest', addresses: getContractAddresses() }).get((err, logs) => {
             if (err) {
                 console.error('error fetching logs', err)
@@ -43,12 +44,14 @@ async function handleLog(log) {
         await db.addVendorTag(log.args.vendorAddr, log.args.tag)
     } else if (log.event === 'LogTagAdded') {
         await db.addTag(log.args.tag)
-    } else if (['LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
+    } else if (['LogNewOwner', 'LogDonation', 'LogWithdrawl', 'LogPaused', 'LogFundsTransfered', 'LogCampaignTagAdded', 'LogFlagCampaign', 'LogReturnFunds', 'LogDisburseFunds', 'LogSetNewIpfs', 'LogStopFlaggedCampaign'].indexOf(log.event) >= 0) {
         let campaignState = await getEntireCampaignState(log.address)
         await db.setCampaign(log.address, campaignState)
 
         if (log.event == 'LogDonation') {
             await db.setUserType(log.args.sender, 'donator')
+        } else if (log.event == 'LogNewOwner') {
+            await db.setUserType(log.args.newOwner, 'campaigner')
         }
     } else {
         console.log(`Unhandled log (${log.event})`)
@@ -66,7 +69,7 @@ async function getEntireCampaignState(address) {
     const currentBalance = await campaign.currentBalance()
     const cumulativeBalance = await campaign.cumulativeBalance()
     const goalAmount = await campaign.goalAmount()
-    const ipfsHash = await campaign.ipfsHash()
+    const name = await campaign.name()
     const weiLimitPerBlock = await campaign.weiLimitPerBlock()
     const weiWithdrawnSoFar = await campaign.weiWithdrawnSoFar()
     const deadline = await campaign.deadline()
@@ -88,7 +91,7 @@ async function getEntireCampaignState(address) {
         currentBalance,
         cumulativeBalance,
         goalAmount,
-        ipfsHash,
+        name,
         weiLimitPerBlock,
         weiWithdrawnSoFar,
         deadline,
@@ -111,6 +114,7 @@ module.exports = async () => {
         let logs = await getAllLogs()
 
         for (let log of logs) {
+             console.log('log ~>', log)
             let shouldBreak = await handleLog(log)
             if (shouldBreak) {
                 break

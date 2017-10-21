@@ -12,16 +12,16 @@ export const fetchDonatedCampaigns = (user) => {
   }
 }
 
-export const createdCampaigns = (campaigns) => {
+export const createdCampaigns = (createdCampaigns) => {
   return {
     type: CREATED_CAMPAIGNS,
-    campaigns
+    createdCampaigns
   }
 }
 
-export const donatedCampaigns = (campaigns) => {
+export const donatedCampaigns = (donatedCampaigns) => {
   return {
     type: DONATED_CAMPAIGNS,
-    campaigns
+    donatedCampaigns
   }
 }

@@ -1,6 +1,6 @@
 import { all, put, takeEvery } from 'redux-saga/effects'
 import { storeVendors } from '../actions/vendorActions'
-import { FETCH_VENDORS } from '../constants/VendorActionTypes'
+import { FETCH_VENDORS, REGISTER_VENDOR } from '../constants/VendorActionTypes'
 
 function* fetchVendors () {
   let config = {
@@ -24,9 +24,15 @@ function* fetchVendors () {
   yield put(storeVendors(vendors))
 }
 
+function* registerVendor (vendor) {
+
+
+}
+
 function* campaignSaga () {
   yield all([
-    takeEvery(FETCH_VENDORS, fetchVendors)
+    takeEvery(FETCH_VENDORS, fetchVendors),
+    registerVendor(REGISTER_VENDOR, registerVendor)
     // takeEvery(REGISTER_USER, registerUser)
   ])
 }

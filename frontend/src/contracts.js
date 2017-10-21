@@ -6,8 +6,8 @@ import campaignArtifacts from 'contracts/Campaign.json'
 const Promise = require('bluebird')
 const Web3 = require('web3')
 
-const CampaignHub = contract(campaignHubArtifacts)
-const Campaign = contract(campaignArtifacts)
+let CampaignHub = null
+let Campaign = null
 
 function init() {
     return new Promise((resolve, reject) => {
@@ -27,6 +27,9 @@ function init() {
             }
 
             // init our contracts
+            CampaignHub = contract(campaignHubArtifacts)
+            Campaign = contract(campaignArtifacts)
+
             CampaignHub.setProvider(window.web3.currentProvider)
             Campaign.setProvider(window.web3.currentProvider)
 

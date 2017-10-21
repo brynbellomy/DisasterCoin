@@ -1,11 +1,12 @@
+
 'use strict';
 
 import React, {Component} from 'react';
-import {withRouter} from 'react-router';
+import { push } from 'react-router-redux'
+import { connect } from 'react-redux'
 import {Row, Col, Button, Form, Container, Input, FormGroup, Label} from 'reactstrap'
 import Header from './Header'
-import * as contracts from '../contracts'
-//import {LoginHandler} from './Header'
+import { createCampaign } from '../actions/campaignActions'
 
 
 
@@ -20,28 +21,28 @@ class CampaignStart extends Component {
             deadline: '',
             withdraw: ''
         }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-
-    handleSubmit = async (e) => {
-        e.preventDefault();
+    handleSubmit (e) {
+        e.preventDefault()
         console.log(this.state)
         console.log(this.deadline.value)
         console.log(this.withdraw.value)
-       
-        let date = this.deadline.value.split("-");
-        const deadline = new Date(date[0], date[1]-1,date[2]).getTime()
+
+        const name = this.name.value
+        const deadline = this.deadline.value
         const goalAmount = this.goal.value
+        console.log('type', typeof goalAmount)
         const weiLimitPerBlock = this.withdraw.value
-        const owner = sessionStorage.getItem('address')
-       // console.log(LoginHandler)
-       // const deadline = parseInt(this._inputDeadline.value, 10)
-        //const owner = sessionStorage.getItem('address')
-       // const campaignHub = await contracts.CampaignHub.deployed()
-         //campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, owner, {from: owner})*/
+        const txParams = {
+          name: name,
+          goalAmount: goalAmount,
+          weiLimitPerBlock: weiLimitPerBlock,
+          deadline: deadline,
         }
-
-
+        this.props.createCampaign(txParams)
+    }
 
     render() {
             return(
@@ -55,18 +56,18 @@ class CampaignStart extends Component {
                             <Col sm={10}>
                                 <Input
                                 getRef={(input) => this.name = input}
-                                type="text" 
-                                 defaultValue="Name"
-                                 placeholder="name of campaign"/>
+                                type="text"
+                                defaultValue="Name"
+                                placeholder="name of campaign"/>
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                             <Label for="goal" sm={2}> Goal Amount</Label>
                             <Col sm={10}>
-                                <Input 
+                                <Input
                                 getRef={(input) => this.goal = input}
                                 id="goal"
-                                 type="number" 
+                                 type="number"
                                  defaultValue={10}
                                  />
                             </Col>
@@ -74,32 +75,32 @@ class CampaignStart extends Component {
                         <FormGroup row>
                             <Label for="description" sm={2}>Description</Label>
                             <Col sm={10}>
-                               <Input 
+                               <Input
                                getRef={(input) => this.description = input}
-                               type="textarea" 
+                               type="textarea"
                                defaultValue="hi"
-                               name="description" 
+                               name="description"
                                 />
                             </Col>
                         </FormGroup>
                         <FormGroup row>
                         <Label for="deadline" sm={2}>Deadline</Label>
                             <Col sm={10}>
-                            <Input 
+                            <Input
                             getRef={(input) => this.deadline = input}
-                            type="date" 
-                            name="deadline" 
-                            id="deadline" 
-                            placeholder="Deadline" 
+                            type="number"
+                            name="deadline"
+                            id="deadline"
+                            placeholder="Deadline"
                              />
                             </Col>
                          </FormGroup>
                          <FormGroup row>
                          <Label for="withdraw" sm={2}>Wei Limit Per Block</Label>
                          <Col sm={9}>
-                             <Input 
+                             <Input
                              getRef={(input)=> this.withdraw = input}
-                             id="withdraw" 
+                             id="withdraw"
                              type="number"
                              name="withdraw"
                              defaultValue={12}
@@ -110,9 +111,7 @@ class CampaignStart extends Component {
                         <FormGroup>
                             <Col sm={2}/>
                             <Col sm={10}>
-                                <Button onClick={this.handleSubmit} type="submit">
-                                        Start Campaign
-                                    </Button>
+                                {<Button onClick={this.handleSubmit} color="primary">Create New Campaign</Button>}
                             </Col>
                          </FormGroup>
                             </Form>
@@ -121,9 +120,13 @@ class CampaignStart extends Component {
                 </div>
             );
         }
-    
+
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    createCampaign: (campaign) => dispatch(createCampaign(campaign))
+  }
+}
 
-
-export default CampaignStart
+export default connect(null, mapDispatchToProps)(CampaignStart)
