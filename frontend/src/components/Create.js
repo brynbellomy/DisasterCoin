@@ -30,12 +30,13 @@ class CampaignStart extends Component {
         console.log(this.deadline.value)
         console.log(this.withdraw.value)
 
+        const name = this.name.value
         const deadline = this.deadline.value
         const goalAmount = this.goal.value
         console.log('type', typeof goalAmount)
         const weiLimitPerBlock = this.withdraw.value
         const txParams = {
-          ipfsHash: 'ipfsHash',
+          name: name,
           goalAmount: goalAmount,
           weiLimitPerBlock: weiLimitPerBlock,
           deadline: deadline,
