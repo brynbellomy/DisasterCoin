@@ -15,7 +15,7 @@ function* fetchVendors () {
   yield fetch('http://0.0.0.0:8080/vendors', config)
     .then((response) => response.json())
     .then((vendorsArr) => {
-        console.log('yayyyy')
+        // console.log('yayyyy')
       vendors = vendorsArr
     })
     .catch(err => {
@@ -26,11 +26,13 @@ function* fetchVendors () {
 }
 
 function* registerVendor (vendorObj) {
+  console.log('vendorObj', vendorObj)
   let vendorsContract, accounts, tx
   yield contracts.Vendors.deployed().then(contract => vendorsContract = contract)
   yield window.web3.eth.getAccountsPromise().then(accountRet => accounts = accountRet)
-  const vendor = vendorObj.vendor
-  yield vendorsContract.addVendor(vendor.address, vendor.ipfsHash, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
+  const vendor = vendorObj.vendorObj
+  console.log(vendor.user, vendor.name, accounts[0])
+  yield vendorsContract.addVendor(vendor.user.address, vendor.name, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
   console.log(tx)
   // console.log('tx ~>', tx)
   // yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
@@ -39,7 +41,7 @@ function* registerVendor (vendorObj) {
 function* campaignSaga () {
   yield all([
     takeEvery(FETCH_VENDORS, fetchVendors),
-    registerVendor(REGISTER_VENDOR, registerVendor)
+    takeEvery(REGISTER_VENDOR, registerVendor)
     // takeEvery(REGISTER_USER, registerUser)
   ])
 }

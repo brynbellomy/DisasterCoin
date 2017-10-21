@@ -13,10 +13,9 @@ export function storeVendors (vendors) {
   }
 }
 
-export function registerVendor (address, tags) {
+export function registerVendor (vendorObj) {
   return {
     type: REGISTER_VENDOR,
-    address,
-    tags
+    vendorObj
   }
 }

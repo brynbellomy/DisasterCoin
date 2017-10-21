@@ -2,22 +2,19 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import * as contracts from './contracts'
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
 // import { BrowserRouter } from 'react-router-dom'
 import { Provider } from 'react-redux'
-
+import store, { history } from './store/store'
 import { ConnectedRouter } from 'react-router-redux'
+import * as contracts from './contracts'
 
 import { Connect } from 'uport-connect'
 
 window.uport = new Connect('ReCover')
 
 contracts.init().then(() => {
-  let _store = require('./store/store')
-  let store = _store.default
-  let history = _store.history
     ReactDOM.render(
       (<Provider store={store}>
         { /* ConnectedRouter will use the store from Provider automatically */ }
