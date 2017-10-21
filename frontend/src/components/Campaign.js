@@ -28,17 +28,20 @@ class Campaign extends Component {
         // e.preventDefault()
         console.log('address', this.props.campaign.address)
         console.log('value', this.amount.value)
-        this.props.donateCampaign({address: this.props.campaign.address, amount: this.amount.value})
+        this.props.donateCampaign({address: this.props.campaign.address, amount: this.amount.value, tag: 'Food'})
     }
 
     handleWithdraw (e) {
         // e.preventDefault()
         // console.log('hello')
-        this.props.withdrawCampaign({address: this.props.campaign.address, withdrawAddress: this.address.value, amount: this.amount.value, tag: this.tag.value})
+        console.log(this.withdrawAmount.value)
+        this.props.withdrawCampaign({address: this.props.campaign.address, withdrawAddress: this.address.value, amount: this.withdrawAmount.value, tag: this.tag.value})
     }
 
     render() {
-      console.log(this.props.campaign)
+
+      this.props.campaign ? console.log('campaigner', this.props.campaign.campaigner) : null
+      this.props.user ? console.log('user', this.props.user.ethAddress) : null
         const DonateButton = () => (
             <div>
                 <Form>
@@ -88,7 +91,7 @@ class Campaign extends Component {
                         <Label for="amount" sm={3}>Amount (wei):</Label>
                         <Col sm={4}>
                         <Input
-                            getRef={(input)=>this.amount= input}
+                            getRef={(input)=>this.withdrawAmount= input}
                             type="text"
                             placeholder="wei"
                         />
@@ -122,7 +125,7 @@ class Campaign extends Component {
                 </Row>
                 <Row>
                     <Col sm={10}>
-                    {this.props.campaign ? (this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />) : null}
+                    {this.props.campaign ? (this.props.user.ethAddress === this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />) : null}
                     </Col>
                 </Row>
             </Container>

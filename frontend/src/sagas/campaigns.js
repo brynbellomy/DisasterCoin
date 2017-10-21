@@ -946,7 +946,7 @@ function* donateCampaign (donateInput) {
   const instance = campaignTract.at(donateInput.donate.address)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
   // console.log(donateInput.donate.value)
-  yield instance.donate('Food', {from: accounts[0], value: donateInput.donate.value}).then(txReturn => console.log(txReturn))
+  yield instance.donate('Food', {from: accounts[0], value: window.web3.toWei(donateInput.donate.value, 'ether')}, () => true)
 }
 // disburseFunds(address vendor, bytes32 tag, uint amount)
 function* withdrawCampaign (withdrawInput) {
@@ -955,7 +955,11 @@ function* withdrawCampaign (withdrawInput) {
   const instance = campaignTract.at(withdrawInput.withdraw.address)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
   // console.log(donateInput.donate.value)
-  yield instance.disburseFunds(withdrawInput.withdraw.withdrawAddress, withdrawInput.withdraw.tag, withdrawInput.withdraw.value, {from: accounts[0], gas: 2e6}).then(txReturn => console.log(txReturn))
+  console.log('accounts', accounts)
+  console.log('withdrawInput', withdrawInput)
+  const {withdrawAddress, tag, amount } = withdrawInput.withdraw
+
+  yield instance.disburseFunds(withdrawAddress, tag, amount, {from: accounts[0], gas: 2e6}, () => {})
 }
 
 function* campaignSaga () {
@@ -964,7 +968,7 @@ function* campaignSaga () {
     takeEvery(FETCH_CAMPAIGN, fetchCampaign),
     takeEvery(CREATE_CAMPAIGN, createCampaign),
     takeEvery(DONATE_CAMPAIGN, donateCampaign),
-    takeEvery(WITHDRAW_CAMPAIGN, withdrawCampaign),
+    takeEvery(WITHDRAW_CAMPAIGN, withdrawCampaign)
   ])
 }
 
