@@ -25,7 +25,16 @@ class CampaignProfile extends Component {
     }
 
     render() {
-
+        const createdCampaigns = this.props.createdCampaigns.map((campaign) => {
+          <tr>
+            <td>{JSON.stringify(campaign)}</td>
+          </tr>
+        })
+        const donatedCampaigns = this.props.donatedCampaigns.map((campaign) => {
+          <tr>
+            <td>{JSON.stringify(campaign)}</td>
+          </tr>
+        })
         return(
             <Container style={{marginTop: 30}}>
                 <Row>
@@ -48,7 +57,7 @@ class CampaignProfile extends Component {
                 <Row style={{marginTop: 30}}>
                     <Col xs={12}>
                         {<Button onClick={() => this.props.navigateToCreate()} color="primary">Start New Campaign</Button>}
-                        {<Button onClick={() => this.props.navigateToLoans()} color='info' style={{marginLeft: 30}}>Request Loan</Button>}
+                        {/* {<Button onClick={() => this.props.navigateToLoans()} color='info' style={{marginLeft: 30}}>Request Loan</Button>} */}
                     </Col>
                 </Row>
 
@@ -63,6 +72,7 @@ class CampaignProfile extends Component {
                                 </tr>
                             </thead>
                             <tbody>
+                              {createdCampaigns}
                             </tbody>
                         </Table>
                     </Col>
@@ -77,11 +87,12 @@ class CampaignProfile extends Component {
                                 </tr>
                             </thead>
                             <tbody>
+                              {donatedCampaigns}
                             </tbody>
                         </Table>
                     </Col>
                 </Row>
-                <Row style={{marginTop: 30}}>
+                {/* <Row style={{marginTop: 30}}>
                     <Col xs={6}>
                         <h4>Loans Taken</h4>
                         <Table striped>
@@ -109,7 +120,7 @@ class CampaignProfile extends Component {
                             </tbody>
                         </Table>
                     </Col>
-                </Row>
+                </Row> */}
             </Container>
 
         )
