@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 import Profile from '../components/Profile'
 import Create from '../components/Create'
 import Home from '../components/Home'
-import CampaignPage from '../components/CampaignPage'
+import Campaign from '../components/Campaign'
 import Landing from '../components/Landing'
 import Vendors from '../components/Vendors'
 import Logout from '../components/Logout'
@@ -26,7 +26,7 @@ const Main = (props) =>
       <Route exact path='/' component={Home}></Route>
       <Route path='/profile' component={ProfilesHandler} />
       <Route path='/create' component={Create} />
-      <Route path='/campaign/:id' component={CampaignPage} />
+      <Route path='/campaign/:id' component={Campaign} />
       <Route path='/campaigns' component={Landing} />
       <Route path='/vendors' component={Vendors} />
       <Route path='/logout' component={Logout} />
