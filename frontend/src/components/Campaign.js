@@ -3,8 +3,8 @@
 import React, {Component} from 'react';
 import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
-import {Row,Col, Table, Button, Container} from 'reactstrap';
-import { fetchCampaign } from '../actions/campaignActions'
+import { Row, Col, Table, Button, Container, Input, FormGroup, Label, Form} from 'reactstrap';
+import { fetchCampaign, donateCampaign, withdrawCampaign } from '../actions/campaignActions'
 import Header from './Header'
 
 class Campaign extends Component {
@@ -14,19 +14,83 @@ class Campaign extends Component {
 
         this.state = {
             campaign: {},
-
         }
+
+        this.handleDonate = this.handleDonate.bind(this)
+        this.handleWithdraw = this.handleWithdraw.bind(this)
     }
 
     componentWillMount () {
         this.props.fetchCampaign(this.props.match.params.id)
     }
 
-    render() {
+    handleDonate (e) {
+        e.preventDefault()
+        this.props.donateCampaign(this.props.campaign.address)
+    }
 
-        console.log(this.props.user)
-        return (
+    handleWithdraw (e) {
+        e.preventDefault()
+        this.props.withdrawCampaign(this.props.campaign.address)
+    }
+
+    render() {
+        const DonateButton = () => (
             <div>
+                <Form>
+                    <FormGroup row>
+                        <Label for="amount" sm={3}>Amount (wei):</Label>
+                        <Col sm={4}>
+                        <Input 
+                            getRef={(input)=>this.amount= input}
+                            type="text"
+                            placeholder="wei"
+                        />
+                        </Col>
+                    </FormGroup>
+                <Row>
+                    <Col sm={2}>
+                        <Button onClick={this.handleDonate}>Contribute Funds!</Button>
+                    </Col>
+                </Row> 
+                </Form>
+            </div>
+        )
+
+        const WithdrawButton = () => (
+            <div>
+                <Form>
+                    <FormGroup row>
+                        <Label for="address" sm={3}>Address:</Label>
+                        <Col sm={4}>
+                        <Input 
+                            getRef={(input)=>this.address= input}
+                            type="text"
+                            placeholder="0x339FDb91708eDD47D92E847206aEd92f1C275699"
+                        />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="amount" sm={3}>Amount (wei):</Label>
+                        <Col sm={4}>
+                        <Input 
+                            getRef={(input)=>this.amount= input}
+                            type="text"
+                            placeholder="wei"
+                        />
+                        </Col>
+                    </FormGroup>
+                    <Row>
+                        <Col sm={2}>
+                            <Button onClick={this.handleWithdraw}>Withdraw Funds!</Button>
+                        </Col>
+                    </Row> 
+                    </Form>
+            </div>
+        )
+        console.log(this.props.user.ethAddress)
+        return (
+            <Container>
                 <Row>
                     <Col xs={3} >
                         <p><b> Address: </b></p>
@@ -44,8 +108,11 @@ class Campaign extends Component {
                     </Col>
                 </Row>
                 <Row>
+                    <Col sm={10}>
+                    {this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />}
+                    </Col>
                 </Row>
-            </div>
+            </Container>
         )
     }
 }
@@ -59,7 +126,9 @@ const mapStatetoProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchCampaign: (address) => dispatch(fetchCampaign(address)),
-  }
+    donateCampaign: (donate) => dispatch(donateCampaign(donate)),
+    withdrawCampaign: (withdraw) => dispatch(donateCampaign(withdraw)),
+  } 
 }
 
 export default connect(mapStatetoProps, mapDispatchToProps)(Campaign)
