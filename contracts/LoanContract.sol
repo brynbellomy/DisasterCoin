@@ -236,9 +236,11 @@ contract LoanContract is Owned {
         return seller.sellingOrNot;
     }
 
+    function getIthBonderSeller(uint _arrayIndex) constant returns(address ithAddress){
+        return bondSellerAddresses[_arrayIndex];
+    }
 
 
-    
 }
 
 /*
