@@ -16,9 +16,21 @@ class CampaignLanding extends Component {
   }
 
   componentDidMount () {
-    this.props.fetchCampaigns()
+   // this.props.fetchCampaigns()
   }
   render () {
+    let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
+    let campaigns = campaignArr.campaigns.map((campaign,index)=>{
+      console.log(campaign)
+      return (
+        <tr key={index}>
+          <td><h3 onClick={() => this.props.navigateToCampaign(campaign.address)}>{campaign.name}</h3></td>
+          <td>{campaign.weiLimitPerBlock}</td>
+          <td>{campaign.deadline} </td>
+        </tr>
+      )
+    })
+    /*
       let campaigns = this.props.campaigns.map((campaign, index) => {
           console.log(campaign)
           return (
@@ -28,7 +40,7 @@ class CampaignLanding extends Component {
                   <td>{campaign.deadline} </td>
               </tr>
           )
-      })
+      })*/
     return (
       <div style={{width: '100%'}}>
         <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 30}}>

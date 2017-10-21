@@ -41,6 +41,19 @@ class CampaignStart extends Component {
           weiLimitPerBlock: weiLimitPerBlock,
           deadline: deadline,
         }
+        const sessionParams = {
+            name: name,
+            goalAmount: goalAmount,
+            weiLimitPerBlock: weiLimitPerBlock,
+            deadline: deadline,
+            address: sessionStorage.getItem('ethAddress')
+          }
+
+        let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
+        campaignArr.campaigns.push(sessionParams)
+        sessionStorage.setItem('campaigns',JSON.stringify(campaignArr))
+        console.log(sessionStorage.getItem('campaigns'))
+        //`/campaign/${tx.logs[0].args.campaign}`
         this.props.createCampaign(txParams)
     }
 
@@ -121,6 +134,7 @@ class CampaignStart extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+      //navigateToCampaign
     createCampaign: (campaign) => dispatch(createCampaign(campaign))
   }
 }
