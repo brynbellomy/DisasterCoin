@@ -41,6 +41,7 @@ contract LoanContract is Owned {
     event LogSellBondFirstTime(address sender, uint sellPrice, uint blockNumber);
     event LogSellBondChangePrice(address sender, uint sellPrice, uint blockNumber);
     event LogSellBondStopSelling(address sender, uint blockNumber);
+    event LogBuyBondFromSeller(address buyer, address seller, uint sellPrice, uint blockNumber);
 
     struct SellerInfo {
         bool sellingOrNot;
@@ -50,7 +51,7 @@ contract LoanContract is Owned {
 
     mapping(address => uint) public funderContribution;
     mapping(address => uint) public funderCouponReceived;
-    mapping(address => bool) public funderPrincipalReceived;
+    mapping(address => uint) public funderPrincipalReceived;
     mapping(address => uint) public bondholderSellPrice;
     mapping(address => SellerInfo) public bondholderPrice;
 
@@ -174,18 +175,19 @@ contract LoanContract is Owned {
         require(funderContribution[msg.sender] != 0);
         uint numberOfCouponsElapsed = (block.number - loanStartBlock) / (repaymentDuration / numberOfCoupons);
         uint amountOfCouponsPaid = funderCouponReceived[msg.sender];
-        uint amountOfCouponsDeserved = funderContribution[msg.sender] * numberOfCouponsElapsed / numberOfCoupons;
-        uint amountPaid = amountOfCouponsDeserved - amountOfCouponsPaid;
-        funderCouponReceived[msg.sender] += amountPaid;
-        msg.sender.transfer(amountPaid);
-        LogReceiveCouponPayment(msg.sender, amountPaid);
+        uint amountOfCouponsDeserved = ((funderContribution[msg.sender] * interestRate) / 100
+            * (numberOfCouponsElapsed / numberOfCoupons));
+        uint amountToBePaid = amountOfCouponsDeserved - amountOfCouponsPaid;
+        funderCouponReceived[msg.sender] += amountToBePaid;
+        msg.sender.transfer(amountToBePaid);
+        LogReceiveCouponPayment(msg.sender, amountToBePaid);
         return true;
     }
 
     function receivePrincipalPayment() paymentPeriod returns(bool isSuccess) {
         require(funderContribution[msg.sender] != 0);
-        require(!funderPrincipalReceived[msg.sender]);
-        funderPrincipalReceived[msg.sender] = true;
+        require(funderPrincipalReceived[msg.sender] != funderContribution[msg.sender]);
+        funderPrincipalReceived[msg.sender] = funderContribution[msg.sender];
         msg.sender.transfer(funderContribution[msg.sender]);
         LogReceivePrincipalPayment(msg.sender, funderContribution[msg.sender]);
         return true;
@@ -239,27 +241,45 @@ contract LoanContract is Owned {
     function getIthBonderSeller(uint arrayIndex) constant returns(address ithAddress) {
         return bondSellerAddresses[arrayIndex];
     }
-/*
-    function getBondSellerPrice(address bondSellerAddress) constant returns(uint sellerPrice) {
+
+    function getBondSellerPrice(address bondSellerAddress) constant returns(uint sellerPrice, uint remainingValue) {
         SellerInfo storage seller = bondholderPrice[bondSellerAddress];
-        require(seller.sellingOrNot == true);
-
-        couponsLeft = totalCouponsShouldBeReceived - funderCouponReceived
-
-        if()
-
-        if principal already paid, then there is 0 principal left to be paid;
-        otherwise, pay all principal
-
-        // return seller price, value left bond (coupon + principal)
-        return seller.sellPrice;
+        require(seller.sellingOrNot);
+        uint amountOfCouponsPaid = funderCouponReceived[bondSellerAddress];
+        uint amountOfTotalCouponsDeserved = (funderContribution[bondSellerAddress] * interestRate) / 100;
+        uint amountOfCouponsToBePaid = amountOfTotalCouponsDeserved - amountOfCouponsPaid;
+        bool principalPaidCompletely = funderPrincipalReceived[bondSellerAddress] == funderContribution[bondSellerAddress];
+        uint principalRemaining = principalPaidCompletely ? 0 : funderContribution[bondSellerAddress] - funderPrincipalReceived[bondSellerAddress];
+        return(bondholderPrice[bondSellerAddress].sellPrice, amountOfCouponsToBePaid + principalRemaining);
     }
-*/
+
+    function buyBondFromSeller(address bondSellerAddress) payable public returns(bool isSuccess) {
+        SellerInfo storage seller = bondholderPrice[bondSellerAddress];
+
+        require(seller.sellingOrNot);
+        require(seller.sellPrice == msg.value);
+
+        funderContribution[msg.sender] += funderContribution[bondSellerAddress];
+        funderCouponReceived[msg.sender] += funderCouponReceived[bondSellerAddress];
+        funderPrincipalReceived[msg.sender] += funderPrincipalReceived[bondSellerAddress];
+
+        // delete array element
+        uint arrayIndex = seller.arrayIndex;
+        address movedSellerAddress = bondSellerAddresses[bondSellerAddresses.length - 1];
+        SellerInfo storage updatedSeller = bondholderPrice[movedSellerAddress];
+        updatedSeller.arrayIndex = arrayIndex;
+        bondSellerAddresses[arrayIndex] = movedSellerAddress;
+        bondSellerAddresses.length--;
+
+        delete funderContribution[bondSellerAddress];
+        delete funderCouponReceived[bondSellerAddress];
+        delete funderPrincipalReceived[bondSellerAddress];
+        delete bondholderSellPrice[bondSellerAddress];
+        delete bondholderPrice[bondSellerAddress]; // delete struct
+
+        bondSellerAddress.transfer(msg.value);
+        LogBuyBondFromSeller(msg.sender, bondSellerAddress, msg.value, block.number);
+        return true;
+    }
+
 }
-
-/*
-
-    function buyBond(address bondSellerAddress); //payable
-    // called by bond purchaser
-    // if payment is equal to selling price, then update everything
-    */
