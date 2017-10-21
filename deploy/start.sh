@@ -15,4 +15,7 @@ cp -r /opt/frontend/build /opt/frontend_static
 
 
 # start backend
-cd /opt/server && node server
+cd /opt/server && node server &
+
+# I'm not proud of this
+cd /opt/frontend && yarn run start
