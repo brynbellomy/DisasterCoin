@@ -34,6 +34,7 @@ class Vendors extends React.Component {
     // e.preventDefault()
     this.toggle()
     this.props.registerVendor({user: this.state.userAddress, name: this.name.value, tags: this.state.tags})
+    this.setState({tags: []})
   }
   componentWillReceiveProps (props) {
     props.user.address ? this.setState({userAddress: mnid.decode(props.user.address)}) : null

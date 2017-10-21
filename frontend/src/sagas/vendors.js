@@ -33,6 +33,7 @@ function* registerVendor (vendorObj) {
   // console.log(vendor.user, vendor.name, accounts[0])
   yield vendorsContract.addVendor(accounts[0], vendor.name, {from: accounts[0], gas: 2e6}).then(ret => tx = ret)
   vendor.tags.map(tag => {
+    console.log('tag')
     vendorsContract.addVendorTag(accounts[0], tag, {from: accounts[0], gas: 2e6})
   })
   console.log(tx)
