@@ -18,7 +18,7 @@ class Campaign extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchCampaign('123')
+        this.props.fetchCampaign()
     }
 
 

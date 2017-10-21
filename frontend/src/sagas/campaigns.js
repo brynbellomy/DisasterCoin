@@ -48,12 +48,13 @@ function* fetchCampaign (address) {
   yield put(storeCampaign(campaign))
 }
 
-function* createCampaign (campaign) {
+function* createCampaign (campaignAction) {
   let campaignHub, accounts, tx
   yield contracts.CampaignHub.deployed().then((campaignHubDeployed) => campaignHub = campaignHubDeployed)
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
-  yield tx = campaignHub.addCampaign(campaign.ipfsHash, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6})
-  console.log('tx ~>', tx)
+  yield console.log('accounts', accounts[0])
+  const campaign = campaignAction.campaign
+  yield campaignHub.addCampaign(campaign.name, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6}).then(txReturn => tx = txReturn)
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
 
