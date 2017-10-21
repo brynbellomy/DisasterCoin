@@ -39,7 +39,7 @@ async function handleLog(log) {
         shouldBreak = true
 
     } else if (log.event === 'LogVendorAdded') {
-        await db.addVendor(log.args.vendorAddr, log.args.ipfsHash)
+        await db.addVendor(log.args.vendorAddr, log.args.name)
     } else if (log.event === 'LogVendorTagAdded') {
         await db.addVendorTag(log.args.vendorAddr, log.args.tag)
     } else if (log.event === 'LogTagAdded') {

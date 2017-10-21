@@ -33,7 +33,7 @@ class CampaignStart extends Component {
         const name = this.name.value
         const deadline = this.deadline.value
         const goalAmount = this.goal.value
-        console.log('type', typeof goalAmount)
+        console.log('name ~>', name)
         const weiLimitPerBlock = this.withdraw.value
         const txParams = {
           name: name,
