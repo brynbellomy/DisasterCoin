@@ -24,6 +24,8 @@ contract LoanContract is Owned {
     uint public obligationRepaid;
     uint public obligationOwed;
 
+    address[] public bondSellerAddresses;
+
     event LogFundLoan(address sender, uint amount);
     event LogFullyFunded(bool isFunded);
     event LogActivateLoan(address owner_, uint blockNumber);
@@ -36,10 +38,21 @@ contract LoanContract is Owned {
     event LogDeclareLoanCancelled(address sender, uint blockNumber);
     event LogDeclareLoanPaid(address sender, uint blockNumber);
     event LogDeclareLoanDefaulted(address sender, uint blockNumber);
+    event LogSellBondFirstTime(address sender, uint sellPrice, uint blockNumber);
+    event LogSellBondChangePrice(address sender, uint sellPrice, uint blockNumber);
+    event LogSellBondStopSelling(address sender, uint blockNumber);
+
+    struct SellerInfo {
+        bool sellingOrNot;
+        uint sellPrice;
+        uint arrayIndex;
+    }
 
     mapping(address => uint) public funderContribution;
     mapping(address => uint) public funderCouponReceived;
     mapping(address => bool) public funderPrincipalReceived;
+    mapping(address => uint) public bondholderSellPrice;
+    mapping(address => SellerInfo) public bondholderPrice;
 
     modifier duringFundingPeriod { require(block.number <= fundingDeadlineBlock); _; }
     modifier stillFundable { require(currentBalance < loanGoal); _; }
@@ -50,7 +63,6 @@ contract LoanContract is Owned {
     modifier refundable { require(loanCancelledStatus); _; }
     modifier paymentPeriod { require(block.number > loanStartBlock); _; }
 
-//    event LogBool(bool); ////
 
     function LoanContract(
         uint loanGoal_,
@@ -196,20 +208,46 @@ contract LoanContract is Owned {
         LogDeclareLoanDefaulted(msg.sender, block.number);
         return true;
     }
-/*
-    function sellBond() public return(bool){
-        // call by bond holder with the price
-        // update list and sold
 
+    function sellBond(uint sellPrice) public returns(bool sellingStatus) {
+        SellerInfo storage seller = bondholderPrice[msg.sender];
+        if(!seller.sellingOrNot) { // if not already selling selling
+            require(sellPrice != 0);
+            // selling for first time
+            seller.sellingOrNot = true;
+            seller.sellPrice = sellPrice;
+            seller.arrayIndex = bondSellerAddresses.push(msg.sender) - 1;
+            LogSellBondFirstTime(msg.sender, sellPrice, block.number);
+        } else { // already selling
+            if(sellPrice != 0) { // change price
+                seller.sellPrice = sellPrice;
+                LogSellBondChangePrice(msg.sender,sellPrice, block.number);
+            } else { // stop selling
+                uint arrayIndex = seller.arrayIndex;
+                delete bondholderPrice[msg.sender];
+                address movedSellerAddress = bondSellerAddresses[bondSellerAddresses.length - 1];
+                SellerInfo storage updatedSeller = bondholderPrice[movedSellerAddress];
+                updatedSeller.arrayIndex = arrayIndex;
+                bondSellerAddresses[arrayIndex] = movedSellerAddress;
+                bondSellerAddresses.length--;
+                LogSellBondStopSelling(msg.sender, block.number);
+            }
+        }
+        return seller.sellingOrNot;
     }
-    function getBondSellerPrice(bondSellerAddress);
-    //value left bond
 
-    function buyBond(bondSellerAddress) ;
+
+
+    
+}
+
+/*
+    function getIthBonderSeller();// constant // return address of the ith
+
+    function getBondSellerPrice(address bondSellerAddress); //constant
+    // return seller price, value left bond (coupon + principal)
+
+    function buyBond(address bondSellerAddress); //payable
     // called by bond purchaser
     // if payment is equal to selling price, then update everything
-*/
-
-
-
-}
+    */
