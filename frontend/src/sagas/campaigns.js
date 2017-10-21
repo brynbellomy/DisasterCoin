@@ -57,17 +57,22 @@ function* createCampaign (campaignAction) {
   yield campaignHub.addCampaign(campaign.name, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6}).then(txReturn => tx = txReturn)
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
-
-function* donateCampaign (campaignAddress) {
-  let campaign
-  yield contracts.Campaign.at(campaignAddress.donate).then(res => campaign = res)
-  //yield campaign.donate()
+//donate(bytes32 tag) payable campaignNotFlagged returns (bool) 
+function* donateCampaign (donateInput) {
+  console.log(donateInput)
+  let campaign, accounts
+  yield contracts.Campaign.at(donateInput.donate.address).then(res => campaign = res)
+  yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
+  console.log(donateInput.donate.value)
+  yield campaign.donate('tagexample', {from: accounts[0], value: donateInput.donate.value}).then(txReturn => console.log(txReturn))
+  
 }
-
+// disburseFunds(address vendor, bytes32 tag, uint amount)
 function* withdrawCampaign (campaignAddress) {
-  let campaign
-  yield contracts.Campaign.at(campaignAddress.donate).then(res => campaign = res)
-  //yield campaign.disburseFunds()
+  let campaign, accounts
+  yield contracts.Campaign.at(campaignAddress.withdraw).then(res => campaign = res)
+  yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
+  yield campaign.disburseFunds(accounts[1], 'tagexample', 1000, {from: accounts[0], value: 100000, gas: 2e6}).then(txReturn => console.log(txReturn))
 }
 
 function* campaignSaga () {
