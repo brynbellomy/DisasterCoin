@@ -21,9 +21,16 @@ contract Vendors is Owned
     event LogVendorTagAdded(address vendorAddr, bytes32 tag);
     event LogTagAdded(bytes32 tag);
 
-    function addVendor(address vendorAddr, string name)
-        onlyOwner
-    {
+    function Vendors() { //hard coded
+        addTag('medical');
+        addTag('construction');
+        addTag('education');
+        addTag('food');
+        addTag('sanitation');        
+    }
+
+
+    function addVendor(address vendorAddr, string name) {
         require(vendors[vendorAddr].exists == false);
 
         vendors[vendorAddr].exists = true;
@@ -32,9 +39,7 @@ contract Vendors is Owned
         LogVendorAdded(vendorAddr, name);
     }
 
-    function addVendorTag(address vendorAddr, bytes32 tag)
-        onlyOwner
-    {
+    function addVendorTag(address vendorAddr, bytes32 tag) {
         require(vendors[vendorAddr].exists);
         require(vendors[vendorAddr].tags.contains(tag) == false);
         require(tags.contains(tag));
@@ -44,7 +49,7 @@ contract Vendors is Owned
         LogVendorTagAdded(vendorAddr, tag);
     }
 
-    function addTag(bytes32 tag) onlyOwner returns (bool) {
+    function addTag(bytes32 tag) returns (bool) {
         bool success = tags.add(tag);
         if (success) {
             LogTagAdded(tag);
@@ -52,9 +57,7 @@ contract Vendors is Owned
         return success;
     }
 
-    function tagExists(bytes32 tag)
-        constant
-        returns (bool)
+    function tagExists(bytes32 tag) constant returns (bool)
     {
         return tags.contains(tag);
     }
@@ -66,9 +69,11 @@ contract Vendors is Owned
         return vendors[vendor].exists;
     }
 
-    function isVendorTagged(address vendorAddr, bytes32 tag)
-        constant returns(bool)
-    {
+    function isVendorTagged(address vendorAddr, bytes32 tag) constant returns(bool) {
         return vendors[vendorAddr].tags.contains(tag);
     }
+
+    function hardCoded() {
+    }
+
 }

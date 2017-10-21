@@ -236,18 +236,28 @@ contract LoanContract is Owned {
         return seller.sellingOrNot;
     }
 
-    function getIthBonderSeller(uint _arrayIndex) constant returns(address ithAddress){
-        return bondSellerAddresses[_arrayIndex];
+    function getIthBonderSeller(uint arrayIndex) constant returns(address ithAddress) {
+        return bondSellerAddresses[arrayIndex];
     }
+/*
+    function getBondSellerPrice(address bondSellerAddress) constant returns(uint sellerPrice) {
+        SellerInfo storage seller = bondholderPrice[bondSellerAddress];
+        require(seller.sellingOrNot == true);
 
+        couponsLeft = totalCouponsShouldBeReceived - funderCouponReceived
 
+        if()
+
+        if principal already paid, then there is 0 principal left to be paid;
+        otherwise, pay all principal
+
+        // return seller price, value left bond (coupon + principal)
+        return seller.sellPrice;
+    }
+*/
 }
 
 /*
-    function getIthBonderSeller();// constant // return address of the ith
-
-    function getBondSellerPrice(address bondSellerAddress); //constant
-    // return seller price, value left bond (coupon + principal)
 
     function buyBond(address bondSellerAddress); //payable
     // called by bond purchaser
