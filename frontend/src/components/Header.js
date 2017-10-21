@@ -6,7 +6,6 @@ import { connect } from 'react-redux'
 //react bootstrap stuff
 // import {Navbar, Nav, NavDropdown, NavItem, MenuItem, Image} from 'react-bootstrap';
 import {Navbar, NavbarBrand, Nav, NavItem, NavLink} from 'reactstrap'
-import { Connect } from 'uport-connect'
 import { loginUser, logoutUser } from '../actions/userActions'
 /*************************************************************************/
 
@@ -30,13 +29,12 @@ class Header extends Component {
     }
   }
   loginHandler () {
-    const uport = new Connect(`Recover `)
-    uport.requestCredentials().then((credentials) => {
+    window.uport.requestCredentials().then((credentials) => {
         // console.log(credentials)
         // console.log(sessionStorage.getItem('address'))
       this.props.loginUser(credentials)
     }).catch(() => {})
-    LoginHandler(uport)
+    LoginHandler(window.uport)
   }
 
   render () {

@@ -33,6 +33,7 @@ function getContractAddresses() {
 }
 
 function addContractAddress(address, type) {
+    console.log('addContractAddress', address, type)
     contractAddresses.push(address)
 
     if (type === 'CampaignHub') {

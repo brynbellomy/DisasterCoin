@@ -8,6 +8,7 @@ const { decodeLog } = require('./loghandler-utils')
 
 function getAllLogs() {
     return new Promise((resolve, reject) => {
+        console.log('getContractAddresses() ~>', getContractAddresses())
         web3.eth.filter({ fromBlock: 0, toBlock: 'latest', addresses: getContractAddresses() }).get((err, logs) => {
             if (err) {
                 console.error('error fetching logs', err)
@@ -111,6 +112,7 @@ module.exports = async () => {
         let logs = await getAllLogs()
 
         for (let log of logs) {
+             console.log('log ~>', log)
             let shouldBreak = await handleLog(log)
             if (shouldBreak) {
                 break
