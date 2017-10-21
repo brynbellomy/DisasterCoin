@@ -13,7 +13,8 @@ class Campaign extends Component {
         super(props);
 
         this.state = {
-            campaign: {}
+            campaign: {},
+
         }
     }
 
@@ -49,7 +50,6 @@ class Campaign extends Component {
     }
 }
 const mapStatetoProps = (state) => {
-    console.log(state)
   return {
     user: state.user.user,
     campaign: state.campaign.campaign,
