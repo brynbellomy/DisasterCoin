@@ -25,13 +25,16 @@ class Campaign extends Component {
     }
 
     handleDonate (e) {
-        e.preventDefault()
-        this.props.donateCampaign(this.props.campaign.address)
+        // e.preventDefault()
+        console.log('address', this.props.campaign.address)
+        console.log('value', this.amount.value)
+        this.props.donateCampaign({address: this.props.campaign.address, amount: this.amount.value})
     }
 
     handleWithdraw (e) {
-        e.preventDefault()
-        this.props.withdrawCampaign(this.props.campaign.address)
+        // e.preventDefault()
+        // console.log('hello')
+        this.props.withdrawCampaign({address: this.props.campaign.address, withdrawAddress: this.address.value, amount: this.amount.value, tag: this.tag.value})
     }
 
     render() {
@@ -68,6 +71,16 @@ class Campaign extends Component {
                             getRef={(input)=>this.address= input}
                             type="text"
                             placeholder="0x339FDb91708eDD47D92E847206aEd92f1C275699"
+                        />
+                        </Col>
+                    </FormGroup>
+                    <FormGroup row>
+                        <Label for="amount" sm={3}>Tag:</Label>
+                        <Col sm={4}>
+                        <Input
+                            getRef={(input)=>this.tag= input}
+                            type="text"
+                            placeholder="wei"
                         />
                         </Col>
                     </FormGroup>
@@ -127,7 +140,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     fetchCampaign: (address) => dispatch(fetchCampaign(address)),
     donateCampaign: (donate) => dispatch(donateCampaign(donate)),
-    withdrawCampaign: (withdraw) => dispatch(donateCampaign(withdraw)),
+    withdrawCampaign: (withdraw) => dispatch(withdrawCampaign(withdraw)),
   }
 }
 
