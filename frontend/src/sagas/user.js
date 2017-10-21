@@ -6,6 +6,7 @@ import * as _ from 'lodash'
 import * as ethutil from 'ethereumjs-util'
 
 function* loginUser (action) {
+
   let credentials = action.credentials
 
   let accounts
@@ -13,9 +14,9 @@ function* loginUser (action) {
   sessionStorage.setItem('address', credentials.address)
   sessionStorage.setItem('name', credentials.name)
   sessionStorage.setItem('isLoggedIn', 'true')
+  let userArr = JSON.parse(sessionStorage.getItem('users'))
   yield window.web3.eth.getAccountsPromise().then(blockaccounts => accounts = blockaccounts)
   sessionStorage.setItem('ethAddress', accounts[0])
-  let userArr = JSON.parse(sessionStorage.getItem('users'))
   // sessionStorage.setItem('ethAddress', ethutil.publicToAddress(credentials.publicKey))
   //ill give the user a balance of 100 ether for point of example
   const userData = {

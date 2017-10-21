@@ -7,10 +7,6 @@ import './App.css'
 
 class App extends Component {
   render () {
-    let campaigns = {campaigns: []}
-    let users = { users: []}
-    sessionStorage.setItem('campaigns',JSON.stringify(campaigns))
-    sessionStorage.setItem('users',JSON.stringify(users))
     return (
       <div style={{backgroundColor: '#FCFCFC'}}>
         <Header />

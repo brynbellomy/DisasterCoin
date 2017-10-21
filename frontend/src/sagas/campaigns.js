@@ -55,6 +55,18 @@ function* createCampaign (campaignAction) {
   yield campaignHub.addCampaign(campaign.name, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6}).then(txReturn => tx = txReturn)
   yield console.log(tx)
   yield put(storeCampaign(tx.logs[0].args))
+    let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
+    const campaignParams = {
+      name: campaign.name,
+      goalAmount: campaign.goalAmount,
+      weiLimitPerBlock: campaign.weiLimitPerBlock,
+      deadline: campaign.deadline,
+      eAddr: sessionStorage.getItem('ethAddress'),
+      cAddr: tx.logs[0].args,
+      balance: 0}
+    campaignArr.campaigns.push(campaignParams)
+    sessionStorage.setItem('campaigns', JSON.stringify(campaignArr))
+    console.log(sessionStorage.getItem('campaigns'))
   yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
 }
 //donate(bytes32 tag) payable campaignNotFlagged returns (bool) 
