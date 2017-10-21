@@ -6,7 +6,8 @@ import { push } from 'react-router-redux'
 import { connect } from 'react-redux'
 import {Row, Col, Button, Form, Container, Input, FormGroup, Label} from 'reactstrap'
 import Header from './Header'
-import * as contracts from '../contracts'
+import { createCampaign } from '../actions/campaignActions'
+
 
 
 class CampaignStart extends Component {
@@ -20,10 +21,11 @@ class CampaignStart extends Component {
             deadline: '',
             withdraw: ''
         }
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleSubmit = async (e) => {
-        e.preventDefault();
+    handleSubmit (e) {
+        e.preventDefault()
         console.log(this.state)
         console.log(this.deadline.value)
         console.log(this.withdraw.value)
@@ -32,13 +34,13 @@ class CampaignStart extends Component {
         const goalAmount = this.goal.value
         console.log('type', typeof goalAmount)
         const weiLimitPerBlock = this.withdraw.value
-        const campaignHub = await contracts.CampaignHub.deployed()
-
-        let accounts = await window.web3.eth.getAccountsPromise()
-        let tx = await campaignHub.addCampaign('ipfs hash', goalAmount, weiLimitPerBlock, deadline, {from: accounts[0], gas: 2e6})
-        console.log('tx ~>', tx)
-
-        this.props.navigateToCampaign()
+        const txParams = {
+          ipfsHash: 'ipfsHash',
+          goalAmount: goalAmount,
+          weiLimitPerBlock: weiLimitPerBlock,
+          deadline: deadline,
+        }
+        this.props.createCampaign(txParams)
     }
 
     render() {
@@ -122,7 +124,7 @@ class CampaignStart extends Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToCampaign: (id) => dispatch(push('/campaign/${id}'))
+    createCampaign: (campaign) => dispatch(createCampaign(campaign))
   }
 }
 

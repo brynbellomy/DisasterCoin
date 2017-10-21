@@ -1,6 +1,8 @@
 import { all, put, takeEvery } from 'redux-saga/effects'
 import { storeCampaigns, storeCampaign } from '../actions/campaignActions'
-import { FETCH_CAMPAIGNS, STORE_CAMPAIGNS, FETCH_CAMPAIGN, STORE_CAMPAIGN } from '../constants/CampaignActionTypes'
+import { FETCH_CAMPAIGNS, FETCH_CAMPAIGN, CREATE_CAMPAIGN } from '../constants/CampaignActionTypes'
+import { push } from 'react-router-redux'
+import * as contracts from '../contracts'
 
 function* fetchCampaigns () {
   let config = {
@@ -46,10 +48,20 @@ function* fetchCampaign (address) {
   yield put(storeCampaign(campaign))
 }
 
+function* createCampaign (campaign) {
+  let campaignHub, accounts, tx
+  yield campaignHub = contracts.CampaignHub.deployed()
+  yield accounts = window.web3.eth.getAccountsPromise()
+  yield tx = campaignHub.addCampaign(campaign.ipfsHash, campaign.goalAmount, campaign.weiLimitPerBlock, campaign.deadline, {from: accounts[0], gas: 2e6})
+  console.log('tx ~>', tx)
+  yield put(push(`/campaign/${tx.logs[0].args.campaign}`))
+}
+
 function* campaignSaga () {
   yield all([
     takeEvery(FETCH_CAMPAIGNS, fetchCampaigns),
-    takeEvery(FETCH_CAMPAIGN, fetchCampaign)
+    takeEvery(FETCH_CAMPAIGN, fetchCampaign),
+    takeEvery(CREATE_CAMPAIGN, createCampaign)
   ])
 }
 
