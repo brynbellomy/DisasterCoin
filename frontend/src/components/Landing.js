@@ -24,7 +24,7 @@ class CampaignLanding extends Component {
       console.log(campaign)
       return (
         <tr key={index}>
-          <td><h3 onClick={() => this.props.navigateToCampaign(campaign.address)}>{campaign.name}</h3></td>
+          <td><h3 onClick={() => this.props.navigateToCampaign(campaign.cAddr)}>{campaign.name}</h3></td>
           <td>{campaign.weiLimitPerBlock}</td>
           <td>{campaign.deadline} </td>
         </tr>

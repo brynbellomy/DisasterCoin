@@ -6,16 +6,23 @@ import { connect } from 'react-redux'
 import { Row, Col, Table, Button, Container, Input, FormGroup, Label, Form} from 'reactstrap';
 import { fetchCampaign, donateCampaign, withdrawCampaign } from '../actions/campaignActions'
 import Header from './Header'
-import findWhere from 'lodash'
+import * as _ from 'lodash'
 class Campaign extends Component {
 
     constructor(props) {
         super(props);
 
 
-        this.state = {
-            campaign: {},
+        this.state = {   
             tag: '',
+            campaign: null,
+            name: '',
+            goalAmount: '',
+            weiLimitPerBlock: '',
+            deadline: '',
+            eAddr: '',
+            cAddr: '',
+            balance: '',
         }
 
         this.handleDonate = this.handleDonate.bind(this)
@@ -26,7 +33,24 @@ class Campaign extends Component {
     componentWillMount () {
         //this.props.fetchCampaign(this.props.match.params.id)
         let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
-        console.log(campaignArr.campaigns)
+        let cCampaign = _.find(campaignArr.campaigns, {cAddr: this.props.match.params.id})
+        if (!cCampaign) {
+            console.log("this aint supposed 2 happen boo!")
+            //this.props.navigateToLanding()
+        } else {
+            console.log(cCampaign)
+            this.setState({
+                name: cCampaign.name,
+                goalAmount: cCampaign.goalAmount,
+                weiLimitPerBlock: cCampaign.weiLimitPerBlock,
+                deadline: cCampaign.deadline,
+                eAddr: cCampaign.eAddr,
+                cAddr: cCampaign.cAddr,
+                balance: cCampaign.balance,
+            }, ()=>{
+                console.log(this.state)
+            })
+        }
 
     }
     handleSelect = (e) => {
@@ -49,8 +73,6 @@ class Campaign extends Component {
 
     render() {
         let campaignArr = JSON.parse(sessionStorage.getItem('campaigns')).campaigns
-        console.log(campaignArr)
-        console.log(this.props.campaign)
         
 
         const DonateButton = () => (
@@ -133,46 +155,19 @@ class Campaign extends Component {
                         <p><b> Deadline: </b></p>
                     </Col>
                     <Col xs={4}>
-                        <p>{this.props.campaign ? this.props.campaign.campaign : null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.campaigner: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.cumulativeBalance: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.currentBalance: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.deadline : null}</p>
+                        <p>{this.state.cAddr}</p>
+                        <p>{this.state.eAddr}</p>
+                        <p>{this.state.balance}</p>
+                        <p>{this.state.balance}</p>
+                        <p>{this.state.deadline}</p>
                     </Col>
                 </Row>
                 <Row>
                     <Col sm={10}>
-        {this.props.campaign ? (this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />) : null}
                     </Col>
                 </Row>
             </Container>
         )
-        /** 
-        return (
-            <Container>
-                <Row>
-                    <Col xs={3} >
-                        <p><b> Address: </b></p>
-                        <p><b> Campaigner: </b></p>
-                        <p><b> Cumulative Balance: </b></p>
-                        <p><b> Current Balance: </b></p>
-                        <p><b> Deadline: </b></p>
-                    </Col>
-                    <Col xs={4}>
-                        <p>{this.props.campaign ? this.props.campaign.campaign : null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.campaigner: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.cumulativeBalance: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.currentBalance: null}</p>
-                        <p>{this.props.campaign ? this.props.campaign.deadline : null}</p>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={10}>
-        {this.props.campaign ? (this.props.user.ethAddress===this.props.campaign.campaigner ? <WithdrawButton />  : <DonateButton />) : null}
-                    </Col>
-                </Row>
-            </Container>
-        )*/
     }
 }
 const mapStatetoProps = (state) => {
@@ -187,6 +182,7 @@ const mapDispatchToProps = (dispatch) => {
     fetchCampaign: (address) => dispatch(fetchCampaign(address)),
     donateCampaign: (donate) => dispatch(donateCampaign(donate)),
     withdrawCampaign: (withdraw) => dispatch(donateCampaign(withdraw)),
+    navigateToLanding: () => dispatch(push("/"))
   } 
 }
 

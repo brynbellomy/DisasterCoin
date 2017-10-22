@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import {Row,Col, Table, Button, Container} from 'reactstrap';
 import { fetchCreatedCampaigns, fetchDonatedCampaigns } from '../actions/userCampaignActions'
 import Header from './Header'
+import * as _ from 'lodash'
 
 
 class CampaignProfile extends Component {
@@ -15,16 +16,38 @@ class CampaignProfile extends Component {
 
         this.state = {
             createdCampaigns: [],
-            donatedCampaigns: []
+            donatedCampaigns: [],
+            balance: ''
         }
     }
     // need to pass user info to fetchCreatedCampaigns & fetchDonatedCampaigns
     componentDidMount () {
-        this.props.fetchCreatedCampaigns(sessionStorage.getItem('address'))
+       // this.props.fetchCreatedCampaigns(sessionStorage.getItem('address'))
         //this.props.fetchCreatedCampaigns(sessionStorage.getItem('ethAddress'))
     }
 
+    componentWillMount() {
+        // address is this.params.match.id
+        let userArr = JSON.parse(sessionStorage.getItem('users'))
+        let user = _.find(userArr.users, {uAddr: this.props.match.params.address})
+        
+        let eAddr = user.eAddr
+        let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
+        const createdCampaigns = campaignArr.campaigns.filter(
+            campaign => campaign.eAddr === eAddr
+        ) 
+        this.setState({ createdCampaigns: [...this.state.createdCampaigns, ...createdCampaigns],
+                        balance: user.balance})
+    }
+
     render() {
+        let createdCampaigns = this.state.createdCampaigns.map( (campaign,index)=>{
+             return(  <tr key={index}>
+                    <td> {campaign.name} </td>
+                    <td> {campaign.balance} </td>
+                </tr>)
+            })
+        
 
         return(
             <Container style={{marginTop: 30}}>
@@ -36,11 +59,13 @@ class CampaignProfile extends Component {
                     <Col xs={2}>
                         <p><b>Address</b></p>
                         <p><b>Name</b></p>
+                        <p><b>Balance</b></p>
 
                     </Col>
                     <Col xs={10}>
                         <p>{sessionStorage.getItem('address')}</p>
                         <p>{sessionStorage.getItem('name')}</p>
+                        <p>{this.state.balance}</p>
                     </Col>
 
                 </Row>
@@ -63,6 +88,7 @@ class CampaignProfile extends Component {
                                 </tr>
                             </thead>
                             <tbody>
+                                {createdCampaigns}
                             </tbody>
                         </Table>
                     </Col>

@@ -57,12 +57,12 @@ function* createCampaign (campaignAction) {
   yield put(storeCampaign(tx.logs[0].args))
     let campaignArr = JSON.parse(sessionStorage.getItem('campaigns'))
     const campaignParams = {
-      name: campaign.name,
+      name: tx.logs[0].args.name,
       goalAmount: campaign.goalAmount,
       weiLimitPerBlock: campaign.weiLimitPerBlock,
       deadline: campaign.deadline,
-      eAddr: sessionStorage.getItem('ethAddress'),
-      cAddr: tx.logs[0].args,
+      eAddr: tx.logs[0].args.campaigner,
+      cAddr: tx.logs[0].args.campaign,
       balance: 0}
     campaignArr.campaigns.push(campaignParams)
     sessionStorage.setItem('campaigns', JSON.stringify(campaignArr))
